@@ -1,0 +1,498 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ══════════════════════════════════════════════════════════════════
+   Empire Atlas  -  design tokens
+   Palette ported 1:1 from desamenkomst.nl: white/ivory surfaces, the
+   site's exact dark slate-blue (#3C5E70), and its logo dots (yellow,
+   blue, green) as accents.
+   ══════════════════════════════════════════════════════════════════ */
+@layer base {
+  :root {
+    /* Raw palette (source: desamenkomst.nl --custom-blue/--blue-dark/--blue-light, --as-core, --bc-core) */
+    --paper: #f4f6f7;          /* page background */
+    --paper-deep: #eaeef0;     /* recessed / strip backgrounds */
+    --cream: #e2eaee;          /* active card tint */
+    --surface: #ffffff;        /* card surface */
+    --ink: #1d2b33;            /* headings */
+    --ink-soft: #3C5E70;       /* body text / brand blue */
+    --ink-muted: #9aa7af;      /* metadata / placeholders */
+    --terracotta: #3C5E70;     /* primary action (brand blue) */
+    --terracotta-deep: #2c4757;
+    --terracotta-soft: #4a7388;
+    --gold: #FFD700;           /* yellow logo dot */
+    --dot-blue: #4A90D9;       /* blue logo dot */
+    --dot-green: #32CD32;      /* green logo dot */
+    --line: #eef1f3;           /* hairline borders */
+    --line-strong: #d2d9dd;
+    --slate-icon: #3C5E70;     /* nav / tool icons */
+    --marker: #2c4757;
+
+    /* shadcn bridge (HSL equivalents of the palette) */
+    --background: 200 13% 96%;
+    --foreground: 202 27% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 202 27% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 202 27% 16%;
+    --primary: 199 27% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 15% 94%;
+    --secondary-foreground: 199 27% 30%;
+    --muted: 200 13% 93%;
+    --muted-foreground: 202 10% 60%;
+    --accent: 200 20% 90%;
+    --accent-foreground: 199 27% 30%;
+    --destructive: 8 62% 42%;
+    --destructive-foreground: 40 60% 97%;
+    --border: 200 15% 89%;
+    --input: 200 15% 89%;
+    --ring: 199 27% 30%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html, body, #root {
+    min-height: 100%;
+  }
+  /* the page scrolls as one document: the stage fills the first screen and
+     the exploration cards sit below the fold */
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* iOS safe area insets for notch / Dynamic Island / home bar */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  body::-webkit-scrollbar { width: 11px; }
+  body::-webkit-scrollbar-track { background: var(--paper-deep); }
+  body::-webkit-scrollbar-thumb {
+    background: #c3ccd1;
+    border-radius: 8px;
+    border: 3px solid var(--paper-deep);
+  }
+  ::selection {
+    background: rgb(60 94 112 / 0.18);
+  }
+  :focus-visible {
+    outline: 2px solid var(--terracotta);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ── Typography helpers ─────────────────────────────────────────── */
+.font-display { font-family: "Poppins", system-ui, sans-serif; }
+.kicker {
+  font-family: "Inter", system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────── */
+.atlas-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.atlas-scroll::-webkit-scrollbar-track { background: transparent; }
+.atlas-scroll::-webkit-scrollbar-thumb {
+  background: #c3ccd1;
+  border-radius: 8px;
+  border: 2px solid var(--paper);
+}
+.atlas-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; }
+
+/* ── Viewer stage: the parchment the dwelling stands on ─────────────
+   Painted here rather than in the scene so it keeps the exact palette of
+   the surrounding UI  -  a rendered backdrop would get tone-mapped grey. */
+.viewer-stage {
+  background:
+    radial-gradient(120% 90% at 50% 38%, #ffffff 0%, #f7f9fa 42%, #eef2f4 78%, #e2e9ec 100%);
+}
+/* ══════════════════════════════════════════════════════════════════
+   Architectural pins  -  markers fixed to the dwelling, annotation on hover
+   ══════════════════════════════════════════════════════════════════ */
+.hs-layer { transition: opacity 0.25s ease; }
+.hs-layer.is-hidden { opacity: 0; pointer-events: none; }
+.hs-layer.is-hidden * { pointer-events: none !important; }
+.hs-pin {
+  position: absolute;
+  left: 0; top: 0;
+  width: 26px; height: 26px;
+  margin: -13px 0 0 -13px;      /* centre the hit area on the anchor */
+  border-radius: 999px;
+  pointer-events: auto;
+  cursor: pointer;
+  will-change: transform;
+  transition: opacity 0.3s ease;
+}
+/* invisible expanded touch target for mobile accessibility (44×44px min) */
+.hs-pin::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 44px; height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 999px;
+}
+/* the mark itself  -  a small pressed stud sitting on the stonework */
+.hs-pin .core {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 9px; height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 999px;
+  background: var(--marker);
+  box-shadow: 0 1px 2px rgb(29 43 51 / 0.45);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+}
+.hs-pin .rim {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 17px; height: 17px;
+  margin: -8.5px 0 0 -8.5px;
+  border-radius: 999px;
+  border: 1.5px solid rgb(255 255 255 / 0.92);
+  background: rgb(60 94 112 / 0.14);
+  box-shadow: 0 1px 3px rgb(29 43 51 / 0.3), inset 0 0 0 1px rgb(60 94 112 / 0.35);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
+}
+/* one slow breath so the pins read as live without shouting */
+.hs-pin .pulse {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 17px; height: 17px;
+  margin: -8.5px 0 0 -8.5px;
+  border-radius: 999px;
+  border: 1.5px solid rgb(60 94 112 / 0.5);
+  opacity: 0;
+  animation: hs-pulse 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes hs-pulse {
+  0%   { transform: scale(0.7); opacity: 0.55; }
+  55%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.hs-pin:hover .rim, .hs-pin.is-hover .rim, .hs-pin.is-active .rim {
+  transform: scale(1.42);
+  background: rgb(60 94 112 / 0.24);
+  border-color: #ffffff;
+}
+.hs-pin:hover .core, .hs-pin.is-hover .core, .hs-pin.is-active .core {
+  transform: scale(1.15);
+}
+.hs-pin.is-active .core { background: var(--terracotta-deep); }
+.hs-pin.is-active .pulse { animation-duration: 2.4s; }
+.hs-pin.is-dim { opacity: 0.35; }
+/* hidden behind the building  -  a faint ghost, and not clickable */
+.hs-pin.is-occluded { opacity: 0.16; pointer-events: none; }
+.hs-pin.is-occluded .pulse { animation: none; opacity: 0; }
+
+/* hover annotation  -  the only thing that ever covers the model */
+.hs-tip {
+  position: absolute;
+  left: 0; top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 10px 13px 11px;
+  border-radius: 13px;
+  background: rgb(255 255 255 / 0.97);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 2px 8px rgb(29 43 51 / 0.08), 0 14px 34px -10px rgb(29 43 51 / 0.28);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 40;
+  transform-origin: 50% 100%;
+  transition: opacity 0.18s ease;
+}
+.hs-tip.is-shown { opacity: 1; }
+/* the little pointer aimed back at the pin */
+.hs-tip::after {
+  content: "";
+  position: absolute;
+  left: var(--arrow-x, 50%);
+  bottom: -5px;
+  width: 9px; height: 9px;
+  margin-left: -4.5px;
+  background: rgb(255 255 255 / 0.97);
+  border-right: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  transform: rotate(45deg);
+}
+.hs-tip.is-below::after {
+  bottom: auto;
+  top: -5px;
+  border: none;
+  border-left: 1px solid var(--line-strong);
+  border-top: 1px solid var(--line-strong);
+}
+.hs-tip .cat {
+  font-family: "Inter", system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+.hs-tip .t {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.hs-tip .d {
+  margin-top: 2px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-style: normal;
+  font-size: 0.87rem;
+  line-height: 1.25;
+  color: var(--ink-muted);
+}
+.hs-tip .hint {
+  margin-top: 6px;
+  font-size: 0.64rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  opacity: 0.75;
+}
+
+/* ── Viewer tool rail ───────────────────────────────────────────── */
+.tool-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  width: 100%;
+  border-radius: 12px;
+  color: var(--slate-icon);
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.tool-btn svg { width: 19px; height: 19px; }
+.tool-btn span {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+.tool-btn:hover { background: var(--paper-deep); }
+.tool-btn.is-on { background: var(--cream); color: var(--terracotta); }
+.tool-btn.is-on span { color: var(--terracotta-deep); }
+.tool-btn:disabled { opacity: 0.4; pointer-events: none; }
+/* on a phone the rail is icon-only: eight labelled buttons stacked, with
+   "Zoom out" wrapping to two lines, ate most of the stage's height */
+@media (max-width: 639px) {
+  .tool-btn { padding: 9px 4px; gap: 0; }
+  .tool-btn svg { width: 19px; height: 19px; }
+  .tool-btn span { display: none; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .tool-btn { padding: 6px 2px; gap: 2px; }
+  .tool-btn svg { width: 17px; height: 17px; }
+  .tool-btn span { font-size: 0.52rem; }
+}
+
+/* ── Empire library cards ───────────────────────────────────────── */
+.empire-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px 9px 9px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+}
+/* no x-shift on hover: the list clips its own overflow, so sliding the card
+   sideways sheared the rounded corner off the active row */
+.empire-card:hover { background: #eef2f4; }
+.empire-card.is-active {
+  background: var(--cream);
+  border-color: var(--line-strong);
+  box-shadow: 0 2px 6px rgb(29 43 51 / 0.06), 0 10px 24px -10px rgb(29 43 51 / 0.14);
+}
+.empire-card .thumb {
+  flex: none;
+  width: 58px; height: 58px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--paper-deep);
+}
+.empire-card .heart { opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; }
+.empire-card:hover .heart, .empire-card.is-active .heart, .empire-card .heart.is-fav { opacity: 1; }
+
+/* ── Inline description links ──────────────────────────────────── */
+.description-link {
+  color: var(--terracotta);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgb(60 94 112 / 0.35);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  cursor: pointer;
+}
+.description-link:hover,
+.description-link:focus-visible {
+  color: var(--terracotta-deep);
+  text-decoration-color: var(--terracotta-deep);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--terracotta);
+  color: #ffffff;
+  font-weight: 500;
+  border-radius: 11px;
+  padding: 11px 18px;
+  font-size: 0.86rem;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 1px 2px rgb(60 94 112 / 0.25), 0 6px 16px -6px rgb(60 94 112 / 0.45);
+}
+.btn-primary:hover { background: var(--terracotta-deep); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong);
+  font-weight: 500;
+  border-radius: 11px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.btn-outline:hover { border-color: var(--terracotta-soft); color: var(--terracotta-deep); background: #eef2f4; transform: translateY(-1px); }
+
+/* ── Cards ──────────────────────────────────────────────────────── */
+.atlas-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgb(29 43 51 / 0.04), 0 4px 14px -4px rgb(29 43 51 / 0.07);
+}
+.bottom-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.bottom-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+  box-shadow: 0 3px 8px rgb(29 43 51 / 0.06), 0 16px 34px -10px rgb(29 43 51 / 0.18);
+}
+.bottom-card img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.bottom-card:hover img { transform: scale(1.035); }
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.nav-item {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.nav-item svg { width: 16px; height: 16px; color: var(--slate-icon); transition: color 0.25s ease; }
+.nav-item:hover { background: var(--paper-deep); color: var(--ink); }
+.nav-item.is-active { background: var(--terracotta); color: #ffffff; box-shadow: 0 1px 2px rgb(60 94 112 / 0.3), 0 5px 14px -4px rgb(60 94 112 / 0.5); }
+.nav-item.is-active svg { color: #ffffff; }
+
+/* ── Loading experience ─────────────────────────────────────────── */
+@keyframes compass-spin { to { transform: rotate(360deg); } }
+@keyframes draw-line { to { stroke-dashoffset: 0; } }
+.loading-compass { animation: compass-spin 14s linear infinite; }
+.loading-line { stroke-dasharray: 320; stroke-dashoffset: 320; animation: draw-line 2.6s ease forwards; }
+@keyframes pulse-soft { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+.loading-fact { animation: pulse-soft 2.4s ease-in-out infinite; }
+
+/* ── Modal / overlay ────────────────────────────────────────────── */
+.overlay-backdrop {
+  position: fixed; inset: 0;
+  background: rgb(13 22 27 / 0.36);
+  backdrop-filter: blur(3px);
+  z-index: 60;
+}
+.modal-panel {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  box-shadow: 0 24px 80px -16px rgb(13 22 27 / 0.45);
+}
+
+/* quiz */
+.quiz-choice {
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: left;
+  transition: all 0.25s ease;
+  background: var(--surface);
+}
+.quiz-choice:hover:not(:disabled) { border-color: var(--terracotta-soft); background: #eef2f4; }
+.quiz-choice.is-correct { border-color: #28a745; background: #eaf6ec; }
+.quiz-choice.is-wrong { border-color: var(--terracotta); background: #fbeaea; }
+
+/* artifact card */
+.artifact-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  transition: all 0.3s ease;
+}
+.artifact-card:hover { border-color: var(--line-strong); box-shadow: 0 8px 24px -8px rgb(29 43 51 / 0.16); transform: translateY(-2px); }
+
+/* timeline */
+.tl-track { position: relative; height: 3px; background: var(--line); border-radius: 2px; }
+.tl-fill { position: absolute; inset: 0 auto 0 0; background: var(--terracotta); border-radius: 2px; }
+/* timeline year buttons: horizontal scroll on narrow phones */
+.tl-years {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 4px;
+}
+.tl-years::-webkit-scrollbar { display: none; }
+@media (max-width: 639px) {
+  .tl-years { justify-content: flex-start; gap: 2px; }
+  .tl-years button { flex: 0 0 auto; min-width: max-content; }
+}
+
+/* ── Scroll cue on mobile ──────────────────────────────────────── */
+@keyframes scroll-cue-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+  50%      { transform: translateX(-50%) translateY(5px); opacity: 1; }
+}
+.scroll-cue {
+  animation: scroll-cue-bounce 2s ease-in-out infinite;
+}
+
+/* ── Safe area: mobile drawer & modals ─────────────────────────── */
+.safe-bottom {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hs-pin .pulse, .loading-compass, .scroll-cue { animation: none !important; }
+  * { transition-duration: 0.01ms !important; }
+}
+.rm .hs-pin .pulse, .rm .loading-compass, .rm .scroll-cue { animation: none !important; }
+.rm * { transition-duration: 0.01ms !important; }
