@@ -3,7 +3,7 @@ import type { Empire, Vec3 } from "@/types/empire";
 import { empiresFor } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
-import { ViewerEngine } from "@/three/engine";
+import { ViewerEngine, IS_LOW_MEMORY_DEVICE } from "@/three/engine";
 import { HotspotLayer } from "./HotspotLayer";
 import {
   RotateIcon,
@@ -199,13 +199,17 @@ export const Viewer = memo(function Viewer({
 
       setMarkersVisible(true);
 
-      // warm the neighbours so the next pick is already in memory
-      const idx = EMPIRES.findIndex((e) => e.id === next.id);
-      window.setTimeout(() => {
-        if (token !== requestRef.current) return;
-        engine.preload(EMPIRES[(idx + 1) % EMPIRES.length]);
-        engine.preload(EMPIRES[(idx - 1 + EMPIRES.length) % EMPIRES.length]);
-      }, 1200);
+      // warm the neighbours so the next pick is already in memory  -  skipped
+      // on touch/low-memory devices, where the initial model alone can
+      // already sit close to the practical GPU memory ceiling (iOS Safari)
+      if (!IS_LOW_MEMORY_DEVICE) {
+        const idx = EMPIRES.findIndex((e) => e.id === next.id);
+        window.setTimeout(() => {
+          if (token !== requestRef.current) return;
+          engine.preload(EMPIRES[(idx + 1) % EMPIRES.length]);
+          engine.preload(EMPIRES[(idx - 1 + EMPIRES.length) % EMPIRES.length]);
+        }, 1200);
+      }
     },
     [onSwap, activeVariantId],
   );
