@@ -137,7 +137,7 @@ export interface UiStrings {
 export const STRINGS: Record<Locale, UiStrings> = {
   en: {
     brand: {
-      name: "Bible Atlas",
+      name: "The 3D Bible",
       tagline: "Explore the Structures of Scripture",
     },
     banner: {
@@ -229,7 +229,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
     search: {
       placeholder: "Search structures, temples, rooms, objects…",
       aria: "Search",
-      noResults: "No matching entries in the Bible Atlas.",
+      noResults: "No matching entries in The 3D Bible.",
       kind: {
         structure: "structure",
         location: "location",
@@ -243,7 +243,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       relatedTo: (name) => `Related to ${name}`,
     },
     menu: {
-      title: "Bible Atlas",
+      title: "The 3D Bible",
       close: "Close menu",
       label: "Menu",
     },
@@ -261,16 +261,16 @@ export const STRINGS: Record<Locale, UiStrings> = {
       "artifact-zone": "artifact zone",
       facade: "facade",
     },
-    docTitleSuffix: "Bible Atlas",
+    docTitleSuffix: "The 3D Bible: History and Architecture",
     footer: {
-      copyright: "© 2026 Bible Atlas",
+      copyright: "© 2026 The 3D Bible",
       forum: "Forum",
       donate: "Donate",
     },
   },
   nl: {
     brand: {
-      name: "Bible Atlas",
+      name: "The 3D Bible",
       tagline: "Ontdek de Bouwwerken van de Schrift",
     },
     banner: {
@@ -362,7 +362,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
     search: {
       placeholder: "Zoek bouwwerken, tempels, ruimtes, voorwerpen…",
       aria: "Zoeken",
-      noResults: "Geen overeenkomende resultaten in de Bible Atlas.",
+      noResults: "Geen overeenkomende resultaten in The 3D Bible.",
       kind: {
         structure: "bouwwerk",
         location: "locatie",
@@ -376,7 +376,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       relatedTo: (name) => `Gerelateerd aan ${name}`,
     },
     menu: {
-      title: "Bible Atlas",
+      title: "The 3D Bible",
       close: "Menu sluiten",
       label: "Menu",
     },
@@ -394,9 +394,9 @@ export const STRINGS: Record<Locale, UiStrings> = {
       "artifact-zone": "voorwerpenzone",
       facade: "gevel",
     },
-    docTitleSuffix: "Bible Atlas",
+    docTitleSuffix: "The 3D Bible: History and Architecture",
     footer: {
-      copyright: "© 2026 Bible Atlas",
+      copyright: "© 2026 The 3D Bible",
       forum: "Forum",
       donate: "Doneren",
     },
