@@ -1,5 +1,6 @@
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
+import { withBase } from "@/lib/utils";
 import { ChatIcon, HeartIcon, TelegramIcon, InstagramIcon, TikTokIcon } from "./icons";
 
 export function Footer() {
@@ -10,7 +11,7 @@ export function Footer() {
     <footer className="mt-auto border-t border-line-warm px-3 py-6 sm:px-4 xl:px-5">
       <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
         <div>
-          <img src="/img/brand/de-samenkomst-logo.png" alt="De Samenkomst" className="h-8 w-auto" />
+          <img src={withBase("/img/brand/de-samenkomst-logo.png")} alt="De Samenkomst" className="h-8 w-auto" />
           <div className="mt-2 text-[0.8rem] text-ink-muted">{t.footer.copyright}</div>
         </div>
 

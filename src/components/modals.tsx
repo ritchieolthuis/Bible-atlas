@@ -3,6 +3,7 @@ import type { Empire } from "@/types/empire";
 import { empireImages } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
+import { withBase } from "@/lib/utils";
 import { ModalShell } from "./ModalShell";
 import { CheckIcon, ArrowRightIcon, QuizIcon, VaseIcon, SearchIcon, CloseIcon, TimelineIcon } from "./icons";
 
@@ -111,7 +112,7 @@ export const ArtifactsModal = memo(function ArtifactsModal({ empire, onClose }: 
   return (
     <ModalShell title={empire.artifacts.title} kicker={`${empire.artifacts.kicker} · ${empire.name}`} onClose={onClose} wide>
       <div className="relative overflow-hidden rounded-xl border border-line-warm">
-        <img src={empire.artifacts.image} alt={empire.artifacts.title} className="block h-auto w-full object-contain" />
+        <img src={empireImages(empire).artifacts} alt={empire.artifacts.title} className="block h-auto w-full object-contain" />
       </div>
       <p className="font-serif mt-3 text-[1rem] italic leading-snug text-ink-soft">{empire.artifacts.text}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -193,7 +194,7 @@ export const SectionModal = memo(function SectionModal({
   return (
     <ModalShell title={data.title} kicker={`${data.kicker} · ${empire.dwelling}`} onClose={onClose} wide>
       <div className="overflow-hidden rounded-xl border border-line-warm bg-paper-deep">
-        <img src={data.image} alt={data.title} className="w-full object-contain" />
+        <img src={data.image && withBase(data.image)} alt={data.title} className="w-full object-contain" />
       </div>
       {section === "geography" && (
         <div className="kicker mt-3 !text-terracotta">{empire.geography.regionLabel}</div>

@@ -1,6 +1,7 @@
 import type { Empire } from "@/types/empire";
 import type { Locale } from "@/i18n/locale";
 import { STRINGS } from "@/i18n/strings";
+import { withBase } from "@/lib/utils";
 import { EMPIRES_EN } from "./empires/en";
 import { EMPIRES_NL } from "./empires/nl";
 
@@ -46,13 +47,13 @@ export const DEFAULT_EMPIRE_ID = "solomon_temple";
 /** Resolve per-empire image paths (thumbnail derived from hero set).
  *  Image assets are shared across locales  -  only the text differs. */
 export const empireImages = (e: Empire) => ({
-  thumbnail: `/img/${e.id}/thumbnail.webp`,
-  hero: `/img/${e.id}/hero.webp`,
-  interior: e.interior.image,
-  floorPlan: e.floorPlan.image,
-  artifacts: e.artifacts.image,
-  dailyLife: e.dailyLife.image,
-  map: e.geography.image,
+  thumbnail: withBase(`/img/${e.id}/thumbnail.webp`),
+  hero: withBase(`/img/${e.id}/hero.webp`),
+  interior: e.interior.image && withBase(e.interior.image),
+  floorPlan: e.floorPlan.image && withBase(e.floorPlan.image),
+  artifacts: e.artifacts.image && withBase(e.artifacts.image),
+  dailyLife: e.dailyLife.image && withBase(e.dailyLife.image),
+  map: e.geography.image && withBase(e.geography.image),
 });
 
 /** Global search index built from the dataset */

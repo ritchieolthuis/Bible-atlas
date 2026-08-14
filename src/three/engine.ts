@@ -23,6 +23,7 @@ import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from "three-mesh-bvh";
 import gsap from "gsap";
 import type { Empire, Vec3 } from "@/types/empire";
+import { withBase } from "@/lib/utils";
 
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 (THREE.BufferGeometry.prototype as any).computeBoundsTree = computeBoundsTree;
@@ -131,7 +132,7 @@ export class ViewerEngine {
     this.manager.onProgress = (_u, loaded, total) => {
       if (this.onLoadProgress && total > 0) this.onLoadProgress(Math.round((loaded / total) * 100));
     };
-    const draco = new DRACOLoader(this.manager).setDecoderPath("/draco/gltf/");
+    const draco = new DRACOLoader(this.manager).setDecoderPath(withBase("/draco/gltf/"));
     this.loader = new GLTFLoader(this.manager);
     this.loader.setDRACOLoader(draco);
   }
@@ -472,7 +473,7 @@ export class ViewerEngine {
 
   /* ── model loading & normalization ─────────────────────────────── */
   load(empire: Empire, variantPath?: string): Promise<LoadedModel> {
-    const targetPath = variantPath || empire.modelPath;
+    const targetPath = withBase(variantPath || empire.modelPath);
     const cacheKey = `${empire.id}:${targetPath}`;
     const cached = this.cache.get(cacheKey);
     if (cached) return cached;
@@ -487,7 +488,7 @@ export class ViewerEngine {
       const applyExternalTextures = (object: THREE.Object3D) => {
         const textureLoader = new THREE.TextureLoader();
         const loadTexture = (url: string) => new Promise<THREE.Texture>((res, rej) => textureLoader.load(url, res, undefined, rej));
-        const imgPath = `/img/${empire.id}`;
+        const imgPath = withBase(`/img/${empire.id}`);
         return Promise.all([
           loadTexture(`${imgPath}/texture_diffuse.png`),
           loadTexture(`${imgPath}/texture_normal.png`),
@@ -662,18 +663,18 @@ export class ViewerEngine {
         const texLoader = new THREE.TextureLoader();
         
         // Load diffuse map
-        const diffuse = texLoader.load("/img/noahs_ark/texture_diffuse.jpg");
+        const diffuse = texLoader.load(withBase("/img/noahs_ark/texture_diffuse.jpg"));
         diffuse.colorSpace = THREE.SRGBColorSpace;
         diffuse.flipY = false;
         nm.map = diffuse;
         
         // Load normal map
-        const normal = texLoader.load("/img/noahs_ark/texture_normal.jpg");
+        const normal = texLoader.load(withBase("/img/noahs_ark/texture_normal.jpg"));
         normal.flipY = false;
         nm.normalMap = normal;
         
         // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load("/img/noahs_ark/texture_pbr.jpg");
+        const pbr = texLoader.load(withBase("/img/noahs_ark/texture_pbr.jpg"));
         pbr.flipY = false;
         nm.roughnessMap = pbr;
         nm.metalnessMap = pbr;
@@ -683,18 +684,18 @@ export class ViewerEngine {
         const texLoader = new THREE.TextureLoader();
 
         // Load diffuse map
-        const diffuse = texLoader.load("/img/new_jerusalem/texture_diffuse.jpg");
+        const diffuse = texLoader.load(withBase("/img/new_jerusalem/texture_diffuse.jpg"));
         diffuse.colorSpace = THREE.SRGBColorSpace;
         diffuse.flipY = false;
         nm.map = diffuse;
 
         // Load normal map
-        const normal = texLoader.load("/img/new_jerusalem/texture_normal.jpg");
+        const normal = texLoader.load(withBase("/img/new_jerusalem/texture_normal.jpg"));
         normal.flipY = false;
         nm.normalMap = normal;
 
         // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load("/img/new_jerusalem/texture_pbr.jpg");
+        const pbr = texLoader.load(withBase("/img/new_jerusalem/texture_pbr.jpg"));
         pbr.flipY = false;
         nm.roughnessMap = pbr;
         nm.metalnessMap = pbr;
@@ -706,18 +707,18 @@ export class ViewerEngine {
         const texLoader = new THREE.TextureLoader();
 
         // Load diffuse map
-        const diffuse = texLoader.load("/img/tower_babel/texture_diffuse.jpg");
+        const diffuse = texLoader.load(withBase("/img/tower_babel/texture_diffuse.jpg"));
         diffuse.colorSpace = THREE.SRGBColorSpace;
         diffuse.flipY = false;
         nm.map = diffuse;
 
         // Load normal map
-        const normal = texLoader.load("/img/tower_babel/texture_normal.jpg");
+        const normal = texLoader.load(withBase("/img/tower_babel/texture_normal.jpg"));
         normal.flipY = false;
         nm.normalMap = normal;
 
         // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load("/img/tower_babel/texture_pbr.jpg");
+        const pbr = texLoader.load(withBase("/img/tower_babel/texture_pbr.jpg"));
         pbr.flipY = false;
         nm.roughnessMap = pbr;
         nm.metalnessMap = pbr;

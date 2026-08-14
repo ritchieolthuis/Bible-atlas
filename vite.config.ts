@@ -5,7 +5,7 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/Bible-atlas/',
   plugins: [inspectAttr(), react()],
   server: { strictPort: true,
     port: 3000,

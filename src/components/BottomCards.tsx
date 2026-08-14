@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { Empire, EmpireSection } from "@/types/empire";
+import { withBase } from "@/lib/utils";
 import { ArrowRightIcon } from "./icons";
 
 interface Props {
@@ -45,7 +46,7 @@ export const BottomCards = memo(function BottomCards({ empire, onOpen }: Props) 
               stretched, and no empty margins down either side */}
           <div className="relative mt-2 aspect-[3/2] w-full overflow-hidden rounded-lg border border-line-warm bg-paper-deep">
             <img
-              src={data.image}
+              src={data.image && withBase(data.image)}
               alt={data.title}
               className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"
