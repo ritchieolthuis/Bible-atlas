@@ -129,6 +129,7 @@ export interface UiStrings {
   docTitleSuffix: string;
   footer: {
     copyright: string;
+    partOf: string;
     forum: string;
     donate: string;
   };
@@ -264,6 +265,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
     docTitleSuffix: "The 3D Bible: History and Architecture",
     footer: {
       copyright: "© 2026 The 3D Bible",
+      partOf: "The 3D Bible is part of De Samenkomst. Developed by Ritchie Olthuis.",
       forum: "Forum",
       donate: "Donate",
     },
@@ -397,6 +399,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
     docTitleSuffix: "The 3D Bible: History and Architecture",
     footer: {
       copyright: "© 2026 The 3D Bible",
+      partOf: "De 3D-Bijbel is onderdeel van De Samenkomst. Ontwikkeld door Ritchie Olthuis.",
       forum: "Forum",
       donate: "Doneren",
     },

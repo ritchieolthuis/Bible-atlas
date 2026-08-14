@@ -13,6 +13,7 @@ export function Footer() {
         <div>
           <img src={withBase("/img/brand/de-samenkomst-logo.png")} alt="De Samenkomst" className="h-8 w-auto" />
           <div className="mt-2 text-[0.8rem] text-ink-muted">{t.footer.copyright}</div>
+          <div className="mt-1 text-[0.78rem] text-ink-muted">{t.footer.partOf}</div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 text-[0.86rem] font-medium text-ink-soft">
