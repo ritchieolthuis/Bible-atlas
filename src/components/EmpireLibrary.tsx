@@ -54,6 +54,13 @@ export const EmpireLibrary = memo(function EmpireLibrary({ empires, activeId, fa
               onMouseEnter={() => onPrefetch?.(e.id)}
               onFocus={() => onPrefetch?.(e.id)}
               onClick={() => onSelect(e.id)}
+              onPointerUp={(ev) => {
+                // iOS Safari can silently drop the synthetic `click` event on
+                // a button inside a scrollable list right after a scroll
+                // gesture; pointerup fires reliably regardless, so use it as
+                // the primary trigger there and let onClick cover mouse/kbd.
+                if (ev.pointerType === "touch") onSelect(e.id);
+              }}
               className={`empire-card !border-transparent hover:!bg-white/8 ${active ? "!bg-white/10 !border-white/15" : ""}`}
             >
               <img className="thumb !border-white/15 !bg-white/6" src={empireImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />

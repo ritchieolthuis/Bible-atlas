@@ -108,7 +108,7 @@
   border-radius: 8px;
   border: 2px solid var(--paper);
 }
-.atlas-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; }
+.atlas-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; -webkit-overflow-scrolling: touch; }
 
 /* ── Viewer stage: the parchment the dwelling stands on ─────────────
    Painted here rather than in the scene so it keeps the exact palette of
@@ -316,6 +316,9 @@
   border-radius: 14px;
   border: 1px solid transparent;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+  /* iOS Safari can otherwise treat a tap inside this scrolling list as an
+     ambiguous scroll/gesture and drop the click entirely */
+  touch-action: manipulation;
 }
 /* no x-shift on hover: the list clips its own overflow, so sliding the card
    sideways sheared the rounded corner off the active row */
