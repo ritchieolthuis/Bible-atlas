@@ -192,7 +192,7 @@ function DevMarkers({
         dot.style.display = p.behindCamera ? "none" : "block";
       }
     });
-    return off;
+    return () => { off(); };
   }, [engine, structure, containerRef]);
 
   return (
