@@ -58,6 +58,10 @@ export interface LoadedModel {
   meshes: THREE.Mesh[];
   size: THREE.Vector3;
   empireId: string;
+  /** the exact `${empireId}:${targetPath}` key this model is cached under  -
+   *  distinct model variants (default vs. inside) of the same empire get
+   *  distinct keys, so residency tracking must key on this, not empireId. */
+  cacheKey: string;
 }
 
 type FrameCallback = () => void;
@@ -526,7 +530,7 @@ export class ViewerEngine {
           targetPath,
           (object) => {
             applyExternalTextures(object).then(() => {
-              const model = this.normalize(object, empire);
+              const model = this.normalize(object, empire, cacheKey);
               this.snapAnchors(model, empire);
               this.warm(model).then(() => resolve(model));
             }).catch(reject);
@@ -544,7 +548,7 @@ export class ViewerEngine {
               : Promise.resolve();
             applied.then(() => {
               try {
-                const model = this.normalize(gltf.scene, empire);
+                const model = this.normalize(gltf.scene, empire, cacheKey);
                 this.snapAnchors(model, empire);
                 this.warm(model).then(() => resolve(model));
               } catch (e) {
@@ -600,7 +604,7 @@ export class ViewerEngine {
     this.load(empire, variantPath).catch(() => {});
   }
 
-  private normalize(sceneObj: THREE.Group, empire: Empire): LoadedModel {
+  private normalize(sceneObj: THREE.Group, empire: Empire, cacheKey: string): LoadedModel {
     const group = new THREE.Group();
     const inner = sceneObj;
     group.add(inner);
@@ -635,7 +639,7 @@ export class ViewerEngine {
     });
 
     const nsize = size.clone().multiplyScalar(s);
-    return { group, meshes, size: nsize, empireId: empire.id };
+    return { group, meshes, size: nsize, empireId: empire.id, cacheKey };
   }
 
   /** TSL rim-light: a soft warm fresnel edge so the architecture reads
@@ -773,7 +777,7 @@ export class ViewerEngine {
     this.current = model;
     this.occlusionCache.clear();
     this.attach(model);
-    this.touchResidency(model.empireId);
+    this.touchResidency(model.cacheKey);
     // carry the active layers onto the dwelling that just arrived
     this.buildWireframe();
     if (this.xrayOn) this.setXray(true);
@@ -786,19 +790,20 @@ export class ViewerEngine {
     }
   }
 
-  /** Mark an empire as most-recently-used and evict past the residency cap.
-   *  Evicted models are queued, never freed mid-animation. */
-  private touchResidency(id: string) {
-    this.lru = [id, ...this.lru.filter((x) => x !== id)];
+  /** Mark a model (by its full cache key, so distinct variants of the same
+   *  empire are tracked separately) as most-recently-used and evict past
+   *  the residency cap. Evicted models are queued, never freed mid-animation. */
+  private touchResidency(cacheKey: string) {
+    this.lru = [cacheKey, ...this.lru.filter((x) => x !== cacheKey)];
     while (this.lru.length > MAX_RESIDENT) {
       const drop = this.lru.pop();
-      if (!drop || drop === this.current?.empireId) continue;
+      if (!drop || drop === this.current?.cacheKey) continue;
       const p = this.cache.get(drop);
       this.cache.delete(drop);
-      this.fields.delete(drop);
       p?.then((m) => {
         if (m !== this.current) {
           this.stage.remove(m.group);
+          this.fields.delete(m.empireId);
           this.retired.push(m);
         }
       }).catch(() => undefined);
