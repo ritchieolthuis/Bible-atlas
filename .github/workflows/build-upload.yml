@@ -1,0 +1,41 @@
+name: Build upload-ready site
+
+# Builds the static site on every push to main and attaches the result as a
+# downloadable artifact, so a deploy-ready folder can always be regenerated
+# from GitHub without needing the source checked out or built locally.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (relative paths, so it works from any subfolder)
+        run: npm run build
+        env:
+          # Overrides the repo's default GitHub Pages base path so the
+          # build uses relative asset URLs and works when uploaded into
+          # any subfolder on any host.
+          VITE_BASE: ./
+
+      - name: Package as 3D-Bible
+        run: |
+          mkdir -p package/3D-Bible
+          cp -r dist/* package/3D-Bible/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 3D-Bible
+          path: package/3D-Bible
+          retention-days: 90

@@ -5,7 +5,10 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/the3d-bible/',
+  // GitHub Pages serves this repo from /the3d-bible/, so that's the default.
+  // The upload-package workflow overrides this to './' (relative) so the
+  // build works when dropped into any subfolder on any other host.
+  base: process.env.VITE_BASE || '/the3d-bible/',
   plugins: [inspectAttr(), react()],
   server: { strictPort: true,
     port: 3000,
