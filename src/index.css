@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ══════════════════════════════════════════════════════════════════
-   Empire Atlas  -  design tokens
+   Structure Atlas  -  design tokens
    Palette ported 1:1 from desamenkomst.nl: white/ivory surfaces, the
    site's exact dark slate-blue (#3C5E70), and its logo dots (yellow,
    blue, green) as accents.
@@ -304,8 +304,8 @@
   .tool-btn span { font-size: 0.52rem; }
 }
 
-/* ── Empire library cards ───────────────────────────────────────── */
-.empire-card {
+/* ── Structure library cards ───────────────────────────────────────── */
+.structure-card {
   position: relative;
   display: flex;
   align-items: center;
@@ -322,13 +322,13 @@
 }
 /* no x-shift on hover: the list clips its own overflow, so sliding the card
    sideways sheared the rounded corner off the active row */
-.empire-card:hover { background: #eef2f4; }
-.empire-card.is-active {
+.structure-card:hover { background: #eef2f4; }
+.structure-card.is-active {
   background: var(--cream);
   border-color: var(--line-strong);
   box-shadow: 0 2px 6px rgb(29 43 51 / 0.06), 0 10px 24px -10px rgb(29 43 51 / 0.14);
 }
-.empire-card .thumb {
+.structure-card .thumb {
   flex: none;
   width: 58px; height: 58px;
   border-radius: 10px;
@@ -336,8 +336,8 @@
   border: 1px solid var(--line);
   background: var(--paper-deep);
 }
-.empire-card .heart { opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; }
-.empire-card:hover .heart, .empire-card.is-active .heart, .empire-card .heart.is-fav { opacity: 1; }
+.structure-card .heart { opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; }
+.structure-card:hover .heart, .structure-card.is-active .heart, .structure-card .heart.is-fav { opacity: 1; }
 
 /* ── Inline description links ──────────────────────────────────── */
 .description-link {

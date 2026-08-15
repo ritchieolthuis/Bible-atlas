@@ -40,7 +40,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        /* Empire Dwelling Atlas tokens */
+        /* Structure Dwelling Atlas tokens */
         paper: "var(--paper)",
         "paper-deep": "var(--paper-deep)",
         cream: "var(--cream)",
