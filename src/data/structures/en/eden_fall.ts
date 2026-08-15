@@ -10,9 +10,9 @@ export const eden_fall: Structure = {
     { text: "the serpent's temptation", target: { kind: "section", section: "artifacts" } },
     { text: "sin and death", target: { kind: "section", section: "dailyLife" } },
   ],
-  modelPath: "/models/tower_babel.glb",
+  modelPath: "/models/eden_fall.glb",
   tint: "#5c7a4a",
-  camera: { azimuth: -30, elevation: 15, dist: 1.5, targetY: 0.4 },
+  camera: { azimuth: -30, elevation: 35, dist: 2.2, targetY: 0.3 },
   facts: [
     { label: "Period", value: "The Creation Week", icon: "period" },
     { label: "Region", value: "Eden, eastward, watered by a fourfold river", icon: "region" },
@@ -23,20 +23,11 @@ export const eden_fall: Structure = {
   hotspots: [
     {
       id: "tree_of_life",
-      title: "The Tree of Life",
+      title: "The Tree of Life and of Knowledge",
       short: "In the midst of the garden",
-      detail: "And out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in the midst of the garden, and the tree of knowledge of good and evil (Genesis 2:9).",
+      detail: "And out of the ground made the LORD God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in the midst of the garden, and the tree of knowledge of good and evil (Genesis 2:9). Of this latter tree God had said: thou shalt not eat of it, for in the day that thou eatest thereof thou shalt surely die (Genesis 2:17).",
       category: "structure",
-      anchor: [0.5, 0.5, 0.5],
-      snap: "none",
-    },
-    {
-      id: "tree_of_knowledge",
-      title: "The Tree of Knowledge of Good and Evil",
-      short: "Thou shalt not eat of it",
-      detail: "But of the tree of the knowledge of good and evil, thou shalt not eat of it: for in the day that thou eatest thereof thou shalt surely die (Genesis 2:17).",
-      category: "structure",
-      anchor: [0.4, 0.5, 0.5],
+      anchor: [0.498, 0.65, 0.519],
       snap: "none",
     },
     {
@@ -54,7 +45,7 @@ export const eden_fall: Structure = {
       short: "More subtil than any beast of the field",
       detail: "Now the serpent was more subtil than any beast of the field which the LORD God had made. And he said unto the woman, Yea, hath God said, Ye shall not eat of every tree of the garden? (Genesis 3:1).",
       category: "artifact-zone",
-      anchor: [0.45, 0.4, 0.5],
+      anchor: [0.531, 0.648, 0.5],
       snap: "none",
     },
   ],
@@ -63,12 +54,14 @@ export const eden_fall: Structure = {
     title: "Placed in the Garden",
     cta: "Explore Interior",
     text: "The LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life, and man became a living soul (Gen. 2:7). He then took the man and put him into the garden of Eden to dress it and to keep it, giving him charge over every herb and tree, but forbidding only the tree of knowledge of good and evil, on pain of death. KJV Verse: \"And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it.\", Genesis 2:15 (KJV)",
+    image: "/img/eden_fall/interior.webp",
   },
   floorPlan: {
     kicker: "The Garden",
     title: "Rivers and Trees of Eden",
     cta: "View Layout",
     text: "A river went out of Eden to water the garden, and from thence parted into four heads, Pison, which compasseth the land of Havilah, where there is gold; Gihon, which compasseth the land of Ethiopia; Hiddekel, which goeth toward the east of Assyria; and Euphrates. Every tree pleasant to the sight and good for food grew there, with the tree of life and the tree of knowledge of good and evil set in the midst of the garden. KJV Verse: \"And a river went out of Eden to water the garden; and from thence it was parted, and became into four heads.\", Genesis 2:10 (KJV)",
+    image: "/img/eden_fall/floor-plan.webp",
     rooms: [
       {
         name: "The Garden Eastward",
@@ -102,6 +95,7 @@ export const eden_fall: Structure = {
     title: "The Serpent's Deception",
     cta: "Explore the Temptation",
     text: "The serpent questioned God's word, denied the LORD's warning of death, and accused God of withholding good, then Eve saw that the tree was good for food, pleasant to the eyes, and to be desired to make one wise, and she took of the fruit and did eat, and gave also unto her husband with her, and he did eat. KJV Verse: \"And when the woman saw that the tree was good for food, and that it was pleasant to the eyes, and a tree to be desired to make one wise, she took of the fruit thereof, and did eat, and gave also unto her husband with her; and he did eat.\", Genesis 3:6 (KJV)",
+    image: "/img/eden_fall/artifacts.webp",
     items: [
       { name: "The Serpent", purpose: "Tempter", material: "A beast of the field", context: "More subtil than any beast of the field which the LORD God had made." },
       { name: "The Forbidden Fruit", purpose: "The one thing withheld from man", material: "Fruit of the tree of knowledge of good and evil", context: "Good for food, pleasant to the eyes, and to be desired to make one wise." },
@@ -114,13 +108,15 @@ export const eden_fall: Structure = {
     title: "Sin Entered the World",
     cta: "Discover Daily Life",
     text: "As soon as they had eaten, the eyes of them both were opened, and they knew that they were naked, and they hid themselves from the presence of the LORD God amongst the trees of the garden. God pronounced judgment on the serpent, on the woman, and on the man, and by one man sin entered into the world, and death by sin, so death passed upon all men, for that all have sinned (Rom. 5:12). KJV Verse: \"And the eyes of them both were opened, and they knew that they were naked; and they sewed fig leaves together, and made themselves aprons.\", Genesis 3:7 (KJV)",
+    image: "/img/eden_fall/daily-life.webp",
   },
   geography: {
     kicker: "Where It Existed",
     title: "Driven Out of Eden",
     cta: "Explore Map",
-    text: "So the LORD God drove out the man, and He placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of the tree of life, so that Adam and Eve went out to till the ground from whence he was taken, and the promise was given that the seed of the woman would one day bruise the serpent's head (Gen. 3:15). KJV Verse: \"So he drove out the man; and he placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of the tree of life.\", Genesis 3:24 (KJV)",
+    text: "So the LORD God drove out the man, and He placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of the tree of life, so that Adam and Eve went out to till the ground from whence he was taken, and the promise was given that the seed of the woman would one day bruise the serpent's head (Gen. 3:15). Scripture distinguishes Eden, the wider land, from the garden itself, which the LORD God planted eastward in Eden and where a river out of Eden divided to water it (Gen. 2:8, 2:10). Cast out of the garden, Adam and Eve did not vanish from the record of that region, for their son Cain later dwelt in the land of Nod, on the east of Eden (Gen. 4:16), showing Eden to have been a real and bounded country, of which the garden was but one guarded part. KJV Verse: \"So he drove out the man; and he placed at the east of the garden of Eden Cherubims, and a flaming sword which turned every way, to keep the way of the tree of life.\", Genesis 3:24 (KJV)",
     regionLabel: "Eastward in Eden",
+    image: "/img/eden_fall/map.webp",
   },
   lesson: {
     title: "The Fall of Man",
@@ -132,6 +128,7 @@ export const eden_fall: Structure = {
       { heading: "The Transgression", body: "She took of the fruit thereof, and did eat, and gave also unto her husband with her; and he did eat." },
       { heading: "The Judgment", body: "Cursed is the ground for thy sake; in sorrow shalt thou eat of it all the days of thy life... in the sweat of thy face shalt thou eat bread, till thou return unto the ground." },
       { heading: "The Promise", body: "And I will put enmity between thee and the woman, and between thy seed and her seed; it shall bruise thy head, and thou shalt bruise his heel." },
+      { heading: "Life After Eden", body: "Adam knew Eve his wife, and she bare Cain, and again his brother Abel; and after Abel was slain, she bare a son, and called his name Seth, for God had appointed her another seed. Adam begat sons and daughters, and all the days that he lived were nine hundred and thirty years. Through Seth the line continued to Enos, Cainan, Mahalaleel, Jared, Enoch, Methuselah, and Lamech, who begat Noah." },
     ],
   },
   quiz: [

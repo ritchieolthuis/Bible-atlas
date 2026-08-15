@@ -492,11 +492,9 @@ export class ViewerEngine {
     if (cached) return cached;
     const p = new Promise<LoadedModel>((resolve, reject) => {
       const isObj = targetPath.endsWith('.obj');
-      // herods_temple's mesh has no baked material - it always needs its
-      // external /img/{id}/texture_*.png maps applied, whether the geometry
-      // arrives as .obj or (compressed) .glb. Both containers share the same
-      // UVs, so the same textures map correctly either way.
-      const needsExternalTextures = isObj || structure.id === 'herods_temple';
+      // .obj geometry carries no material of its own, so it always needs its
+      // external /img/{id}/texture_*.png maps applied.
+      const needsExternalTextures = isObj;
 
       const applyExternalTextures = (object: THREE.Object3D) => {
         const textureLoader = new THREE.TextureLoader();
@@ -1196,6 +1194,21 @@ export class ViewerEngine {
     return this.current.group.localToWorld(out);
   }
 
+  /** Dev-mode only: cast a ray from a canvas-space point (as delivered by a
+   *  pointer event) into the model and return the hit as a normalised anchor
+   *  triple, exactly like the dblclick anchor-picker. Used by the in-browser
+   *  hotspot editor to place and drag pins by pointing at the surface meant. */
+  pointerToAnchor(nx: number, ny: number): Vec3 | null {
+    if (!this.current) return null;
+    this.raycaster.setFromCamera(new THREE.Vector2(nx, ny), this.camera);
+    this.raycaster.firstHitOnly = true;
+    const hits = this.raycaster.intersectObjects(this.current.meshes, false);
+    if (!hits.length) return null;
+    const pt = this.current.group.worldToLocal(hits[0].point.clone());
+    const s = this.current.size;
+    return [+(pt.x / s.x + 0.5).toFixed(4), +(pt.y / s.y).toFixed(4), +(pt.z / s.z + 0.5).toFixed(4)];
+  }
+
   project(world: THREE.Vector3, w: number, h: number): AnchorProjection {
     const v = this.projScratch.copy(world);
     const distance = v.distanceTo(this.camera.position);
@@ -1336,6 +1349,13 @@ export class ViewerEngine {
   setAutoRotate(on: boolean) {
     if (!this.controls) return;
     this.controls.autoRotate = on;
+  }
+
+  /** Dev-mode only: suspend orbit/pan/zoom while a hotspot pin is being
+   *  dragged, so the camera doesn't fight the raycast the drag is reading. */
+  setControlsEnabled(on: boolean) {
+    if (!this.controls) return;
+    this.controls.enabled = on;
   }
 
   setGrid(on: boolean) {

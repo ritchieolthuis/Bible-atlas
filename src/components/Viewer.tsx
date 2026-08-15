@@ -5,6 +5,10 @@ import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { ViewerEngine, IS_LOW_MEMORY_DEVICE } from "@/three/engine";
 import { HotspotLayer } from "./HotspotLayer";
+import { DevHotspotEditor } from "@/dev/DevHotspotEditor";
+
+const DEV_MODE =
+  import.meta.env.DEV && typeof window !== "undefined" && new URLSearchParams(window.location.search).get("dev") === "1";
 import {
   RotateIcon,
   RotateCcwIcon,
@@ -304,6 +308,10 @@ export const Viewer = memo(function Viewer({
         onActivate={setActiveId}
         visible={markersVisible && layers.labels}
       />
+
+      {DEV_MODE && (
+        <DevHotspotEditor engine={engineReady ? engineRef.current : null} structure={shownStructure} containerRef={containerRef} />
+      )}
 
       {/* ── tool rail ── */}
       <div className="absolute left-2 top-1/2 z-30 -translate-y-1/2 md:left-3" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">

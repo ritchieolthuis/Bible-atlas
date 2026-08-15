@@ -27,7 +27,7 @@ export const walls_jericho: Structure = {
       short: "Viel onder zich",
       detail: "En het geschiedde, als het volk het geluid der bazuin hoorde, dat het volk juichte met een groot gejuich; en de muur viel onder zich (Jozua 6:20).",
       category: "structure",
-      anchor: [0.5, 0.5, 0.9],
+      anchor: [0.06, 0.6, 0.5],
       snap: "wall",
     },
     {
@@ -36,8 +36,8 @@ export const walls_jericho: Structure = {
       short: "Op den stadsmuur",
       detail: "Want haar huis was op den stadsmuur, en zij woonde op den muur... zij bond het scharlaken snoer in het venster (Jozua 2:15, 21).",
       category: "roof",
-      anchor: [0.2, 0.8, 0.2],
-      snap: "roof",
+      anchor: [0.94, 0.55, 0.55],
+      snap: "wall",
     },
     {
       id: "gate",
@@ -45,7 +45,7 @@ export const walls_jericho: Structure = {
       short: "Stiptelijk gesloten",
       detail: "Jericho nu sloot de poorten toe, en was gesloten, voor het aangezicht van de kinderen Israëls: er ging niemand uit, en er ging niemand in (Jozua 6:1).",
       category: "entrance",
-      anchor: [0.5, 0.2, 0.9],
+      anchor: [0.72, 0.94, 0.6],
       snap: "wall",
     },
     {
@@ -54,7 +54,7 @@ export const walls_jericho: Structure = {
       short: "De stad omringende",
       detail: "Gij dan allen, die krijgslieden zijt, zult rondom de stad gaan, de stad omringende eenmaal; alzo zult gij zes dagen doen (Jozua 6:3).",
       category: "court",
-      anchor: [0.5, 0.82, 0.2],
+      anchor: [0.5, -0.18, 0.5],
       snap: "none",
     },
   ],

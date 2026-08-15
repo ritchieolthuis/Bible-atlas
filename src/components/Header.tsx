@@ -9,7 +9,6 @@ import {
   LibraryIcon,
   NotesIcon,
   SearchIcon,
-  ChevronDownIcon,
   MenuIcon,
 } from "./icons";
 
@@ -110,20 +109,6 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
         aria-label={t.header.searchAria}
       >
         <SearchIcon className="h-4 w-4" />
-      </button>
-
-      {/* Profile */}
-      <button className="flex flex-none items-center gap-1.5 rounded-full" aria-label={t.header.profile}>
-        <span className="relative block h-9 w-9 overflow-hidden rounded-full border border-line-strong bg-paper-deep">
-          {/* marble-bust style avatar */}
-          <svg viewBox="0 0 36 36" className="h-full w-full">
-            <rect width="36" height="36" fill="#e2e7ec" />
-            <ellipse cx="18" cy="15" rx="6.5" ry="7.5" fill="#c3ccd1" />
-            <path d="M18 22c-5 0-8.5 3-9.5 8.5V36h19v-5.5C26.5 25 23 22 18 22z" fill="#aab6bd" />
-            <path d="M12.5 12.5c1-3 3-4.5 5.5-4.5s4.5 1.5 5.5 4.5" fill="none" stroke="#8b98a3" strokeWidth="1" />
-          </svg>
-        </span>
-        <ChevronDownIcon className="h-4 w-4 text-ink-muted" />
       </button>
     </header>
   );

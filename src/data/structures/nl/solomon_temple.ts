@@ -17,16 +17,19 @@ export const solomon_temple: Structure = {
     {
       id: "default", label: "Standaard", path: "/models/solomon_temple.glb?v=2",
       // the cutaway-only fittings do not exist on the exterior model
-      anchors: { holy_place: null, showbread_tables: null, gold_walls: null },
+      anchors: { holy_place: null, showbread_tables: null, gold_walls: null, candlesticks: null },
     },
     {
       id: "inside", label: "Binnenkant", path: "/models/solomon_temple_inside.glb",
       // a separate export with its own bounds. The exterior features are
       // not repeated inside: the cutaway only carries its own fittings.
       anchors: {
-        boaz_pillar: null, jachin_pillar: null, porch: null,
-        side_chambers: null, oracle: null,
-        brasen_sea: null,
+        boaz_pillar: null, porch: null,
+        side_chambers: null, molten_lavers: null,
+        oracle: [0.3786, 0.1549, 0.4942],
+        brasen_sea: [0.8808, 0.2488, 0.7963],
+        jachin_pillar: [0.89, 0.81, 0.26],
+        candlesticks: [0.6525, 0.145, 0.281],
       },
     },
   ],
@@ -73,7 +76,16 @@ export const solomon_temple: Structure = {
       short: "Groot koperen bekken rustend op twaalf runderen",
       detail: "Verder maakte hij de gegotene zee; van tien ellen was zij van haar enen rand tot haar anderen rand, rondom rond... En zij stond op twaalf runderen (1 Koningen 7:23,25).",
       category: "court",
-      anchor: [0.879, 0.37, 0.707],
+      anchor: [0.884, 0.2563, 0.9553],
+      snap: "none",
+    },
+    {
+      id: "molten_lavers",
+      title: "De Koperen Waswagens",
+      short: "Rijdbare onderstellen met wasbekkens, voor de reiniging der offers",
+      detail: "In de Hebreeuwse grondtekst mekhonot genoemd - rijdbare koperen onderstellen, elk gedragen op wielen, met daarop een groot koperen wasbekken gevuld met water. Hierin spoelden de priesters de delen van de brandoffers af; dankzij de wielen konden de wagens over het tempelplein verplaatst worden naar waar zij nodig waren. Vijf stonden er ter rechter- en vijf ter linkerzijde van het huis (1 Koningen 7:27-39).",
+      category: "court",
+      anchor: [0.513, 0.065, 0.905],
       snap: "none",
     },
     {
@@ -122,6 +134,16 @@ export const solomon_temple: Structure = {
       category: "interior",
       /* only shown on the cutaway; the exterior model hides it */
       anchor: [0.832, 0.12, 0.473],
+      snap: "none",
+    },
+    {
+      id: "candlesticks",
+      title: "De Tien Gouden Kandelaars",
+      short: "Vijf ter rechter- en vijf ter linkerzijde, voor de aanspraakplaats",
+      detail: "In tegenstelling tot de ene kandelaar van de Tabernakel liet Salomo tien kandelaars van louter goud maken, vijf ter rechter- en vijf ter linkerzijde. SV-tekst: \"En de kandelaars van gesloten goud, vijf ter rechterhand en vijf ter linkerhand, voor de aanspraakplaats.\", 1 Koningen 7:49 (SV)",
+      category: "interior",
+      /* only shown on the cutaway; the exterior model hides it */
+      anchor: [0.6525, 0.145, 0.281],
       snap: "none",
     },
   ],

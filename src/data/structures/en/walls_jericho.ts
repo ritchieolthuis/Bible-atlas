@@ -27,7 +27,7 @@ export const walls_jericho: Structure = {
       short: "Fell down flat",
       detail: "And it came to pass, when the people heard the sound of the trumpet, and the people shouted with a great shout, that the wall fell down flat (Joshua 6:20).",
       category: "structure",
-      anchor: [0.5, 0.5, 0.9],
+      anchor: [0.06, 0.6, 0.5],
       snap: "wall",
     },
     {
@@ -36,8 +36,8 @@ export const walls_jericho: Structure = {
       short: "Upon the town wall",
       detail: "For her house was upon the town wall, and she dwelt upon the wall... she bound the scarlet line in the window (Joshua 2:15, 21).",
       category: "roof",
-      anchor: [0.2, 0.8, 0.2],
-      snap: "roof",
+      anchor: [0.94, 0.55, 0.55],
+      snap: "wall",
     },
     {
       id: "gate",
@@ -45,7 +45,7 @@ export const walls_jericho: Structure = {
       short: "Straitly shut up",
       detail: "Now Jericho was straitly shut up because of the children of Israel: none went out, and none came in (Joshua 6:1).",
       category: "entrance",
-      anchor: [0.5, 0.2, 0.9],
+      anchor: [0.72, 0.94, 0.6],
       snap: "wall",
     },
     {
@@ -54,7 +54,7 @@ export const walls_jericho: Structure = {
       short: "Compassing the city",
       detail: "And ye shall compass the city, all ye men of war, and go round about the city once. Thus shalt thou do six days (Joshua 6:3).",
       category: "court",
-      anchor: [0.5, 0.82, 0.2],
+      anchor: [0.5, -0.18, 0.5],
       snap: "none",
     },
   ],

@@ -22,7 +22,6 @@ export interface UiStrings {
     openMenu: string;
     searchPlaceholder: string;
     searchAria: string;
-    profile: string;
   };
   library: {
     kicker: string;
@@ -158,7 +157,6 @@ export const STRINGS: Record<Locale, UiStrings> = {
       openMenu: "Open menu",
       searchPlaceholder: "Search structures, temples…",
       searchAria: "Search structures, temples, features",
-      profile: "Profile",
     },
     library: {
       kicker: "Bible Library",
@@ -292,7 +290,6 @@ export const STRINGS: Record<Locale, UiStrings> = {
       openMenu: "Menu openen",
       searchPlaceholder: "Zoek bouwwerken, tempels…",
       searchAria: "Zoek bouwwerken, tempels, kenmerken",
-      profile: "Profiel",
     },
     library: {
       kicker: "Bijbelbibliotheek",

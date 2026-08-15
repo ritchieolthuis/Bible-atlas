@@ -10,13 +10,13 @@ import { ezekiel_temple } from "./ezekiel_temple";
 import { eden_fall } from "./eden_fall";
 
 export const STRUCTURES_NL: Structure[] = [
-  solomon_temple,
-  tabernacle,
+  eden_fall,
   noahs_ark,
   tower_babel,
+  tabernacle,
   walls_jericho,
+  solomon_temple,
+  ezekiel_temple,
   herods_temple,
   new_jerusalem,
-  ezekiel_temple,
-  eden_fall,
 ];

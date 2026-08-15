@@ -11,6 +11,20 @@ export const herods_temple: Structure = {
     { text: "Herod", target: { kind: "section", section: "geography" } },
   ],
   modelPath: "/models/herods_temple.glb",
+  modelVariants: [
+    {
+      id: "default", label: "Default", path: "/models/herods_temple.glb",
+    },
+    {
+      id: "inside", label: "Interior", path: "/models/herods_temple_inside.glb",
+      // exterior-only features do not exist on the interior cutaway model
+      anchors: {
+        sanctuary: null, pinnacle: null, treasury: null,
+        outer_court: null, solomons_porch: null,
+        beautiful_gate: null, antonia: null,
+      },
+    },
+  ],
   tint: "#e5dcc3",
   camera: { azimuth: -40, elevation: 35, dist: 1.1, targetY: 0.35 },
   facts: [

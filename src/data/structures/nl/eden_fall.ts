@@ -10,9 +10,9 @@ export const eden_fall: Structure = {
     { text: "de verzoeking der slang", target: { kind: "section", section: "artifacts" } },
     { text: "de zonde en de dood", target: { kind: "section", section: "dailyLife" } },
   ],
-  modelPath: "/models/tower_babel.glb",
+  modelPath: "/models/eden_fall.glb",
   tint: "#5c7a4a",
-  camera: { azimuth: -30, elevation: 15, dist: 1.5, targetY: 0.4 },
+  camera: { azimuth: -30, elevation: 35, dist: 2.2, targetY: 0.3 },
   facts: [
     { label: "Periode", value: "De Scheppingsweek", icon: "period" },
     { label: "Regio", value: "Eden, oostwaarts, doorstroomd door een viervoudige rivier", icon: "region" },
@@ -23,20 +23,11 @@ export const eden_fall: Structure = {
   hotspots: [
     {
       id: "tree_of_life",
-      title: "De Boom des Levens",
+      title: "De Boom des Levens en der Kennis",
       short: "In het midden van den hof",
-      detail: "En de Heere God had allerlei geboomte uit het aardrijk doen spruiten, begeerlijk voor het gezicht en goed tot spijze; en den boom des levens in het midden van den hof, en den boom der kennis des goeds en des kwaads (Genesis 2:9).",
+      detail: "En de Heere God had allerlei geboomte uit het aardrijk doen spruiten, begeerlijk voor het gezicht en goed tot spijze; en den boom des levens in het midden van den hof, en den boom der kennis des goeds en des kwaads (Genesis 2:9). Van dezen laatsten boom had God gezegd: daarvan zult gij niet eten; want ten dage als gij daarvan eet, zult gij den dood sterven (Genesis 2:17).",
       category: "structure",
-      anchor: [0.5, 0.5, 0.5],
-      snap: "none",
-    },
-    {
-      id: "tree_of_knowledge",
-      title: "De Boom der Kennis des Goeds en des Kwaads",
-      short: "Daarvan zult gij niet eten",
-      detail: "Maar van den boom der kennis des goeds en des kwaads, daarvan zult gij niet eten; want ten dage als gij daarvan eet, zult gij den dood sterven (Genesis 2:17).",
-      category: "structure",
-      anchor: [0.4, 0.5, 0.5],
+      anchor: [0.498, 0.65, 0.519],
       snap: "none",
     },
     {
@@ -54,7 +45,7 @@ export const eden_fall: Structure = {
       short: "Listiger dan al het gedierte des velds",
       detail: "De slang nu was listiger dan al het gedierte des velds, hetwelk de Heere God gemaakt had; en zij zeide tot de vrouw: Is het ook dat God gezegd heeft: Gijlieden zult niet eten van allen boom dezes hofs? (Genesis 3:1).",
       category: "artifact-zone",
-      anchor: [0.45, 0.4, 0.5],
+      anchor: [0.531, 0.648, 0.5],
       snap: "none",
     },
   ],
@@ -63,12 +54,14 @@ export const eden_fall: Structure = {
     title: "Gezet in den Hof",
     cta: "Verken het Interieur",
     text: "De Heere God formeerde den mens, stof uit de aarde, en blies in zijn neusgaten den adem des levens, en alzo werd de mens tot een levende ziel (Gen. 2:7). Hij nam toen den mens en zette hem in den hof van Eden, om dien te bouwen en te bewaren, en gaf hem heerschappij over al het geboomte, maar verbood alleen den boom der kennis des goeds en des kwaads, op straffe des doods. SV-tekst: \"Zo nam de Heere God den mens, en zette hem in den hof van Eden, om dien te bouwen en dien te bewaren.\", Genesis 2:15 (SV)",
+    image: "/img/eden_fall/interior.webp",
   },
   floorPlan: {
     kicker: "De Hof",
     title: "Rivieren en Bomen van Eden",
     cta: "Bekijk Indeling",
     text: "Een rivier ging uit Eden om den hof te bewateren en werd van daar verdeeld tot vier hoofden: Pison, welke het ganse land Havila omloopt, alwaar het goud is; Gihon, welke het ganse land Cusch omloopt; Hiddekel, welke gaat naar het oosten van Assur; en Frath. Al het geboomte, begeerlijk om te zien en goed tot spijze, groeide aldaar, met den boom des levens en den boom der kennis des goeds en des kwaads in het midden van den hof. SV-tekst: \"En een rivier ging uit Eden om den hof te bewateren; en werd van daar verdeeld en werd tot vier hoofden.\", Genesis 2:10 (SV)",
+    image: "/img/eden_fall/floor-plan.webp",
     rooms: [
       {
         name: "De Hof Oostwaarts",
@@ -102,6 +95,7 @@ export const eden_fall: Structure = {
     title: "Het Bedrog der Slang",
     cta: "Verken de Verzoeking",
     text: "De slang trok Gods woord in twijfel, loochende de waarschuwing des Heeren aangaande den dood, en beschuldigde God iets goeds te onthouden; toen zag de vrouw dat de boom goed was tot spijze en dat hij een lust was voor de ogen, ja, een boom die begeerlijk was om verstandig te maken, en zij nam van zijn vrucht en at, en gaf ook haar man met haar, en hij at. SV-tekst: \"En de vrouw zag dat die boom goed was tot spijze en dat hij een lust was voor de ogen, ja, een boom die begeerlijk was om verstandig te maken; en zij nam van zijn vrucht en at daarvan, en zij gaf ook haar man met haar, en hij at.\", Genesis 3:6 (SV)",
+    image: "/img/eden_fall/artifacts.webp",
     items: [
       { name: "De Slang", purpose: "Verleider", material: "Een dier des velds", context: "Listiger dan al het gedierte des velds, hetwelk de Heere God gemaakt had." },
       { name: "De Verboden Vrucht", purpose: "Het ene ding den mens onthouden", material: "Vrucht van den boom der kennis des goeds en des kwaads", context: "Goed tot spijze, een lust voor de ogen, en begeerlijk om verstandig te maken." },
@@ -114,13 +108,15 @@ export const eden_fall: Structure = {
     title: "De Zonde Kwam in de Wereld",
     cta: "Ontdek het Dagelijks Leven",
     text: "Zodra zij gegeten hadden, werden de ogen van hen beiden geopend, en zij werden gewaar dat zij naakt waren, en verborgen zich voor het aangezicht des Heeren Gods, in het midden van het geboomte des hofs. God sprak oordeel uit over de slang, over de vrouw en over den man, en door één mens is de zonde in de wereld ingekomen, en door de zonde de dood, en alzo is de dood tot alle mensen doorgegaan, dewijl zij allen gezondigd hebben (Rom. 5:12). SV-tekst: \"En de ogen van hen beiden werden geopend, en zij werden gewaar dat zij naakt waren; en zij hechtten vijgenbladeren samen, en maakten zich schorten.\", Genesis 3:7 (SV)",
+    image: "/img/eden_fall/daily-life.webp",
   },
   geography: {
     kicker: "Waar het Bestond",
     title: "Uitgedreven uit Eden",
     cta: "Verken de Kaart",
-    text: "Zo dreef de Heere God den mens uit, en Hij stelde cherubim tegen het oosten van den hof van Eden, en een vlammig lemmer eens zwaards, dat zich omkeerde, om te bewaren den weg van den boom des levens; en Adam en Eva gingen uit om het aardrijk te bouwen waaruit hij genomen was, en de belofte werd gegeven dat het zaad der vrouw eens den kop der slang zou vermorzelen (Gen. 3:15). SV-tekst: \"En Hij dreef den mens uit; en stelde cherubim tegen het oosten van den hof van Eden, en een vlammig lemmer eens zwaards, dat zich omkeerde, om te bewaren den weg van den boom des levens.\", Genesis 3:24 (SV)",
+    text: "Zo dreef de Heere God den mens uit, en Hij stelde cherubim tegen het oosten van den hof van Eden, en een vlammig lemmer eens zwaards, dat zich omkeerde, om te bewaren den weg van den boom des levens; en Adam en Eva gingen uit om het aardrijk te bouwen waaruit hij genomen was, en de belofte werd gegeven dat het zaad der vrouw eens den kop der slang zou vermorzelen (Gen. 3:15). De Schrift onderscheidt Eden, het wijdere land, van den hof zelf, dien de Heere God oostwaarts in Eden plantte, en waarheen een rivier uit Eden ging om dien te bewateren, van waar zij zich verdeelde (Gen. 2:8, 2:10). Uit den hof verdreven, verdwenen Adam en Eva niet uit de geschiedenis van dat land, want hun zoon Kaïn woonde later in het land Nod, tegen het oosten van Eden (Gen. 4:16), wat toont dat Eden een wezenlijk en begrensd land was, waarvan de hof slechts een bewaakt gedeelte was. SV-tekst: \"En Hij dreef den mens uit; en stelde cherubim tegen het oosten van den hof van Eden, en een vlammig lemmer eens zwaards, dat zich omkeerde, om te bewaren den weg van den boom des levens.\", Genesis 3:24 (SV)",
     regionLabel: "Oostwaarts in Eden",
+    image: "/img/eden_fall/map.webp",
   },
   lesson: {
     title: "De Zondeval",
@@ -132,6 +128,7 @@ export const eden_fall: Structure = {
       { heading: "De Overtreding", body: "Zij nam van zijn vrucht en at daarvan, en zij gaf ook haar man met haar, en hij at." },
       { heading: "Het Oordeel", body: "Vervloekt is het aardrijk om uwentwil; met smart zult gij daarvan eten al de dagen uws levens... in het zweet uws aanschijns zult gij brood eten, totdat gij tot de aarde wederkeert." },
       { heading: "De Belofte", body: "En Ik zal vijandschap zetten tussen u en tussen deze vrouw, en tussen uw zaad en tussen haar zaad; datzelve zal u den kop vermorzelen, en gij zult het de verzenen vermorzelen." },
+      { heading: "Het Leven na Eden", body: "Adam bekende Eva zijn huisvrouw, en zij baarde Kaïn, en wederom zijn broeder Abel; en nadat Abel gedood was, baarde zij een zoon en noemde zijn naam Seth, want God had haar een ander zaad gezet. Adam gewon zonen en dochteren, en al de dagen die Adam leefde waren negenhonderd jaren en dertig jaren. Door Seth ging de lijn voort tot Enos, Kenan, Mahalaleël, Jered, Henoch, Methusalem en Lamech, die Noach gewon." },
     ],
   },
   quiz: [
