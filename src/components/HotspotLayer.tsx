@@ -1,14 +1,14 @@
 import { memo, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three/webgpu";
 import gsap from "gsap";
-import type { Empire } from "@/types/empire";
+import type { Structure } from "@/types/structure";
 import type { ViewerEngine } from "@/three/engine";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 
 interface Props {
   engine: ViewerEngine | null;
-  empire: Empire;
+  structure: Structure;
   containerRef: React.RefObject<HTMLDivElement | null>;
   activeId: string | null;
   hoverId: string | null;
@@ -30,7 +30,7 @@ const TIP_GAP = 18;
  *  and a class is only written when it actually changes. */
 export const HotspotLayer = memo(function HotspotLayer({
   engine,
-  empire,
+  structure,
   containerRef,
   activeId,
   hoverId,
@@ -46,10 +46,10 @@ export const HotspotLayer = memo(function HotspotLayer({
   const size = useRef({ w: 0, h: 0 });
   const lastState = useRef(new Map<string, number>());
 
-  /* world positions, allocated once per empire and rewritten in place */
+  /* world positions, allocated once per structure and rewritten in place */
   const anchors = useMemo(
-    () => empire.hotspots.map((hs) => ({ id: hs.id, world: new THREE.Vector3() })),
-    [empire],
+    () => structure.hotspots.map((hs) => ({ id: hs.id, world: new THREE.Vector3() })),
+    [structure],
   );
 
   /* stage size is read on resize, never per frame */
@@ -75,8 +75,8 @@ export const HotspotLayer = memo(function HotspotLayer({
       const { w, h } = size.current;
       if (!w || !h) return;
 
-      for (let i = 0; i < empire.hotspots.length; i++) {
-        const hs = empire.hotspots[i];
+      for (let i = 0; i < structure.hotspots.length; i++) {
+        const hs = structure.hotspots[i];
         const el = pinRefs.current.get(hs.id);
         if (!el) continue;
         // one world-space resolve per pin per frame, shared with occlusion
@@ -121,7 +121,7 @@ export const HotspotLayer = memo(function HotspotLayer({
     return () => {
       off();
     };
-  }, [engine, empire, anchors, activeId, hoverId, visible]);
+  }, [engine, structure, anchors, activeId, hoverId, visible]);
 
   /* pins arrive as the dwelling settles */
   useEffect(() => {
@@ -139,9 +139,9 @@ export const HotspotLayer = memo(function HotspotLayer({
     return () => {
       tw.kill();
     };
-  }, [empire.id, visible]);
+  }, [structure.id, visible]);
 
-  const hovered = empire.hotspots.find((h) => h.id === hoverId) ?? null;
+  const hovered = structure.hotspots.find((h) => h.id === hoverId) ?? null;
 
   return (
     /* kept mounted while hidden so the pins fade with the dwelling rather
@@ -151,7 +151,7 @@ export const HotspotLayer = memo(function HotspotLayer({
       aria-hidden={!visible}
       aria-label={t.markersAria}
     >
-      {empire.hotspots.map((hs) => (
+      {structure.hotspots.map((hs) => (
         <button
           key={hs.id}
           className="hs-pin"

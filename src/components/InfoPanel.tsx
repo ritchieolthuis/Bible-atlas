@@ -1,6 +1,6 @@
 import { memo } from "react";
-import type { Empire, DescriptionLinkTarget } from "@/types/empire";
-import { empireImages } from "@/data";
+import type { Structure, DescriptionLinkTarget } from "@/types/structure";
+import { structureImages } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { DescriptionText } from "./DescriptionText";
@@ -21,7 +21,7 @@ import {
 const FACT_ICONS = { period: PeriodIcon, region: MapPinIcon, materials: MaterialsIcon, feature: FeatureIcon, occupants: OccupantsIcon };
 
 interface Props {
-  empire: Empire;
+  structure: Structure;
   /** Laid out in the page flow rather than in the fixed-height desktop rail:
    *  the panel takes whatever height its content needs and scrolls with the
    *  page instead of inside itself. */
@@ -34,7 +34,7 @@ interface Props {
   onDescriptionLink: (target: DescriptionLinkTarget) => void;
 }
 
-export const InfoPanel = memo(function InfoPanel({ empire, flow = false, animating, onLesson, onToggleAnimate, onArtifacts, onQuiz, onDescriptionLink }: Props) {
+export const InfoPanel = memo(function InfoPanel({ structure, flow = false, animating, onLesson, onToggleAnimate, onArtifacts, onQuiz, onDescriptionLink }: Props) {
   const { locale } = useLocale();
   const t = useStrings(locale).info;
   return (
@@ -54,8 +54,8 @@ export const InfoPanel = memo(function InfoPanel({ empire, flow = false, animati
           </button>
         </div>
 
-        <h2 className="font-display mt-2 text-[1.9rem] font-bold leading-none text-ink">{empire.dwelling}</h2>
-        <p className="font-serif mt-1.5 text-[1.02rem] italic text-terracotta">{empire.subtitle}</p>
+        <h2 className="font-display mt-2 text-[1.9rem] font-bold leading-none text-ink">{structure.dwelling}</h2>
+        <p className="font-serif mt-1.5 text-[1.02rem] italic text-terracotta">{structure.subtitle}</p>
 
         {/* Stacked in the narrow desktop rail, but side by side once the
             panel runs the full width of the page  -  otherwise the illustration
@@ -70,8 +70,8 @@ export const InfoPanel = memo(function InfoPanel({ empire, flow = false, animati
             }`}
           >
             <img
-              src={empireImages(empire).hero}
-              alt={t.illustrationAlt(empire.dwelling)}
+              src={structureImages(structure).hero}
+              alt={t.illustrationAlt(structure.dwelling)}
               className="block h-auto w-full object-contain"
               loading="lazy"
               draggable={false}
@@ -80,13 +80,13 @@ export const InfoPanel = memo(function InfoPanel({ empire, flow = false, animati
 
           <div className={flow ? "min-w-0 sm:flex-1" : ""}>
             <p className="font-serif mt-4 text-[1.06rem] leading-[1.45] text-ink-soft">
-              <DescriptionText text={empire.description} links={empire.descriptionLinks} onLinkClick={onDescriptionLink} />
+              <DescriptionText text={structure.description} links={structure.descriptionLinks} onLinkClick={onDescriptionLink} />
             </p>
 
             {/* key facts */}
             <h3 className="kicker mt-5">{t.keyFacts}</h3>
             <dl className="mt-2 divide-y divide-line-warm/70">
-              {empire.facts.map((f) => {
+              {structure.facts.map((f) => {
                 const Icon = FACT_ICONS[f.icon];
                 return (
                   <div key={f.label} className="flex items-center justify-between gap-3 py-[9px]">

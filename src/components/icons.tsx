@@ -1,4 +1,4 @@
-/** Thin-line editorial SVG icon set for the Empire Atlas.
+/** Thin-line editorial SVG icon set for the Structure Atlas.
  *  Consistent 1.5px strokes, warm slate or currentColor. */
 import type { SVGProps } from "react";
 
@@ -32,7 +32,7 @@ export const CompassIcon = (p: SVGProps<SVGSVGElement>) => (
     <path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" />
   </svg>
 );
-export const EmpiresIcon = (p: SVGProps<SVGSVGElement>) => (
+export const StructuresIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <path d="M3 21h18M5 21V8l7-5 7 5v13" />
     <path d="M9 21v-6h6v6" />

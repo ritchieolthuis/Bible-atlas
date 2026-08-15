@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { empiresFor, empireById, DEFAULT_EMPIRE_ID } from "@/data";
-import type { Empire, DescriptionLinkTarget } from "@/types/empire";
+import { structuresFor, structureById, DEFAULT_EMPIRE_ID } from "@/data";
+import type { Structure, DescriptionLinkTarget } from "@/types/structure";
 import { useLocale, type Locale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { Banner } from "@/components/Banner";
 import { Header } from "@/components/Header";
-import { EmpireLibrary } from "@/components/EmpireLibrary";
+import { StructureLibrary } from "@/components/StructureLibrary";
 import { Viewer } from "@/components/Viewer";
 import { InfoPanel } from "@/components/InfoPanel";
 import { BottomCards } from "@/components/BottomCards";
@@ -20,19 +20,19 @@ const mq = (q: string) => (typeof window !== "undefined" ? window.matchMedia(q).
 export default function App() {
   const { locale, setLocale } = useLocale();
   const t = useStrings(locale);
-  const EMPIRES = empiresFor(locale);
+  const EMPIRES = structuresFor(locale);
 
   /** mirrors the header's primary nav, for the drawer */
   const NAV_ITEMS = [
     { id: "explore", label: t.nav.explore },
-    { id: "empires", label: t.nav.structures },
+    { id: "structures", label: t.nav.structures },
     { id: "lessons", label: t.nav.scripture },
     { id: "library", label: t.nav.library },
     { id: "notes", label: t.nav.timeline },
   ];
 
-  const [viewerEmpire, setViewerEmpire] = useState<Empire>(() => empireById(locale, DEFAULT_EMPIRE_ID));
-  const [panelEmpire, setPanelEmpire] = useState<Empire>(() => empireById(locale, DEFAULT_EMPIRE_ID));
+  const [viewerStructure, setViewerEmpire] = useState<Structure>(() => structureById(locale, DEFAULT_EMPIRE_ID));
+  const [panelStructure, setPanelEmpire] = useState<Structure>(() => structureById(locale, DEFAULT_EMPIRE_ID));
   const [modal, setModal] = useState<ModalId>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -52,8 +52,8 @@ export default function App() {
   /* Re-resolve the same dwelling's text in the new locale whenever the
      language switches, without dropping which structure is displayed. */
   useEffect(() => {
-    setViewerEmpire((prev) => empireById(locale, prev.id));
-    setPanelEmpire((prev) => empireById(locale, prev.id));
+    setViewerEmpire((prev) => structureById(locale, prev.id));
+    setPanelEmpire((prev) => structureById(locale, prev.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
@@ -93,20 +93,20 @@ export default function App() {
   /* Only the dwelling animates on a swap. The panels rewrite their copy in
      place  -  fading or sliding them reads as the page shifting under you. */
   useEffect(() => {
-    document.title = `${panelEmpire.dwelling}  -  ${t.docTitleSuffix}`;
-  }, [panelEmpire, t.docTitleSuffix]);
+    document.title = `${panelStructure.dwelling}  -  ${t.docTitleSuffix}`;
+  }, [panelStructure, t.docTitleSuffix]);
 
   const selectEmpire = useCallback(
     (id: string) => {
-      const e = empireById(locale, id);
-      if (e.id === viewerEmpire.id) return;
+      const e = structureById(locale, id);
+      if (e.id === viewerStructure.id) return;
       setAnimating(false);
       setViewerEmpire(e);
     },
-    [viewerEmpire.id, locale],
+    [viewerStructure.id, locale],
   );
 
-  const onSwap = useCallback((e: Empire) => setPanelEmpire(e), []);
+  const onSwap = useCallback((e: Structure) => setPanelEmpire(e), []);
 
   const dismissCredits = useCallback(() => {
     setCreditsOpen(false);
@@ -115,8 +115,8 @@ export default function App() {
 
   /* hovering a library row starts its download, so the click that follows
      lands on a model that is already parsed rather than paying for it mid-swap */
-  const prefetchRef = useRef<((e: Empire) => void) | null>(null);
-  const prefetch = useCallback((id: string) => prefetchRef.current?.(empireById(locale, id)), [locale]);
+  const prefetchRef = useRef<((e: Structure) => void) | null>(null);
+  const prefetch = useCallback((id: string) => prefetchRef.current?.(structureById(locale, id)), [locale]);
 
   const toggleFav = useCallback((id: string) => {
     setFavorites((prev) => {
@@ -132,7 +132,7 @@ export default function App() {
     (nav: string) => {
       setActiveNav(nav);
       if (nav === "lessons") setModal("lesson");
-      else if (nav === "empires" || nav === "library") setSearchOpen(true);
+      else if (nav === "structures" || nav === "library") setSearchOpen(true);
       else if (nav === "notes") setModal("timeline");
     },
     [],
@@ -142,24 +142,24 @@ export default function App() {
      focus a hotspot and/or open a section modal. Used by search results and
      by clickable terms inside a structure's description alike. */
   const navigateTo = useCallback(
-    (target: { empireId?: string; section?: string; hotspotId?: string }) => {
+    (target: { structureId?: string; section?: string; hotspotId?: string }) => {
       setSearchOpen(false);
-      const targetEmpireId = target.empireId ?? viewerEmpire.id;
-      const switching = targetEmpireId !== viewerEmpire.id;
+      const targetEmpireId = target.structureId ?? viewerStructure.id;
+      const switching = targetEmpireId !== viewerStructure.id;
       if (switching) {
         selectEmpire(targetEmpireId);
-        setPanelEmpire(empireById(locale, targetEmpireId));
+        setPanelEmpire(structureById(locale, targetEmpireId));
       }
 
       const delay = switching ? 1600 : 50;
       if (target.hotspotId) window.setTimeout(() => setFocusHotspot(target.hotspotId!), delay);
       if (target.section) window.setTimeout(() => setModal(target.section!), switching ? 1600 : 0);
     },
-    [selectEmpire, viewerEmpire.id, locale],
+    [selectEmpire, viewerStructure.id, locale],
   );
 
   const onSearchPick = useCallback(
-    (empireId: string, hotspotId?: string) => navigateTo({ empireId, hotspotId }),
+    (structureId: string, hotspotId?: string) => navigateTo({ structureId, hotspotId }),
     [navigateTo],
   );
 
@@ -167,7 +167,7 @@ export default function App() {
     (target: DescriptionLinkTarget) => {
       if (target.kind === "section") navigateTo({ section: target.section });
       else if (target.kind === "hotspot") navigateTo({ hotspotId: target.hotspotId });
-      else navigateTo({ empireId: target.empireId, section: target.section, hotspotId: target.hotspotId });
+      else navigateTo({ structureId: target.structureId, section: target.section, hotspotId: target.hotspotId });
     },
     [navigateTo],
   );
@@ -184,7 +184,7 @@ export default function App() {
           the side panels scroll within it rather than stretching the page */}
       <div className="flex gap-4 px-3 pb-3 pt-3 sm:min-h-[520px] sm:px-4 xl:h-[calc(100vh-188px-var(--banner-h,0px))] xl:min-h-[600px] xl:px-5">
         <aside className="hidden w-[clamp(268px,20vw,380px)] flex-none xl:flex">
-          <EmpireLibrary empires={EMPIRES} activeId={viewerEmpire.id} favorites={favorites} onSelect={selectEmpire} onToggleFav={toggleFav} onViewAll={() => setSearchOpen(true)} onPrefetch={prefetch} />
+          <StructureLibrary structures={EMPIRES} activeId={viewerStructure.id} favorites={favorites} onSelect={selectEmpire} onToggleFav={toggleFav} onViewAll={() => setSearchOpen(true)} onPrefetch={prefetch} />
         </aside>
 
         {/* the stage reads as a near-square plate rather than a wide band. The
@@ -196,7 +196,7 @@ export default function App() {
         <main className="flex min-w-0 flex-1 justify-center">
           <div className="aspect-square w-full max-w-[min(100%,80vh)] xl:aspect-auto xl:h-full xl:max-w-[min(100%,calc((100vh-188px-var(--banner-h,0px))*1.3))]">
             <Viewer
-              empire={viewerEmpire}
+              structure={viewerStructure}
               onSwap={onSwap}
               reducedMotion={reducedMotion}
               animating={animating}
@@ -212,7 +212,7 @@ export default function App() {
 
         <aside className="hidden w-[clamp(330px,25vw,480px)] flex-none xl:flex">
           <InfoPanel
-            empire={panelEmpire}
+            structure={panelStructure}
             animating={animating}
             onLesson={() => setModal("lesson")}
             onToggleAnimate={() => setAnimating((v) => !v)}
@@ -227,7 +227,7 @@ export default function App() {
           and above the cards, rather than hiding behind a floating button */}
       <section className="px-3 pb-3 pt-1 sm:px-4 xl:hidden" aria-label="Selected dwelling">
         <InfoPanel
-          empire={panelEmpire}
+          structure={panelStructure}
           flow
           animating={animating}
           onLesson={() => setModal("lesson")}
@@ -241,12 +241,12 @@ export default function App() {
       {/* exploration cards  -  a grid at every size rather than a sideways
           scroller, which hid four of the five on a phone */}
       <section className="px-3 pb-6 pt-1 sm:px-4 xl:px-5" aria-label="Explore the dwelling">
-        <BottomCards empire={panelEmpire} onOpen={(s) => setModal(s)} />
+        <BottomCards structure={panelStructure} onOpen={(s) => setModal(s)} />
       </section>
 
       <Footer />
 
-      {/* mobile drawer: the same empire library as the desktop rail, plus the
+      {/* mobile drawer: the same structure library as the desktop rail, plus the
           primary nav that the header hides below lg */}
       {menuOpen && (
         <div className="overlay-backdrop xl:hidden" onClick={() => setMenuOpen(false)}>
@@ -297,9 +297,9 @@ export default function App() {
             </nav>
 
             <div className="min-h-0 flex-1 px-3 py-3">
-              <EmpireLibrary
-                empires={EMPIRES}
-                activeId={viewerEmpire.id}
+              <StructureLibrary
+                structures={EMPIRES}
+                activeId={viewerStructure.id}
                 favorites={favorites}
                 onSelect={(id) => { setMenuOpen(false); selectEmpire(id); }}
                 onToggleFav={toggleFav}
@@ -312,12 +312,12 @@ export default function App() {
       )}
 
       {/* modals */}
-      {modal === "lesson" && <LessonModal empire={panelEmpire} onClose={() => setModal(null)} onQuiz={() => setModal("quiz")} />}
-      {modal === "quiz" && <QuizModal key={panelEmpire.id} empire={panelEmpire} onClose={() => setModal(null)} />}
-      {modal === "artifacts" && <ArtifactsModal empire={panelEmpire} onClose={() => setModal(null)} />}
-      {modal === "timeline" && <TimelineModal empire={panelEmpire} onClose={() => setModal(null)} />}
-      {(modal === "interior" || modal === "floorPlan" || modal === "dailyLife" || modal === "geography" || panelEmpire.extras?.some((e) => e.id === modal)) && (
-        <SectionModal empire={panelEmpire} section={modal!} onClose={() => setModal(null)} />
+      {modal === "lesson" && <LessonModal structure={panelStructure} onClose={() => setModal(null)} onQuiz={() => setModal("quiz")} />}
+      {modal === "quiz" && <QuizModal key={panelStructure.id} structure={panelStructure} onClose={() => setModal(null)} />}
+      {modal === "artifacts" && <ArtifactsModal structure={panelStructure} onClose={() => setModal(null)} />}
+      {modal === "timeline" && <TimelineModal structure={panelStructure} onClose={() => setModal(null)} />}
+      {(modal === "interior" || modal === "floorPlan" || modal === "dailyLife" || modal === "geography" || panelStructure.extras?.some((e) => e.id === modal)) && (
+        <SectionModal structure={panelStructure} section={modal!} onClose={() => setModal(null)} />
       )}
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} onPick={onSearchPick} />}
     </div>

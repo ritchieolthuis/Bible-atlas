@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Empire, Vec3 } from "@/types/empire";
-import { empiresFor } from "@/data";
+import type { Structure, Vec3 } from "@/types/structure";
+import { structuresFor } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { ViewerEngine, IS_LOW_MEMORY_DEVICE } from "@/three/engine";
@@ -26,8 +26,8 @@ import {
 } from "./icons";
 
 interface ViewerProps {
-  empire: Empire; // the empire the viewer should display
-  onSwap: (e: Empire) => void; // called mid-transition: panels should update
+  structure: Structure; // the structure the viewer should display
+  onSwap: (e: Structure) => void; // called mid-transition: panels should update
   reducedMotion: boolean;
   animating: boolean;
   onToggleAnimate?: () => void;
@@ -36,13 +36,13 @@ interface ViewerProps {
   onArtifacts: () => void;
   onTimeline: () => void;
   /** hands the parent a way to warm a dwelling before it is picked */
-  onPrefetchReady?: (prefetch: (e: Empire) => void) => void;
+  onPrefetchReady?: (prefetch: (e: Structure) => void) => void;
 }
 
 type ToolMode = "rotate" | "pan";
 
 export const Viewer = memo(function Viewer({
-  empire,
+  structure,
   onSwap,
   reducedMotion,
   animating,
@@ -56,11 +56,11 @@ export const Viewer = memo(function Viewer({
   const { locale } = useLocale();
   const t = useStrings(locale).viewer;
   const catLabel = useStrings(locale).hotspotCategory;
-  const EMPIRES = empiresFor(locale);
+  const EMPIRES = structuresFor(locale);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<ViewerEngine | null>(null);
-  const currentEmpireRef = useRef<Empire | null>(null);
+  const currentStructureRef = useRef<Structure | null>(null);
   const [engineReady, setEngineReady] = useState(false);
   const [markersVisible, setMarkersVisible] = useState(false);
   const [loading, setLoading] = useState<{ name: string; pct: number } | null>(null);
@@ -79,16 +79,16 @@ export const Viewer = memo(function Viewer({
      export with its own bounds and orientation, so while one is shown its
      own anchors apply: overridden where the feature sits elsewhere, dropped
      where the variant does not show that feature at all. */
-  const shownEmpire = useMemo(() => {
-    const overrides = empire.modelVariants?.find((v) => v.id === activeVariantId)?.anchors;
-    if (!overrides) return empire;
-    const hotspots = empire.hotspots
+  const shownStructure = useMemo(() => {
+    const overrides = structure.modelVariants?.find((v) => v.id === activeVariantId)?.anchors;
+    if (!overrides) return structure;
+    const hotspots = structure.hotspots
       .filter((hs) => overrides[hs.id] !== null)
       .map((hs) => (overrides[hs.id] ? { ...hs, anchor: overrides[hs.id] as Vec3 } : hs));
-    return { ...empire, hotspots };
-  }, [empire, activeVariantId]);
+    return { ...structure, hotspots };
+  }, [structure, activeVariantId]);
 
-  const activeHs = shownEmpire.hotspots.find((h) => h.id === activeId) ?? null;
+  const activeHs = shownStructure.hotspots.find((h) => h.id === activeId) ?? null;
 
   /* ── engine lifecycle ── */
   useEffect(() => {
@@ -103,7 +103,7 @@ export const Viewer = memo(function Viewer({
       };
       setEngineReady(true);
       onPrefetchReady?.((e) => engine.preload(e));
-      await presentEmpire(empire, { initial: true });
+      await presentStructure(structure, { initial: true });
     });
     return () => {
       cancelled = true;
@@ -144,23 +144,23 @@ export const Viewer = memo(function Viewer({
     };
   }, [layersOpen]);
 
-  /* ── empire switching ── */
+  /* ── structure switching ── */
   /* Every request gets a token. A newer request supersedes an older one at
      any point  -  while its model is still downloading, or mid-animation  -  so
      rapid clicking always lands on the last dwelling picked instead of
      dropping the clicks that arrive during a swap. */
-  const presentEmpire = useCallback(
-    async (next: Empire, opts: { initial?: boolean, variantId?: string } = {}) => {
+  const presentStructure = useCallback(
+    async (next: Structure, opts: { initial?: boolean, variantId?: string } = {}) => {
       const engine = engineRef.current;
       if (!engine) return;
       
       const targetVariantId = opts.variantId || next.modelVariants?.[0]?.id || null;
-      const isSameEmpire = currentEmpireRef.current?.id === next.id;
-      // If we are already showing this empire AND this variant, do nothing
+      const isSameEmpire = currentStructureRef.current?.id === next.id;
+      // If we are already showing this structure AND this variant, do nothing
       if (isSameEmpire && activeVariantId === targetVariantId && !opts.initial) return;
       
       const token = ++requestRef.current;
-      currentEmpireRef.current = next;
+      currentStructureRef.current = next;
       setActiveId(null);
       setHoverId(null);
       setMarkersVisible(false);
@@ -214,12 +214,12 @@ export const Viewer = memo(function Viewer({
     [onSwap, activeVariantId],
   );
 
-  /* react to requested empire changes */
+  /* react to requested structure changes */
   useEffect(() => {
-    if (engineReady && currentEmpireRef.current?.id !== empire.id) {
-      void presentEmpire(empire);
+    if (engineReady && currentStructureRef.current?.id !== structure.id) {
+      void presentStructure(structure);
     }
-  }, [empire, engineReady, presentEmpire]);
+  }, [structure, engineReady, presentStructure]);
 
   /* external hotspot focus (from search) */
   useEffect(() => {
@@ -234,7 +234,7 @@ export const Viewer = memo(function Viewer({
     const engine = engineRef.current;
     if (!engine || !engineReady) return;
     if (activeHs) {
-      engine.focusAnchor(activeHs.anchor, empire);
+      engine.focusAnchor(activeHs.anchor, structure);
       engine.setHighlight(activeHs.anchor);
     } else {
       engine.setHighlight(null);
@@ -243,9 +243,9 @@ export const Viewer = memo(function Viewer({
 
   const resetView = useCallback(() => {
     setActiveId(null);
-    engineRef.current?.frameEmpire(empire, true);
+    engineRef.current?.frameStructure(structure, true);
     setTool("rotate");
-  }, [empire]);
+  }, [structure]);
 
   /* layer toggles */
   const toggleLayer = (key: "labels" | "grid" | "wire" | "xray") => {
@@ -271,7 +271,7 @@ export const Viewer = memo(function Viewer({
         ref={containerRef}
         className="viewer-stage absolute inset-0"
         role="application"
-        aria-label={t.stageAria(empire.dwelling)}
+        aria-label={t.stageAria(structure.dwelling)}
         tabIndex={0}
         onKeyDown={(e) => {
           const eng = engineRef.current;
@@ -288,7 +288,7 @@ export const Viewer = memo(function Viewer({
           e.preventDefault();
         }}
       >
-        <canvas ref={canvasRef} className="block h-full w-full touch-none" aria-label={t.canvasAria(empire.dwelling)} />
+        <canvas ref={canvasRef} className="block h-full w-full touch-none" aria-label={t.canvasAria(structure.dwelling)} />
         {/* holds the outgoing frame still while the next dwelling takes its
             place underneath, so a swap dissolves instead of blinking */}
       </div>
@@ -296,7 +296,7 @@ export const Viewer = memo(function Viewer({
       {/* pins fixed to the dwelling */}
       <HotspotLayer
         engine={engineReady ? engineRef.current : null}
-        empire={shownEmpire}
+        structure={shownStructure}
         containerRef={containerRef}
         activeId={activeId}
         hoverId={hoverId}
@@ -374,15 +374,15 @@ export const Viewer = memo(function Viewer({
       </div>
 
       {/* ── Model Variant Toggle (Top Center) ── */}
-      {empire.modelVariants && empire.modelVariants.length > 1 && (
+      {structure.modelVariants && structure.modelVariants.length > 1 && (
         <div className="absolute top-4 left-1/2 z-30 -translate-x-1/2">
           <div className="flex items-center gap-1 rounded-full border border-line-strong bg-white/95 p-1 shadow-card backdrop-blur-md">
-            {empire.modelVariants.map((v) => {
+            {structure.modelVariants.map((v) => {
               const isActive = activeVariantId === v.id;
               return (
                 <button
                   key={v.id}
-                  onClick={() => presentEmpire(empire, { variantId: v.id })}
+                  onClick={() => presentStructure(structure, { variantId: v.id })}
                   className={`relative rounded-full px-4 py-1.5 text-[0.84rem] font-medium transition-colors ${
                     isActive ? "text-white" : "text-ink-soft hover:text-ink"
                   }`}

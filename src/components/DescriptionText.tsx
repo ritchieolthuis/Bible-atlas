@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { DescriptionLink, DescriptionLinkTarget } from "@/types/empire";
+import type { DescriptionLink, DescriptionLinkTarget } from "@/types/structure";
 
 interface Props {
   text: string;

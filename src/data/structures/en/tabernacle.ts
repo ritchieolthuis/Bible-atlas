@@ -1,6 +1,6 @@
-import type { Empire } from "@/types/empire";
+import type { Structure } from "@/types/structure";
 
-export const tabernacle: Empire = {
+export const tabernacle: Structure = {
   id: "tabernacle",
   name: "The Tabernacle of Moses",
   dwelling: "The Tent of the Congregation",

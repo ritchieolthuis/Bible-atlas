@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
-import type { Empire } from "@/types/empire";
-import { empireImages } from "@/data";
+import type { Structure } from "@/types/structure";
+import { structureImages } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { withBase } from "@/lib/utils";
@@ -8,17 +8,17 @@ import { ModalShell } from "./ModalShell";
 import { CheckIcon, ArrowRightIcon, QuizIcon, VaseIcon, SearchIcon, CloseIcon, TimelineIcon } from "./icons";
 
 /* ═══ Lesson ═══ */
-export const LessonModal = memo(function LessonModal({ empire, onClose, onQuiz }: { empire: Empire; onClose: () => void; onQuiz: () => void }) {
+export const LessonModal = memo(function LessonModal({ structure, onClose, onQuiz }: { structure: Structure; onClose: () => void; onQuiz: () => void }) {
   const { locale } = useLocale();
   const t = useStrings(locale).modals;
   return (
-    <ModalShell title={empire.lesson.title} kicker={t.lessonKicker(empire.name)} onClose={onClose} wide>
+    <ModalShell title={structure.lesson.title} kicker={t.lessonKicker(structure.name)} onClose={onClose} wide>
       <div className="flex gap-5">
-        <img src={empireImages(empire).hero} alt="" className="hidden h-28 w-40 flex-none rounded-xl border border-line-warm bg-paper-deep object-contain sm:block" />
-        <p className="font-serif text-[1.08rem] italic leading-snug text-ink-soft">{empire.lesson.intro}</p>
+        <img src={structureImages(structure).hero} alt="" className="hidden h-28 w-40 flex-none rounded-xl border border-line-warm bg-paper-deep object-contain sm:block" />
+        <p className="font-serif text-[1.08rem] italic leading-snug text-ink-soft">{structure.lesson.intro}</p>
       </div>
       <div className="mt-5 space-y-4">
-        {empire.lesson.blocks.map((b, i) => (
+        {structure.lesson.blocks.map((b, i) => (
           <section key={b.heading} className="flex gap-4">
             <span className="font-display flex h-7 w-7 flex-none items-center justify-center rounded-full border border-line-strong bg-paper-deep text-[0.85rem] font-bold text-terracotta">
               {i + 1}
@@ -40,14 +40,14 @@ export const LessonModal = memo(function LessonModal({ empire, onClose, onQuiz }
 });
 
 /* ═══ Quiz ═══ */
-export const QuizModal = memo(function QuizModal({ empire, onClose }: { empire: Empire; onClose: () => void }) {
+export const QuizModal = memo(function QuizModal({ structure, onClose }: { structure: Structure; onClose: () => void }) {
   const { locale } = useLocale();
   const t = useStrings(locale).modals;
   const [step, setStep] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const q = empire.quiz[step];
-  const done = step >= empire.quiz.length;
+  const q = structure.quiz[step];
+  const done = step >= structure.quiz.length;
 
   const pick = (i: number) => {
     if (picked !== null) return;
@@ -56,10 +56,10 @@ export const QuizModal = memo(function QuizModal({ empire, onClose }: { empire: 
   };
 
   return (
-    <ModalShell title={done ? t.quizComplete : t.quizQuestionOf(step + 1, empire.quiz.length)} kicker={t.quizKicker(empire.dwelling)} onClose={onClose}>
+    <ModalShell title={done ? t.quizComplete : t.quizQuestionOf(step + 1, structure.quiz.length)} kicker={t.quizKicker(structure.dwelling)} onClose={onClose}>
       {!done ? (
         <>
-          <div className="tl-track mb-5"><div className="tl-fill" style={{ width: `${(step / empire.quiz.length) * 100}%` }} /></div>
+          <div className="tl-track mb-5"><div className="tl-fill" style={{ width: `${(step / structure.quiz.length) * 100}%` }} /></div>
           <span
             className={`kicker !text-[0.66rem] ${q.level === "easy" ? "!text-[#28a745]" : q.level === "hard" ? "!text-terracotta-deep" : "!text-[#eab308]"}`}
           >
@@ -86,7 +86,7 @@ export const QuizModal = memo(function QuizModal({ empire, onClose }: { empire: 
             <div className="mt-4 rounded-xl border border-line-warm bg-paper-deep p-4">
               <p className="text-[0.86rem] leading-relaxed text-ink-soft">{q.explanation}</p>
               <button className="btn-primary mt-3 w-full" onClick={() => { setStep(step + 1); setPicked(null); }}>
-                {step + 1 === empire.quiz.length ? t.seeResults : t.nextQuestion}
+                {step + 1 === structure.quiz.length ? t.seeResults : t.nextQuestion}
                 <ArrowRightIcon className="h-4 w-4" />
               </button>
             </div>
@@ -95,10 +95,10 @@ export const QuizModal = memo(function QuizModal({ empire, onClose }: { empire: 
       ) : (
         <div className="py-4 text-center">
           <div className="font-display text-[3.4rem] font-bold leading-none text-terracotta">
-            {score}<span className="text-[1.8rem] text-ink-muted">/{empire.quiz.length}</span>
+            {score}<span className="text-[1.8rem] text-ink-muted">/{structure.quiz.length}</span>
           </div>
           <p className="font-serif mt-2 text-[1.05rem] italic text-ink-soft">
-            {score === empire.quiz.length ? t.scorePerfect : score >= 3 ? t.scoreGood : t.scoreLow}
+            {score === structure.quiz.length ? t.scorePerfect : score >= 3 ? t.scoreGood : t.scoreLow}
           </p>
           <button className="btn-outline mt-5" onClick={() => { setStep(0); setScore(0); setPicked(null); }}>{t.retakeQuiz}</button>
         </div>
@@ -108,15 +108,15 @@ export const QuizModal = memo(function QuizModal({ empire, onClose }: { empire: 
 });
 
 /* ═══ Artifacts ═══ */
-export const ArtifactsModal = memo(function ArtifactsModal({ empire, onClose }: { empire: Empire; onClose: () => void }) {
+export const ArtifactsModal = memo(function ArtifactsModal({ structure, onClose }: { structure: Structure; onClose: () => void }) {
   return (
-    <ModalShell title={empire.artifacts.title} kicker={`${empire.artifacts.kicker} · ${empire.name}`} onClose={onClose} wide>
+    <ModalShell title={structure.artifacts.title} kicker={`${structure.artifacts.kicker} · ${structure.name}`} onClose={onClose} wide>
       <div className="relative overflow-hidden rounded-xl border border-line-warm">
-        <img src={empireImages(empire).artifacts} alt={empire.artifacts.title} className="block h-auto w-full object-contain" />
+        <img src={structureImages(structure).artifacts} alt={structure.artifacts.title} className="block h-auto w-full object-contain" />
       </div>
-      <p className="font-serif mt-3 text-[1rem] italic leading-snug text-ink-soft">{empire.artifacts.text}</p>
+      <p className="font-serif mt-3 text-[1rem] italic leading-snug text-ink-soft">{structure.artifacts.text}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {empire.artifacts.items.map((a) => (
+        {structure.artifacts.items.map((a) => (
           <div key={a.name} className="artifact-card group p-4" tabIndex={0}>
             <div className="flex items-center justify-between">
               <h3 className="font-display text-[1.05rem] font-bold text-ink">{a.name}</h3>
@@ -134,25 +134,25 @@ export const ArtifactsModal = memo(function ArtifactsModal({ empire, onClose }: 
 });
 
 /* ═══ Timeline ═══ */
-export const TimelineModal = memo(function TimelineModal({ empire, onClose }: { empire: Empire; onClose: () => void }) {
+export const TimelineModal = memo(function TimelineModal({ structure, onClose }: { structure: Structure; onClose: () => void }) {
   const { locale } = useLocale();
   const t = useStrings(locale).modals;
   const [idx, setIdx] = useState(0);
-  const tl = empire.timeline[idx];
+  const tl = structure.timeline[idx];
   return (
-    <ModalShell title={t.timelineTitle(empire.name)} kicker={t.timelineKicker} onClose={onClose} wide>
+    <ModalShell title={t.timelineTitle(structure.name)} kicker={t.timelineKicker} onClose={onClose} wide>
       <div className="px-1 pt-2">
         <input
           type="range"
           min={0}
-          max={empire.timeline.length - 1}
+          max={structure.timeline.length - 1}
           value={idx}
           onChange={(e) => setIdx(Number(e.target.value))}
           className="w-full accent-[#3C5E70]"
           aria-label={t.timelineKicker}
         />
         <div className="tl-years mt-2 text-[0.68rem] font-medium uppercase tracking-wide text-ink-muted">
-          {empire.timeline.map((t2, i) => (
+          {structure.timeline.map((t2, i) => (
             <button key={i} onClick={() => setIdx(i)} className={`max-w-[90px] text-center leading-tight transition-colors ${i === idx ? "text-terracotta" : ""}`}>
               {t2.year}
             </button>
@@ -164,7 +164,7 @@ export const TimelineModal = memo(function TimelineModal({ empire, onClose }: { 
         <div className="font-display mt-1 text-[1.9rem] font-bold text-ink">{tl.year}</div>
         <p className="font-serif mx-auto mt-2 max-w-[46ch] text-[1.05rem] leading-snug text-ink-soft">{tl.text}</p>
         <div className="mt-4 flex items-center justify-center gap-2">
-          {empire.timeline.map((_, i) => (
+          {structure.timeline.map((_, i) => (
             <span key={i} className={`h-1.5 rounded-full transition-all ${i === idx ? "w-6 bg-terracotta" : "w-1.5 bg-line-strong"}`} />
           ))}
         </div>
@@ -179,25 +179,25 @@ export const TimelineModal = memo(function TimelineModal({ empire, onClose }: { 
 
 /* ═══ Image detail (interior / floor plan / daily life / map) ═══ */
 export const SectionModal = memo(function SectionModal({
-  empire,
+  structure,
   section,
   onClose,
 }: {
-  empire: Empire;
+  structure: Structure;
   section: string;
   onClose: () => void;
 }) {
   const fixed = section === "interior" || section === "floorPlan" || section === "dailyLife" || section === "geography";
-  const data = fixed ? empire[section as "interior" | "floorPlan" | "dailyLife" | "geography"] : empire.extras?.find((e) => e.id === section);
+  const data = fixed ? structure[section as "interior" | "floorPlan" | "dailyLife" | "geography"] : structure.extras?.find((e) => e.id === section);
   if (!data) return null;
-  const rooms = section === "floorPlan" ? empire.floorPlan.rooms : null;
+  const rooms = section === "floorPlan" ? structure.floorPlan.rooms : null;
   return (
-    <ModalShell title={data.title} kicker={`${data.kicker} · ${empire.dwelling}`} onClose={onClose} wide>
+    <ModalShell title={data.title} kicker={`${data.kicker} · ${structure.dwelling}`} onClose={onClose} wide>
       <div className="overflow-hidden rounded-xl border border-line-warm bg-paper-deep">
         <img src={data.image && withBase(data.image)} alt={data.title} className="w-full object-contain" />
       </div>
       {section === "geography" && (
-        <div className="kicker mt-3 !text-terracotta">{empire.geography.regionLabel}</div>
+        <div className="kicker mt-3 !text-terracotta">{structure.geography.regionLabel}</div>
       )}
       <p className="font-serif mt-3 text-[1.05rem] leading-snug text-ink-soft">{data.text}</p>
       {rooms && (
@@ -223,7 +223,7 @@ export const SearchOverlay = memo(function SearchOverlay({
   onPick,
 }: {
   onClose: () => void;
-  onPick: (empireId: string, hotspotId?: string) => void;
+  onPick: (structureId: string, hotspotId?: string) => void;
 }) {
   const { locale } = useLocale();
   const t = useStrings(locale).search;
@@ -254,11 +254,11 @@ export const SearchOverlay = memo(function SearchOverlay({
           {results.length === 0 && <p className="font-serif px-3 py-6 text-center italic text-ink-muted">{t.noResults}</p>}
           {results.map((r, i) => (
             <button
-              key={`${r.empireId}-${r.title}-${i}`}
+              key={`${r.structureId}-${r.title}-${i}`}
               role="option"
               aria-selected={false}
               className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-paper-deep"
-              onClick={() => onPick(r.empireId, r.hotspotId)}
+              onClick={() => onPick(r.structureId, r.hotspotId)}
             >
               <span className="flex-none rounded-md border border-line-warm bg-surface px-2 py-0.5 text-[0.62rem] font-semibold uppercase tracking-wider text-terracotta">
                 {t.kind[r.kind]}

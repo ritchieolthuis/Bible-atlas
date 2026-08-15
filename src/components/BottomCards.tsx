@@ -1,10 +1,10 @@
 import { memo } from "react";
-import type { Empire, EmpireSection } from "@/types/empire";
+import type { Structure, StructureSection } from "@/types/structure";
 import { withBase } from "@/lib/utils";
 import { ArrowRightIcon } from "./icons";
 
 interface Props {
-  empire: Empire;
+  structure: Structure;
   onOpen: (section: string) => void;
 }
 
@@ -19,14 +19,14 @@ const CompassRose = () => (
   </svg>
 );
 
-export const BottomCards = memo(function BottomCards({ empire, onOpen }: Props) {
-  const cards: { key: string; data: EmpireSection; compass?: boolean }[] = [
-    { key: "interior", data: empire.interior },
-    { key: "floorPlan", data: empire.floorPlan },
-    { key: "artifacts", data: empire.artifacts },
-    { key: "dailyLife", data: empire.dailyLife },
-    { key: "geography", data: empire.geography, compass: true },
-    ...(empire.extras ?? []).map((e) => ({ key: e.id, data: e })),
+export const BottomCards = memo(function BottomCards({ structure, onOpen }: Props) {
+  const cards: { key: string; data: StructureSection; compass?: boolean }[] = [
+    { key: "interior", data: structure.interior },
+    { key: "floorPlan", data: structure.floorPlan },
+    { key: "artifacts", data: structure.artifacts },
+    { key: "dailyLife", data: structure.dailyLife },
+    { key: "geography", data: structure.geography, compass: true },
+    ...(structure.extras ?? []).map((e) => ({ key: e.id, data: e })),
   ];
 
   return (

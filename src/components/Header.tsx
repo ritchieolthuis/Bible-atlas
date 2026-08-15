@@ -4,7 +4,7 @@ import { useStrings } from "@/i18n/strings";
 import {
   TempleIcon,
   CompassIcon,
-  EmpiresIcon,
+  StructuresIcon,
   LessonsIcon,
   LibraryIcon,
   NotesIcon,
@@ -15,7 +15,7 @@ import {
 
 interface HeaderProps {
   onSearchOpen: () => void;
-  /** opens the drawer that carries the nav and the empire library on small screens */
+  /** opens the drawer that carries the nav and the structure library on small screens */
   onMenuOpen: () => void;
   onNav: (id: string) => void;
   activeNav: string;
@@ -27,7 +27,7 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
 
   const NAV = [
     { id: "explore", label: t.nav.explore, icon: CompassIcon },
-    { id: "empires", label: t.nav.structures, icon: EmpiresIcon },
+    { id: "structures", label: t.nav.structures, icon: StructuresIcon },
     { id: "lessons", label: t.nav.scripture, icon: LessonsIcon },
     { id: "library", label: t.nav.library, icon: LibraryIcon },
     { id: "notes", label: t.nav.timeline, icon: NotesIcon },
@@ -35,7 +35,7 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
 
   return (
     <header className="relative z-40 flex h-[68px] flex-none items-center gap-2.5 border-b border-line-warm bg-paper px-3 sm:gap-4 sm:px-5">
-      {/* the nav and the empire library live in a drawer below lg */}
+      {/* the nav and the structure library live in a drawer below lg */}
       <button
         onClick={onMenuOpen}
         className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-line-warm bg-surface text-slateblue transition-colors hover:border-line-strong xl:hidden"

@@ -1,5 +1,5 @@
 /**
- * ViewerEngine  -  the museum-quality 3D stage for the Empire Atlas.
+ * ViewerEngine  -  the museum-quality 3D stage for the Structure Atlas.
  *
  * Renderer: three.js WebGPURenderer (WebGPU where available, WebGL2 fallback),
  * with TSL node materials for atmosphere, contact shadow, rim light and the
@@ -22,7 +22,7 @@ import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from "three-mesh-bvh";
 import gsap from "gsap";
-import type { Empire, Vec3 } from "@/types/empire";
+import type { Structure, Vec3 } from "@/types/structure";
 import { withBase } from "@/lib/utils";
 
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
@@ -57,10 +57,10 @@ export interface LoadedModel {
   group: THREE.Group;
   meshes: THREE.Mesh[];
   size: THREE.Vector3;
-  empireId: string;
-  /** the exact `${empireId}:${targetPath}` key this model is cached under  -
-   *  distinct model variants (default vs. inside) of the same empire get
-   *  distinct keys, so residency tracking must key on this, not empireId. */
+  structureId: string;
+  /** the exact `${structureId}:${targetPath}` key this model is cached under  -
+   *  distinct model variants (default vs. inside) of the same structure get
+   *  distinct keys, so residency tracking must key on this, not structureId. */
   cacheKey: string;
 }
 
@@ -98,7 +98,7 @@ export class ViewerEngine {
   private wireOn = false;
   private xrayOn = false;
   private grid: THREE.PolarGridHelper | null = null;
-  /* lighting rig  -  kept as fields so an empire swap can re-tint it */
+  /* lighting rig  -  kept as fields so an structure swap can re-tint it */
   private keyLight!: THREE.DirectionalLight;
   private rimLight!: THREE.DirectionalLight;
   private bounceLight!: THREE.DirectionalLight;
@@ -107,11 +107,11 @@ export class ViewerEngine {
   private contactOpacity = uniform(0.46);
   private occlusionTimer = 0;
   private occlusionCache = new Map<string, boolean>();
-  /** anchors resolved onto the mesh surface, keyed empireId:anchor */
+  /** anchors resolved onto the mesh surface, keyed structureId:anchor */
   private snapped = new Map<string, THREE.Vector3>();
   /** per-model top-surface height fields, built once on first use */
   private fields = new Map<string, HeightField>();
-  /** empire ids by recency; the tail is evicted once past MAX_RESIDENT */
+  /** structure ids by recency; the tail is evicted once past MAX_RESIDENT */
   private lru: string[] = [];
   /** the swap currently playing, so a new request can interrupt it */
   private activeTl: gsap.core.Timeline | null = null;
@@ -134,7 +134,7 @@ export class ViewerEngine {
   private ready = false;
   /** the dwelling the resting camera was last computed for, so a stage that
    *  changes shape can re-fit rather than cropping the model it already framed */
-  private framedEmpire: Empire | null = null;
+  private framedStructure: Structure | null = null;
   private anchorPickTimer = 0;
 
   onLoadProgress: ((pct: number) => void) | null = null;
@@ -316,7 +316,7 @@ export class ViewerEngine {
     // Hotspots are authored as normalised box coordinates, which are near
     // impossible to guess by hand. Double-clicking the spot you mean converts
     // the ray hit straight into the triple the data file wants, and copies it
-    // to the clipboard so it can be pasted into the empire's hotspot list.
+    // to the clipboard so it can be pasted into the structure's hotspot list.
     this.canvas.addEventListener("dblclick", (e: MouseEvent) => {
       if (!this.current) return;
       const rect = this.canvas.getBoundingClientRect();
@@ -399,7 +399,7 @@ export class ViewerEngine {
     }
   }
 
-  /** Warm the rig toward an empire's accent colour  -  Byzantine gold reads
+  /** Warm the rig toward an structure's accent colour  -  Byzantine gold reads
    *  differently from Inca stone, and the light should say so. */
   setTint(hex: string, dur = 1.1) {
     const tint = new THREE.Color(hex);
@@ -451,8 +451,8 @@ export class ViewerEngine {
     /* A narrower stage needs the camera further back to keep the whole
        dwelling in frame. Only ever pull back, never push in, so a resize
        cannot undo a zoom the visitor chose for themselves. */
-    if (this.framedEmpire && this.current && this.controls) {
-      const needed = Math.min(this.fitDistance(this.framedEmpire), this.controls.maxDistance);
+    if (this.framedStructure && this.current && this.controls) {
+      const needed = Math.min(this.fitDistance(this.framedStructure), this.controls.maxDistance);
       if (needed > this.camState.dist) {
         this.camState.dist = needed;
         this.applyCam();
@@ -485,9 +485,9 @@ export class ViewerEngine {
   };
 
   /* ── model loading & normalization ─────────────────────────────── */
-  load(empire: Empire, variantPath?: string): Promise<LoadedModel> {
-    const targetPath = withBase(variantPath || empire.modelPath);
-    const cacheKey = `${empire.id}:${targetPath}`;
+  load(structure: Structure, variantPath?: string): Promise<LoadedModel> {
+    const targetPath = withBase(variantPath || structure.modelPath);
+    const cacheKey = `${structure.id}:${targetPath}`;
     const cached = this.cache.get(cacheKey);
     if (cached) return cached;
     const p = new Promise<LoadedModel>((resolve, reject) => {
@@ -496,12 +496,12 @@ export class ViewerEngine {
       // external /img/{id}/texture_*.png maps applied, whether the geometry
       // arrives as .obj or (compressed) .glb. Both containers share the same
       // UVs, so the same textures map correctly either way.
-      const needsExternalTextures = isObj || empire.id === 'herods_temple';
+      const needsExternalTextures = isObj || structure.id === 'herods_temple';
 
       const applyExternalTextures = (object: THREE.Object3D) => {
         const textureLoader = new THREE.TextureLoader();
         const loadTexture = (url: string) => new Promise<THREE.Texture>((res, rej) => textureLoader.load(url, res, undefined, rej));
-        const imgPath = withBase(`/img/${empire.id}`);
+        const imgPath = withBase(`/img/${structure.id}`);
         return Promise.all([
           loadTexture(`${imgPath}/texture_diffuse.webp`),
           loadTexture(`${imgPath}/texture_normal.webp`),
@@ -530,8 +530,8 @@ export class ViewerEngine {
           targetPath,
           (object) => {
             applyExternalTextures(object).then(() => {
-              const model = this.normalize(object, empire, cacheKey);
-              this.snapAnchors(model, empire);
+              const model = this.normalize(object, structure, cacheKey);
+              this.snapAnchors(model, structure);
               this.warm(model).then(() => resolve(model));
             }).catch(reject);
           },
@@ -548,8 +548,8 @@ export class ViewerEngine {
               : Promise.resolve();
             applied.then(() => {
               try {
-                const model = this.normalize(gltf.scene, empire, cacheKey);
-                this.snapAnchors(model, empire);
+                const model = this.normalize(gltf.scene, structure, cacheKey);
+                this.snapAnchors(model, structure);
                 this.warm(model).then(() => resolve(model));
               } catch (e) {
                 reject(e);
@@ -600,11 +600,11 @@ export class ViewerEngine {
     }
   }
 
-  preload(empire: Empire, variantPath?: string) {
-    this.load(empire, variantPath).catch(() => {});
+  preload(structure: Structure, variantPath?: string) {
+    this.load(structure, variantPath).catch(() => {});
   }
 
-  private normalize(sceneObj: THREE.Group, empire: Empire, cacheKey: string): LoadedModel {
+  private normalize(sceneObj: THREE.Group, structure: Structure, cacheKey: string): LoadedModel {
     const group = new THREE.Group();
     const inner = sceneObj;
     group.add(inner);
@@ -633,21 +633,21 @@ export class ViewerEngine {
           // pass plus four occlusion rays a few times a second)
           (geo as any).computeBoundsTree({ indirect: true, maxLeafTris: 24 });
         }
-        this.applyRim(m, empire.id);
+        this.applyRim(m, structure.id);
         meshes.push(m);
       }
     });
 
     const nsize = size.clone().multiplyScalar(s);
-    return { group, meshes, size: nsize, empireId: empire.id, cacheKey };
+    return { group, meshes, size: nsize, structureId: structure.id, cacheKey };
   }
 
   /** TSL rim-light: a soft warm fresnel edge so the architecture reads
    *  against the parchment backdrop. Falls back silently to the
    *  original material if node patching fails.
    *
-   *  This is also where each empire's per-model texture override lives
-   *  (search below for `empireId ===`). An override REPLACES whatever
+   *  This is also where each structure's per-model texture override lives
+   *  (search below for `structureId ===`). An override REPLACES whatever
    *  UV-mapped texture the .glb already carries, so it only produces a
    *  correct result if the external /img/{id}/texture_*.* file was baked
    *  against the SAME UV atlas as that specific model. Swapping in a
@@ -657,8 +657,8 @@ export class ViewerEngine {
    *  sharpening it. Before adding or changing an override here, extract
    *  and visually diff the model's embedded texture against the external
    *  one first  -  do not assume "higher resolution" means "compatible". */
-  private applyRim(mesh: THREE.Mesh, empireId: string) {
-    if (empireId === "new_jerusalem") return;
+  private applyRim(mesh: THREE.Mesh, structureId: string) {
+    if (structureId === "new_jerusalem") return;
     try {
       const src = mesh.material as THREE.MeshStandardMaterial;
       const nm = new THREE.MeshStandardNodeMaterial();
@@ -672,7 +672,7 @@ export class ViewerEngine {
       nm.metalness = src.metalness ?? 0.1;
       mesh.material = nm;
 
-      if (empireId === "noahs_ark") {
+      if (structureId === "noahs_ark") {
         const texLoader = new THREE.TextureLoader();
         
         // Load diffuse map
@@ -693,7 +693,7 @@ export class ViewerEngine {
         nm.metalnessMap = pbr;
         
         nm.roughness = 1.0;
-      } else if (empireId === "new_jerusalem") {
+      } else if (structureId === "new_jerusalem") {
         const texLoader = new THREE.TextureLoader();
 
         // Load diffuse map
@@ -716,7 +716,7 @@ export class ViewerEngine {
         nm.roughness = 1.0;
         nm.metalness = 1.0;
       }
-      else if (empireId === "tower_babel") {
+      else if (structureId === "tower_babel") {
         const texLoader = new THREE.TextureLoader();
 
         // Load diffuse map
@@ -791,7 +791,7 @@ export class ViewerEngine {
   }
 
   /** Mark a model (by its full cache key, so distinct variants of the same
-   *  empire are tracked separately) as most-recently-used and evict past
+   *  structure are tracked separately) as most-recently-used and evict past
    *  the residency cap. Evicted models are queued, never freed mid-animation. */
   private touchResidency(cacheKey: string) {
     this.lru = [cacheKey, ...this.lru.filter((x) => x !== cacheKey)];
@@ -803,7 +803,7 @@ export class ViewerEngine {
       p?.then((m) => {
         if (m !== this.current) {
           this.stage.remove(m.group);
-          this.fields.delete(m.empireId);
+          this.fields.delete(m.structureId);
           this.retired.push(m);
         }
       }).catch(() => undefined);
@@ -838,7 +838,7 @@ export class ViewerEngine {
    * the stage is empty. The dwelling casts its shadow throughout, and the
    * shadow turns with it.
    */
-  transition(next: LoadedModel, empire: Empire, opts: { instant?: boolean; onMidpoint?: () => void } = {}): Promise<void> {
+  transition(next: LoadedModel, structure: Structure, opts: { instant?: boolean; onMidpoint?: () => void } = {}): Promise<void> {
     const { onMidpoint } = opts;
     const instant = opts.instant || this.reducedMotion;
 
@@ -868,8 +868,8 @@ export class ViewerEngine {
     const handover = () => {
       this.present(next);
       onMidpoint?.();
-      this.setTint(empire.tint, 1.0);
-      this.frameEmpire(empire, !instant);
+      this.setTint(structure.tint, 1.0);
+      this.frameStructure(structure, !instant);
     };
 
     if (instant) {
@@ -991,7 +991,7 @@ export class ViewerEngine {
    * courtyard" on a dwelling whose shape the data knows nothing about.
    */
   private heightField(model: LoadedModel, ray: THREE.Raycaster): HeightField {
-    const cached = this.fields.get(model.empireId);
+    const cached = this.fields.get(model.structureId);
     if (cached) return cached;
     const n = 20;
     const y = new Float32Array(n * n).fill(NaN);
@@ -1013,7 +1013,7 @@ export class ViewerEngine {
       }
     }
     const field: HeightField = { n, y, min, max };
-    this.fields.set(model.empireId, field);
+    this.fields.set(model.structureId, field);
     return field;
   }
 
@@ -1112,15 +1112,15 @@ export class ViewerEngine {
    * the first surface below it  -  within a short search, so anchors that are
    * already on stone (or deliberately inside a courtyard) are left alone.
    */
-  /** Where the camera comes to rest for this empire, computed before the
+  /** Where the camera comes to rest for this structure, computed before the
    *  fly-to has run  -  used to prefer pins the visitor can actually see. */
-  private restingCamera(empire: Empire, model: LoadedModel) {
+  private restingCamera(structure: Structure, model: LoadedModel) {
     const h = model.size.y;
-    const dist = this.fitDistance(empire, 1.3, model);
-    const a = THREE.MathUtils.degToRad(empire.camera.azimuth);
-    const e = THREE.MathUtils.degToRad(empire.camera.elevation);
+    const dist = this.fitDistance(structure, 1.3, model);
+    const a = THREE.MathUtils.degToRad(structure.camera.azimuth);
+    const e = THREE.MathUtils.degToRad(structure.camera.elevation);
     const r = dist * Math.cos(e);
-    return new THREE.Vector3(r * Math.sin(a), empire.camera.targetY * h + 0.05 + dist * Math.sin(e), r * Math.cos(a));
+    return new THREE.Vector3(r * Math.sin(a), structure.camera.targetY * h + 0.05 + dist * Math.sin(e), r * Math.cos(a));
   }
 
   /** Is this world point in clear view from `from`, or is the building in the way? */
@@ -1133,7 +1133,7 @@ export class ViewerEngine {
     return ray.intersectObjects(model.meshes, false).length === 0;
   }
 
-  private snapAnchors(model: LoadedModel, empire: Empire) {
+  private snapAnchors(model: LoadedModel, structure: Structure) {
     // Snapping happens at the handover, when the dwelling is still lowered and
     // scaled down mid-dissolve. Every ray here  -  height field, wall probes,
     // visibility  -  has to describe where things will *come to rest*, so the
@@ -1147,8 +1147,8 @@ export class ViewerEngine {
 
     const ray = new THREE.Raycaster();
     ray.firstHitOnly = true;
-    const eye = this.restingCamera(empire, model);
-    empire.hotspots.forEach((hs) => {
+    const eye = this.restingCamera(structure, model);
+    structure.hotspots.forEach((hs) => {
       const key = `${model.group.uuid}:${hs.anchor.join(",")}`;
       if (this.snapped.has(key)) return;
       const local = this.boxAnchor(hs.anchor, model, new THREE.Vector3(), false);
@@ -1278,7 +1278,7 @@ export class ViewerEngine {
   /** Distance at which the dwelling sits inside the frame with museum
    *  breathing room on every side, whatever the viewport aspect. Uses the
    *  footprint half-diagonal so the framing survives a full orbit. */
-  private fitDistance(empire: Empire, margin = 1.3, model = this.current) {
+  private fitDistance(structure: Structure, margin = 1.3, model = this.current) {
     if (!model) return 3.6;
     const { size } = model;
     const radius = Math.hypot(size.x, size.z) * 0.5;
@@ -1287,29 +1287,29 @@ export class ViewerEngine {
     const aspect = this.camera.aspect || 1;
     const forHeight = size.y * 0.5 / tan;
     const forWidth = radius / (tan * aspect);
-    return Math.max(forHeight, forWidth, radius) * margin * empire.camera.dist;
+    return Math.max(forHeight, forWidth, radius) * margin * structure.camera.dist;
   }
 
-  frameEmpire(empire: Empire, animate = true, onDone?: () => void) {
+  frameStructure(structure: Structure, animate = true, onDone?: () => void) {
     if (!this.current) return;
-    this.framedEmpire = empire;
+    this.framedStructure = structure;
     const h = this.current.size.y;
     this.flyTo(
-      empire.camera.azimuth,
-      empire.camera.elevation,
-      this.fitDistance(empire),
-      empire.camera.targetY * h + 0.05,
+      structure.camera.azimuth,
+      structure.camera.elevation,
+      this.fitDistance(structure),
+      structure.camera.targetY * h + 0.05,
       animate ? 1.5 : 0,
       onDone,
     );
   }
 
-  focusAnchor(anchor: Vec3, empire: Empire, dur = 1.2) {
+  focusAnchor(anchor: Vec3, structure: Structure, dur = 1.2) {
     if (!this.current) return;
     const world = this.anchorToWorld(anchor);
     const az = this.camState.az;
     gsap.to(this.camState, {
-      dist: this.fitDistance(empire, 0.62),
+      dist: this.fitDistance(structure, 0.62),
       tx: world.x * 0.72,
       ty: world.y * 0.72 + 0.06,
       tz: world.z * 0.72,

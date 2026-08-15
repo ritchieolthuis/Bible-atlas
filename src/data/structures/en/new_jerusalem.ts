@@ -1,6 +1,6 @@
-import type { Empire } from "@/types/empire";
+import type { Structure } from "@/types/structure";
 
-export const new_jerusalem: Empire = {
+export const new_jerusalem: Structure = {
   id: "new_jerusalem",
   name: "New Jerusalem",
   dwelling: "The Holy City",

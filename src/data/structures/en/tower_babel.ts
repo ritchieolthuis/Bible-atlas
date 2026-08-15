@@ -1,6 +1,6 @@
-import type { Empire } from "@/types/empire";
+import type { Structure } from "@/types/structure";
 
-export const tower_babel: Empire = {
+export const tower_babel: Structure = {
   id: "tower_babel",
   name: "Tower of Babel",
   dwelling: "A City and a Tower",

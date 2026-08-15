@@ -1,5 +1,5 @@
-/** Empire Atlas  -  core data contracts.
- *  The entire application is driven by these types; adding a new empire
+/** Structure Atlas  -  core data contracts.
+ *  The entire application is driven by these types; adding a new structure
  *  means adding data + assets, never touching the viewer or UI. */
 
 export type Vec3 = [number, number, number];
@@ -78,7 +78,7 @@ export interface CameraPreset {
   targetY: number;
 }
 
-export interface EmpireSection {
+export interface StructureSection {
   title: string;
   kicker: string;
   cta: string;
@@ -105,7 +105,7 @@ export interface LessonBlock {
 export type DescriptionLinkTarget =
   | { kind: "section"; section: "interior" | "floorPlan" | "artifacts" | "dailyLife" | "geography" | (string & {}) }
   | { kind: "hotspot"; hotspotId: string }
-  | { kind: "empire"; empireId: string; section?: string; hotspotId?: string };
+  | { kind: "structure"; structureId: string; section?: string; hotspotId?: string };
 
 /** One clickable span inside `description`. `text` must appear verbatim
  *  (exact substring, case-sensitive) in this locale's `description` -
@@ -116,7 +116,7 @@ export interface DescriptionLink {
   target: DescriptionLinkTarget;
 }
 
-export interface Empire {
+export interface Structure {
   id: string;
   name: string;
   dwelling: string;
@@ -140,20 +140,20 @@ export interface Empire {
     path: string;
     anchors?: Record<string, Vec3 | null>;
   }[];
-  /** per-empire warm accent used for subtle scene tinting */
+  /** per-structure warm accent used for subtle scene tinting */
   tint: string;
   camera: CameraPreset;
   facts: KeyFact[];
   hotspots: Hotspot[];
-  interior: EmpireSection;
-  floorPlan: EmpireSection & { rooms: FloorPlanRoom[] };
-  artifacts: EmpireSection & { items: Artifact[] };
-  dailyLife: EmpireSection;
-  geography: EmpireSection & { regionLabel: string };
+  interior: StructureSection;
+  floorPlan: StructureSection & { rooms: FloorPlanRoom[] };
+  artifacts: StructureSection & { items: Artifact[] };
+  dailyLife: StructureSection;
+  geography: StructureSection & { regionLabel: string };
   /** Extra structure-specific cards beyond the fixed five  -  for iconic
    *  features unique to one dwelling (e.g. Solomon's twin pillars) that
    *  don't belong under Sacred Objects or any other shared section. */
-  extras?: (EmpireSection & { id: string })[];
+  extras?: (StructureSection & { id: string })[];
   lesson: { title: string; intro: string; blocks: LessonBlock[] };
   quiz: QuizQuestion[];
   timeline: TimelineEntry[];
