@@ -5,7 +5,7 @@ export const herods_temple: Structure = {
   name: "De Tweede Tempel",
   dwelling: "De Tempel te Jeruzalem",
   subtitle: "Zes en veertig jaren was deze tempel in bouwing",
-  description: "De prachtige tempel te Jeruzalem in de dagen van Christus, uitgebreid door Herodes, met geweldige goede stenen, en dienende als het middelpunt van joodse eredienst en onderwijzing. SV-tekst: \"En als Hij uit den tempel ging, zeide een van Zijn discipelen tot Hem: Meester, zie, hoedanige stenen, en hoedanige gebouwen!\"  -  Markus 13:1 (SV)",
+  description: "De prachtige tempel te Jeruzalem in de dagen van Christus, uitgebreid door Herodes, met geweldige goede stenen, en dienende als het middelpunt van joodse eredienst en onderwijzing. SV-tekst: \"En als Hij uit den tempel ging, zeide een van Zijn discipelen tot Hem: Meester, zie, hoedanige stenen, en hoedanige gebouwen!\", Markus 13:1 (SV)",
   descriptionLinks: [
     { text: "Jeruzalem", target: { kind: "section", section: "geography" } },
     { text: "Herodes", target: { kind: "section", section: "geography" } },
@@ -89,14 +89,14 @@ export const herods_temple: Structure = {
     kicker: "De Voorhang",
     title: "Het Heilige der Heiligen",
     cta: "Verken het Interieur",
-    text: "Deze voorhang scheidde het heilige der heiligen af, waar voorheen alleen de hogepriester eenmaal per jaar mocht ingaan; het scheuren ervan, van boven tot beneden, betekende dat door Christus' dood de weg tot God nu voor allen geopend was (Hebr. 10:19-20). Het inwendige omvatte het heilige der heiligen, gescheiden door deze zware voorhang, die op wonderbaarlijke wijze scheurde op het ogenblik van Christus' dood. SV-tekst: \"En het voorhangsel des tempels scheurde in tweeën, van boven tot beneden.\"  -  Markus 15:38 (SV)",
+    text: "Deze voorhang scheidde het heilige der heiligen af, waar voorheen alleen de hogepriester eenmaal per jaar mocht ingaan; het scheuren ervan, van boven tot beneden, betekende dat door Christus' dood de weg tot God nu voor allen geopend was (Hebr. 10:19-20). Het inwendige omvatte het heilige der heiligen, gescheiden door deze zware voorhang, die op wonderbaarlijke wijze scheurde op het ogenblik van Christus' dood. SV-tekst: \"En het voorhangsel des tempels scheurde in tweeën, van boven tot beneden.\", Markus 15:38 (SV)",
     image: "/img/herods_temple/interior.webp",
   },
   floorPlan: {
     kicker: "Voorhoven",
     title: "Indeling van den Tempel",
     cta: "Bekijk Indeling",
-    text: "De buitenste ruimte, het voorhof der heidenen, was bestemd voor gebed door alle volken; toen dit tot een marktplaats verworden was, dreef Jezus met heilige verontwaardiging de kopers en verkopers uit, zeggende: \"Mijn huis zal een huis des gebeds genaamd worden allen volken\" (Mark. 11:17, naar Jes. 56:7). Het tempelcomplex omvatte meerdere uitgestrekte voorhoven, de schatkist, en zuilengangen zoals het voorhof van Salomo, waar Jezus dikwijls wandelde en leerde. SV-tekst: \"En Jezus wandelde in den tempel, in het voorhof van Salomo.\"  -  Johannes 10:23 (SV)",
+    text: "De buitenste ruimte, het voorhof der heidenen, was bestemd voor gebed door alle volken; toen dit tot een marktplaats verworden was, dreef Jezus met heilige verontwaardiging de kopers en verkopers uit, zeggende: \"Mijn huis zal een huis des gebeds genaamd worden allen volken\" (Mark. 11:17, naar Jes. 56:7). Het tempelcomplex omvatte meerdere uitgestrekte voorhoven, de schatkist, en zuilengangen zoals het voorhof van Salomo, waar Jezus dikwijls wandelde en leerde. SV-tekst: \"En Jezus wandelde in den tempel, in het voorhof van Salomo.\", Johannes 10:23 (SV)",
     image: "/img/herods_temple/floor-plan.webp",
     rooms: [
       { name: "Voorhof van Salomo", note: "Waar Jezus en de apostelen leerden" },
@@ -109,7 +109,7 @@ export const herods_temple: Structure = {
     kicker: "Offeranden",
     title: "Gaven en Offeranden",
     cta: "Verken de Offeranden",
-    text: "Terwijl vele rijken veel wierpen, prees Jezus juist deze arme weduwe: \"Deze arme weduwe heeft meer ingeworpen dan allen... want deze heeft van haar armoede al wat zij had ingeworpen, geheel haar leeftocht\" (Mark. 12:43-44) - niet de omvang der gave, maar het hart van den gever telt. De offeranden bestonden uit geld dat in de schatkist geworpen werd, alsook offers en reukwerk gebruikt bij de eredienst. SV-tekst: \"En Jezus, gezeten zijnde tegenover de schatkist, zag, hoe de schare geld wierp in de schatkist; en vele rijken wierpen veel daarin.\"  -  Markus 12:41 (SV)",
+    text: "Terwijl vele rijken veel wierpen, prees Jezus juist deze arme weduwe: \"Deze arme weduwe heeft meer ingeworpen dan allen... want deze heeft van haar armoede al wat zij had ingeworpen, geheel haar leeftocht\" (Mark. 12:43-44), niet de omvang der gave, maar het hart van den gever telt. De offeranden bestonden uit geld dat in de schatkist geworpen werd, alsook offers en reukwerk gebruikt bij de eredienst. SV-tekst: \"En Jezus, gezeten zijnde tegenover de schatkist, zag, hoe de schare geld wierp in de schatkist; en vele rijken wierpen veel daarin.\", Markus 12:41 (SV)",
     image: "/img/herods_temple/artifacts.webp",
     items: [
       { name: "Twee Penningen", purpose: "Offerande", material: "Koper/Brons", context: "Geworpen door een arme weduwe in de schatkist." },
@@ -118,18 +118,27 @@ export const herods_temple: Structure = {
       { name: "Duiven", purpose: "Offerande", material: "Vogel", context: "Verkocht door hen die in den tempel zaten." },
     ],
   },
+  extras: [
+    {
+      id: "rebuilding",
+      kicker: "Oorsprong",
+      title: "De Herbouw onder Darius",
+      cta: "Verken de Herbouw",
+      text: "Dit tweede huis Gods verrees op de puinhopen van Salomo's tempel na de Babylonische ballingschap; de fundering werd gelegd onder zowel gejuich van vreugde als geween van de oude mannen die de heerlijkheid van de eerste tempel nog kenden (Ezra 3:11-13). Koning Kores gebood dat het huis zestig ellen hoog en zestig ellen breed herbouwd zou worden, de wanden opgetrokken met drie rijen grote stenen en één rij nieuw hout, en dat de gouden en zilveren vaten van den tempel naar hun plaatsen zouden worden teruggebracht. Het werk, jarenlang vertraagd door tegenstand, werd uiteindelijk voltooid en ingewijd in het zesde jaar van koning Darius, op den derden dag der maand Adar, eeuwen voordat Herodes' latere uitbreiding de tempel de pracht gaf waarover de discipelen zich verwonderden. SV-tekst: \"Met drie rijen van groten steen, en een rij van nieuw hout; en de onkosten zullen uit des konings huis gegeven worden.\", Ezra 6:4 (SV)",
+    },
+  ],
   dailyLife: {
     kicker: "Bezigheden",
     title: "Onderwijzing en Gebed",
     cta: "Ontdek het Dagelijks Leven",
-    text: "Reeds als kind van twaalf jaren bleef Jezus te Jeruzalem achter; eerst na drie dagen zoeken vonden Zijn ouders Hem in den tempel, zittende in het midden der leraren, hen horende en ondervragende (Luk. 2:42-46), en bij Zijn opdracht hadden de bejaarde Simeon en de profetes Anna Hem reeds als de Christus erkend (Luk. 2:25-38). De voorhoven van den tempel waren dagelijks vol onderwijzing, gebed en offeranden, hoewel het ook een plaats was van hevige godsdienstige strijd. SV-tekst: \"En Hij leerde dagelijks in den tempel; en de overpriesters, en de Schriftgeleerden, en de oversten des volks zochten Hem te doden,\"  -  Lukas 19:47 (SV)",
+    text: "Reeds als kind van twaalf jaren bleef Jezus te Jeruzalem achter; eerst na drie dagen zoeken vonden Zijn ouders Hem in den tempel, zittende in het midden der leraren, hen horende en ondervragende (Luk. 2:42-46), en bij Zijn opdracht hadden de bejaarde Simeon en de profetes Anna Hem reeds als de Christus erkend (Luk. 2:25-38). De voorhoven van den tempel waren dagelijks vol onderwijzing, gebed en offeranden, hoewel het ook een plaats was van hevige godsdienstige strijd. SV-tekst: \"En Hij leerde dagelijks in den tempel; en de overpriesters, en de Schriftgeleerden, en de oversten des volks zochten Hem te doden,\", Lukas 19:47 (SV)",
     image: "/img/herods_temple/daily-life.webp",
   },
   geography: {
     kicker: "Waar het Bestond",
     title: "Jeruzalem",
     cta: "Verken de Kaart",
-    text: "Herodes de Grote breidde den Tempelberg geweldig uit met massieve steunmuren - waaronder de nog bestaande Westelijke Muur - en verfraaide den tempel zo prachtig dat de discipelen uitriepen: \"Meester, zie, hoedanige stenen, en hoedanige gebouwen!\" Toch voorzegde Jezus de volledige verwoesting, die in het jaar 70 na Christus letterlijk geschiedde. Gelegen op den verheven Tempelberg te Jeruzalem, was het het middelpunt van de heilige stad. SV-tekst: \"En zij kwamen te Jeruzalem; en Jezus, in den tempel gegaan zijnde, begon degenen, die in den tempel verkochten en kochten, uit te drijven; en de tafelen der wisselaars, en de zitstoelen dergenen, die de duiven verkochten, keerde Hij om;\"  -  Markus 11:15 (SV)",
+    text: "Herodes de Grote breidde den Tempelberg geweldig uit met massieve steunmuren, waaronder de nog bestaande Westelijke Muur, en verfraaide den tempel zo prachtig dat de discipelen uitriepen: \"Meester, zie, hoedanige stenen, en hoedanige gebouwen!\" Toch voorzegde Jezus de volledige verwoesting, die in het jaar 70 na Christus letterlijk geschiedde. Gelegen op den verheven Tempelberg te Jeruzalem, was het het middelpunt van de heilige stad. SV-tekst: \"En zij kwamen te Jeruzalem; en Jezus, in den tempel gegaan zijnde, begon degenen, die in den tempel verkochten en kochten, uit te drijven; en de tafelen der wisselaars, en de zitstoelen dergenen, die de duiven verkochten, keerde Hij om;\", Markus 11:15 (SV)",
     image: "/img/herods_temple/map.webp",
     regionLabel: "Jeruzalem",
   },
@@ -219,6 +228,7 @@ export const herods_temple: Structure = {
   ],
   timeline: [
     { era: "Herbouw door Zerubbabel", year: "Dagen van Ezra", text: "Het fundament van de tweede tempel wordt gelegd na de gevangenschap." },
+    { era: "Voltooiing van de Tempel", year: "6e jaar van Darius", text: "Het huis wordt voltooid op den derden dag der maand Adar, naar het bevel van Kores en Darius." },
     { era: "Uitbreiding door Herodes", year: "Tijd van Christus", text: "De tempel wordt over zes en veertig jaren uitgebreid tot een geweldig complex." },
     { era: "Opdracht van Jezus", year: "Geboorte van Christus", text: "Simeon en Anna aanschouwen het Christuskind in den tempel." },
     { era: "Reiniging", year: "Bediening van Christus", text: "Jezus drijft de wisselaars uit den tempel." },

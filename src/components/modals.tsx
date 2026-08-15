@@ -200,6 +200,11 @@ export const SectionModal = memo(function SectionModal({
         <div className="kicker mt-3 !text-terracotta">{structure.geography.regionLabel}</div>
       )}
       <p className="font-serif mt-3 text-[1.05rem] leading-snug text-ink-soft">{data.text}</p>
+      {section === "floorPlan" && structure.floorPlan.diagramImage && (
+        <div className="mt-4 overflow-hidden rounded-xl border border-line-warm bg-paper-deep">
+          <img src={withBase(structure.floorPlan.diagramImage)} alt={`${data.title} diagram`} className="w-full object-contain" />
+        </div>
+      )}
       {rooms && (
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {rooms.map((r) => (

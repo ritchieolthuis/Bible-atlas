@@ -146,7 +146,13 @@ export interface Structure {
   facts: KeyFact[];
   hotspots: Hotspot[];
   interior: StructureSection;
-  floorPlan: StructureSection & { rooms: FloorPlanRoom[] };
+  floorPlan: StructureSection & {
+    rooms: FloorPlanRoom[];
+    /** Optional annotated reference diagram, rendered between the lead
+     *  paragraph and the room cards. Distinct from `image` (the hero shot
+     *  at the top of the modal); this is a supplementary labelled plan. */
+    diagramImage?: string;
+  };
   artifacts: StructureSection & { items: Artifact[] };
   dailyLife: StructureSection;
   geography: StructureSection & { regionLabel: string };

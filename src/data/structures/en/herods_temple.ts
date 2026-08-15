@@ -5,7 +5,7 @@ export const herods_temple: Structure = {
   name: "The Second Temple",
   dwelling: "The Temple at Jerusalem",
   subtitle: "Forty and six years was this temple in building",
-  description: "The magnificent temple in Jerusalem during the time of Christ, expanded by Herod, featuring massive goodly stones and serving as the center of Jewish worship and teaching. KJV Verse: \"And as he went out of the temple, one of his disciples saith unto him, Master, see what manner of stones and what buildings are here!\"  -  Mark 13:1 (KJV)",
+  description: "The magnificent temple in Jerusalem during the time of Christ, expanded by Herod, featuring massive goodly stones and serving as the center of Jewish worship and teaching. KJV Verse: \"And as he went out of the temple, one of his disciples saith unto him, Master, see what manner of stones and what buildings are here!\", Mark 13:1 (KJV)",
   descriptionLinks: [
     { text: "Jerusalem", target: { kind: "section", section: "geography" } },
     { text: "Herod", target: { kind: "section", section: "geography" } },
@@ -89,14 +89,14 @@ export const herods_temple: Structure = {
     kicker: "The Veil",
     title: "The Holy of Holies",
     cta: "Explore Interior",
-    text: "This veil separated the Holy of Holies, which only the high priest could enter, once a year; its tearing, from top to bottom, signified that through Christ's death the way to God was now opened to all (Heb. 10:19-20). The interior featured the Holy of Holies, separated by this heavy veil that was miraculously torn at the moment of Christ's death. KJV Verse: \"And the veil of the temple was rent in twain from the top to the bottom.\"  -  Mark 15:38 (KJV)",
+    text: "This veil separated the Holy of Holies, which only the high priest could enter, once a year; its tearing, from top to bottom, signified that through Christ's death the way to God was now opened to all (Heb. 10:19-20). The interior featured the Holy of Holies, separated by this heavy veil that was miraculously torn at the moment of Christ's death. KJV Verse: \"And the veil of the temple was rent in twain from the top to the bottom.\", Mark 15:38 (KJV)",
     image: "/img/herods_temple/interior.webp",
   },
   floorPlan: {
     kicker: "Courts",
     title: "Layout of the Temple",
     cta: "View Layout",
-    text: "The outermost court, the Court of the Gentiles, was meant for prayer by all nations; when it became a marketplace, Jesus with holy indignation drove out the buyers and sellers, saying, \"My house shall be called of all nations the house of prayer\" (Mark 11:17, quoting Isa. 56:7). The temple complex included multiple vast courts, the treasury, and colonnades such as Solomon's porch, where Jesus often walked and taught. KJV Verse: \"And Jesus walked in the temple in Solomon's porch.\"  -  John 10:23 (KJV)",
+    text: "The outermost court, the Court of the Gentiles, was meant for prayer by all nations; when it became a marketplace, Jesus with holy indignation drove out the buyers and sellers, saying, \"My house shall be called of all nations the house of prayer\" (Mark 11:17, quoting Isa. 56:7). The temple complex included multiple vast courts, the treasury, and colonnades such as Solomon's porch, where Jesus often walked and taught. KJV Verse: \"And Jesus walked in the temple in Solomon's porch.\", John 10:23 (KJV)",
     image: "/img/herods_temple/floor-plan.webp",
     rooms: [
       { name: "Solomon's Porch", note: "Where Jesus and the apostles taught" },
@@ -109,7 +109,7 @@ export const herods_temple: Structure = {
     kicker: "Offerings",
     title: "Gifts and Offerings",
     cta: "Explore Offerings",
-    text: "While many rich men cast in much, Jesus commended this poor widow instead: \"This poor widow hath cast more in, than all... for all they did cast in of their abundance; but she of her want did cast in all that she had, even all her living\" (Mark 12:43-44) - not the size of the gift, but the heart of the giver, that counts. Offerings included money cast into the treasury, as well as sacrifices and incense used in rituals. KJV Verse: \"And Jesus sat over against the treasury, and beheld how the people cast money into the treasury: and many that were rich cast in much.\"  -  Mark 12:41 (KJV)",
+    text: "While many rich men cast in much, Jesus commended this poor widow instead: \"This poor widow hath cast more in, than all... for all they did cast in of their abundance; but she of her want did cast in all that she had, even all her living\" (Mark 12:43-44), not the size of the gift, but the heart of the giver, that counts. Offerings included money cast into the treasury, as well as sacrifices and incense used in rituals. KJV Verse: \"And Jesus sat over against the treasury, and beheld how the people cast money into the treasury: and many that were rich cast in much.\", Mark 12:41 (KJV)",
     image: "/img/herods_temple/artifacts.webp",
     items: [
       { name: "Two Mites", purpose: "Offering", material: "Copper/Brass", context: "Cast by a certain poor widow into the treasury." },
@@ -118,18 +118,27 @@ export const herods_temple: Structure = {
       { name: "Doves", purpose: "Sacrifice", material: "Bird", context: "Sold by them that sat in the temple." },
     ],
   },
+  extras: [
+    {
+      id: "rebuilding",
+      kicker: "Origins",
+      title: "The Rebuilding Under Darius",
+      cta: "Explore the Rebuilding",
+      text: "This second house of God rose on the ruins of Solomon's temple after the Babylonian exile, its foundation laid amid both shouting for joy and weeping from the old men who remembered the first temple's glory (Ezra 3:11-13). King Cyrus decreed the house be rebuilt sixty cubits high and sixty cubits wide, its walls set with three rows of great stones and a row of new timber, and the temple's gold and silver vessels restored to their places. The work, delayed for years by opposition, was finally completed and dedicated in the sixth year of King Darius, on the third day of the month Adar, centuries before Herod's later expansion gave it the grandeur the disciples marveled at. KJV Verse: \"With three rows of great stones, and a row of new timber: and let the expenses be given out of the king's house.\", Ezra 6:4 (KJV)",
+    },
+  ],
   dailyLife: {
     kicker: "Activities",
     title: "Teaching and Prayer",
     cta: "Discover Daily Life",
-    text: "Even as a child of twelve, Jesus remained behind in Jerusalem; only after three days of searching did His parents find Him in the temple, sitting in the midst of the doctors, both hearing them and asking them questions (Luke 2:42-46), and at His presentation the aged Simeon and the prophetess Anna had already recognized Him as the Christ (Luke 2:25-38). The temple courts were bustling with daily teaching, prayer, and sacrifices, though it was also a place of intense religious conflict. KJV Verse: \"And he was teaching daily in the temple. But the chief priests and the scribes and the chief of the people sought to destroy him,\"  -  Luke 19:47 (KJV)",
+    text: "Even as a child of twelve, Jesus remained behind in Jerusalem; only after three days of searching did His parents find Him in the temple, sitting in the midst of the doctors, both hearing them and asking them questions (Luke 2:42-46), and at His presentation the aged Simeon and the prophetess Anna had already recognized Him as the Christ (Luke 2:25-38). The temple courts were bustling with daily teaching, prayer, and sacrifices, though it was also a place of intense religious conflict. KJV Verse: \"And he was teaching daily in the temple. But the chief priests and the scribes and the chief of the people sought to destroy him,\", Luke 19:47 (KJV)",
     image: "/img/herods_temple/daily-life.webp",
   },
   geography: {
     kicker: "Where It Existed",
     title: "Jerusalem",
     cta: "Explore Map",
-    text: "Herod the Great vastly enlarged the Temple Mount with massive retaining walls - including what remains today as the Western Wall - and adorned the temple so magnificently that the disciples exclaimed, \"Master, see what manner of stones and what buildings are here!\" Yet Jesus foretold its complete destruction, fulfilled literally in AD 70. Situated on the elevated Temple Mount in Jerusalem, it was the focal point of the holy city. KJV Verse: \"And they come to Jerusalem: and Jesus went into the temple, and began to cast out them that sold and bought in the temple, and overthrew the tables of the moneychangers, and the seats of them that sold doves;\"  -  Mark 11:15 (KJV)",
+    text: "Herod the Great vastly enlarged the Temple Mount with massive retaining walls, including what remains today as the Western Wall, and adorned the temple so magnificently that the disciples exclaimed, \"Master, see what manner of stones and what buildings are here!\" Yet Jesus foretold its complete destruction, fulfilled literally in AD 70. Situated on the elevated Temple Mount in Jerusalem, it was the focal point of the holy city. KJV Verse: \"And they come to Jerusalem: and Jesus went into the temple, and began to cast out them that sold and bought in the temple, and overthrew the tables of the moneychangers, and the seats of them that sold doves;\", Mark 11:15 (KJV)",
     image: "/img/herods_temple/map.webp",
     regionLabel: "Jerusalem",
   },
@@ -219,6 +228,7 @@ export const herods_temple: Structure = {
   ],
   timeline: [
     { era: "Rebuilding by Zerubbabel", year: "Days of Ezra", text: "The foundation of the second temple is laid after the captivity." },
+    { era: "Completion of the Temple", year: "6th year of Darius", text: "The house is finished on the third day of the month Adar, per the decree of Cyrus and Darius." },
     { era: "Herod's Expansion", year: "Time of Christ", text: "The temple is expanded into a massive complex over forty-six years." },
     { era: "Presentation of Jesus", year: "Birth of Christ", text: "Simeon and Anna behold the Christ child in the temple." },
     { era: "Cleansing", year: "Ministry of Christ", text: "Jesus drives out the money changers from the temple." },

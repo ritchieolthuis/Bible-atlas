@@ -7,6 +7,7 @@ import { walls_jericho } from "./walls_jericho";
 import { herods_temple } from "./herods_temple";
 import { new_jerusalem } from "./new_jerusalem";
 import { ezekiel_temple } from "./ezekiel_temple";
+import { eden_fall } from "./eden_fall";
 
 export const STRUCTURES_EN: Structure[] = [
   solomon_temple,
@@ -17,4 +18,5 @@ export const STRUCTURES_EN: Structure[] = [
   herods_temple,
   new_jerusalem,
   ezekiel_temple,
+  eden_fall,
 ];
