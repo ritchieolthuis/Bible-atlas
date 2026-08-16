@@ -143,7 +143,7 @@ export const noahs_ark: Structure = {
     kicker: "Waar het Bestond",
     title: "De Bergen van Ararat",
     cta: "Verken de Kaart",
-    text: "Na de landing bouwde Noach een altaar en offerde van elk rein dier; de Heere beloofde toen nooit meer de aarde door water te verderven, en stelde den regenboog als teken van dit eeuwig verbond (Gen. 8:20-9:17). Nadat de wateren begonnen te dalen, kwam de ark veilig tot rust op de hoge toppen van het bergland van Ararat. SV-tekst: \"En de ark rustte in de zevende maand, op den zeventienden dag der maand, op de bergen van Ararat.\", Genesis 8:4 (SV)",
+    text: "Na de landing bouwde Noach een altaar en offerde van elk rein dier; en de Heere rook dien liefelijken reuk, en sprak in Zijn hart: Ik zal voortaan den aardbodem niet meer vervloeken om des mensen wil... voortaan al de dagen der aarde zullen zaaiing en oogst, en koude en hitte, en zomer en winter, en dag en nacht niet ophouden (Gen. 8:21-22). Daarna zeide God tot Noach en zijn zonen: Mijn boog heb Ik gegeven in de wolken; die zal zijn tot een teken des verbonds tussen Mij en tussen de aarde; en het zal geschieden, als Ik wolken over de aarde brenge, dat deze boog zal gezien worden in de wolken, en Ik zal gedenken aan Mijn verbond (Gen. 9:13-15). Nadat de wateren begonnen te dalen, kwam de ark veilig tot rust op de hoge toppen van het bergland van Ararat. SV-tekst: \"Mijn boog heb Ik gegeven in de wolken; die zal zijn tot een teken des verbonds tussen Mij en tussen de aarde.\", Genesis 9:13 (SV). KJV: \"I do set my bow in the cloud, and it shall be for a token of a covenant between me and the earth.\", Genesis 9:13 (KJV)",
     image: "/img/noahs_ark/map.webp",
     regionLabel: "Bergen van Ararat",
   },
@@ -153,10 +153,12 @@ export const noahs_ark: Structure = {
     blocks: [
       { heading: "De Boosheid des Mensen", body: "En de Heere zag, dat de boosheid des mensen menigvuldig was op de aarde, en al het gedichtsel der gedachten zijns harten te allen dage alleenlijk boos was." },
       { heading: "Genade in de Ogen des Heeren", body: "Maar Noach vond genade in de ogen des Heeren. Noach was een rechtvaardig, oprecht man in zijn geslachten. Noach wandelde met God." },
-      { heading: "Het Gebod", body: "Maak u een ark van goferhout; met kameren zult gij deze ark maken; en gij zult die bepekken van binnen en van buiten met pek." },
+      { heading: "Het Gebod", body: "Maak u een ark van goferhout; met kameren zult gij deze ark maken; en gij zult die bepekken van binnen en van buiten met pek. SV: Genesis 6:14. KJV: \"Make thee an ark of gopher wood; rooms shalt thou make in the ark, and shalt pitch it within and without with pitch.\"" },
       { heading: "Het Verbond", body: "Maar met u zal Ik Mijn verbond oprichten; en gij zult in de ark gaan, gij, en uw zonen, en uw huisvrouw, en de vrouwen uwer zonen met u." },
       { heading: "De Uitvoering", body: "Alzo deed Noach; naar al wat God hem geboden had, zo deed hij." },
       { heading: "Het Einde van de Vloed", body: "En God gedacht aan Noach, en aan al het gedierte, en aan al het vee, dat met hem in de ark was; en God deed een wind over de aarde doorgaan, en de wateren werden stil." },
+      { heading: "Gods Belofte na de Vloed", body: "Ik zal voortaan den aardbodem niet meer vervloeken om des mensen wil... Mijn boog heb Ik gegeven in de wolken; die zal zijn tot een teken des verbonds tussen Mij en tussen de aarde. SV: Genesis 8:21, 9:13. KJV: \"I do set my bow in the cloud, and it shall be for a token of a covenant between me and the earth.\"" },
+      { heading: "Vervulling in Christus' Woorden", body: "Jezus Zelf wees later terug naar de dagen van Noach als een waarschuwing: Want gelijk zij waren in de dagen voor den zondvloed, etende en drinkende, trouwende en ten huwelijk uitgevende, tot den dag toe, in welken Noach in de ark ging, en bekenden het niet, totdat de zondvloed kwam en hen allen wegnam; alzo zal ook zijn de toekomst van den Zoon des mensen. SV: Matteüs 24:38-39. KJV: \"For as in the days that were before the flood they were eating and drinking, marrying and giving in marriage, until the day that Noe entered into the ark, and knew not until the flood came, and took them all away; so shall also the coming of the Son of man be.\"" },
     ],
   },
   quiz: [

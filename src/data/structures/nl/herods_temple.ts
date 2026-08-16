@@ -5,7 +5,7 @@ export const herods_temple: Structure = {
   name: "De Tweede Tempel",
   dwelling: "De Tempel te Jeruzalem",
   subtitle: "Zes en veertig jaren was deze tempel in bouwing",
-  description: "De prachtige tempel te Jeruzalem in de dagen van Christus, uitgebreid door Herodes, met geweldige goede stenen, en dienende als het middelpunt van joodse eredienst en onderwijzing. SV-tekst: \"En als Hij uit den tempel ging, zeide een van Zijn discipelen tot Hem: Meester, zie, hoedanige stenen, en hoedanige gebouwen!\", Markus 13:1 (SV)",
+  description: "De prachtige tempel te Jeruzalem in de dagen van Christus, uitgebreid door Herodes, met geweldige goede stenen, en dienende als het middelpunt van joodse eredienst en onderwijzing. SV-tekst: \"En als Hij uit den tempel ging, zeide een van Zijn discipelen tot Hem: Meester, zie, hoedanige stenen, en hoedanige gebouwen!\", Markus 13:1 (SV). KJV: \"And as he went out of the temple, one of his disciples saith unto him, Master, see what manner of stones and what buildings are here!\", Mark 13:1 (KJV)",
   descriptionLinks: [
     { text: "Jeruzalem", target: { kind: "section", section: "geography" } },
     { text: "Herodes", target: { kind: "section", section: "geography" } },
@@ -139,6 +139,7 @@ export const herods_temple: Structure = {
       title: "De Herbouw onder Darius",
       cta: "Verken de Herbouw",
       text: "Dit tweede huis Gods verrees op de puinhopen van Salomo's tempel na de Babylonische ballingschap; de fundering werd gelegd onder zowel gejuich van vreugde als geween van de oude mannen die de heerlijkheid van de eerste tempel nog kenden (Ezra 3:11-13). Koning Kores gebood dat het huis zestig ellen hoog en zestig ellen breed herbouwd zou worden, de wanden opgetrokken met drie rijen grote stenen en één rij nieuw hout, en dat de gouden en zilveren vaten van den tempel naar hun plaatsen zouden worden teruggebracht. Het werk, jarenlang vertraagd door tegenstand, werd uiteindelijk voltooid en ingewijd in het zesde jaar van koning Darius, op den derden dag der maand Adar, eeuwen voordat Herodes' latere uitbreiding de tempel de pracht gaf waarover de discipelen zich verwonderden. SV-tekst: \"Met drie rijen van groten steen, en een rij van nieuw hout; en de onkosten zullen uit des konings huis gegeven worden.\", Ezra 6:4 (SV)",
+      image: "/img/herods_temple/rebuilding.webp",
     },
   ],
   dailyLife: {
@@ -161,11 +162,12 @@ export const herods_temple: Structure = {
     intro: "Belangrijke gebeurtenissen rond Jezus in de Tweede Tempel.",
     blocks: [
       { heading: "Opdracht in den Tempel", body: "En als de dagen harer reiniging vervuld waren, brachten zij Hem naar Jeruzalem, om Hem den Heere voor te stellen." },
-      { heading: "Jezus op Twaalfjarige Leeftijd", body: "Zij vonden Hem in den tempel, zittende in het midden der leraren, hen horende, en hen ondervragende." },
-      { heading: "Reiniging van den Tempel", body: "En Hij leerde, zeggende tot hen: Is er niet geschreven: Mijn huis zal een huis des gebeds genaamd worden allen volken? Maar gij hebt dat tot een kuil der moordenaren gemaakt." },
+      { heading: "Jezus op Twaalfjarige Leeftijd", body: "Zij vonden Hem in den tempel, zittende in het midden der leraren, hen horende, en hen ondervragende. Toen Zijn ouders Hem verweten, antwoordde Hij: Wat is het, dat gij Mij gezocht hebt? Wist gij niet, dat Ik moet zijn in de dingen Mijns Vaders? SV: Lukas 2:49. KJV: \"How is it that ye sought me? wist ye not that I must be about my Father's business?\"" },
+      { heading: "Reiniging van den Tempel", body: "En Hij leerde, zeggende tot hen: Is er niet geschreven: Mijn huis zal een huis des gebeds genaamd worden allen volken? Maar gij hebt dat tot een kuil der moordenaren gemaakt. SV: Markus 11:17. KJV: \"Is it not written, My house shall be called of all nations the house of prayer? but ye have made it a den of thieves.\"" },
       { heading: "Onderwijzing in de Schatkist", body: "Deze woorden sprak Jezus bij de schatkist, lerende in den tempel; en niemand greep Hem, want Zijn ure was nog niet gekomen." },
-      { heading: "De Penning der Weduwe", body: "Voorwaar, Ik zeg u, dat deze arme weduwe meer ingeworpen heeft, dan allen, die in de schatkist geworpen hebben." },
-      { heading: "De Profetie der Verwoesting", body: "Ziet gij deze grote gebouwen? Er zal niet een steen op den anderen steen gelaten worden, die niet afgebroken zal worden." },
+      { heading: "De Penning der Weduwe", body: "Voorwaar, Ik zeg u, dat deze arme weduwe meer ingeworpen heeft, dan allen, die in de schatkist geworpen hebben. SV: Markus 12:43. KJV: \"Verily I say unto you, That this poor widow hath cast more in, than all they which have cast into the treasury.\"" },
+      { heading: "De Profetie der Verwoesting", body: "Ziet gij deze grote gebouwen? Er zal niet een steen op den anderen steen gelaten worden, die niet afgebroken zal worden. SV: Markus 13:2. KJV: \"There shall not be left one stone upon another, that shall not be thrown down.\"" },
+      { heading: "De Vervulling", body: "Wat Jezus voorzegd had, geschiedde letterlijk: in het jaar 70 na Christus verwoestten de Romeinen onder Titus de tempel volkomen, zodat er inderdaad geen steen op den anderen gebleven is." },
     ],
   },
   quiz: [

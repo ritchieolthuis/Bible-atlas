@@ -8,6 +8,7 @@ import { herods_temple } from "./herods_temple";
 import { new_jerusalem } from "./new_jerusalem";
 import { ezekiel_temple } from "./ezekiel_temple";
 import { eden_fall } from "./eden_fall";
+import { mount_of_olives } from "./mount_of_olives";
 
 export const STRUCTURES_EN: Structure[] = [
   eden_fall,
@@ -19,4 +20,5 @@ export const STRUCTURES_EN: Structure[] = [
   ezekiel_temple,
   herods_temple,
   new_jerusalem,
+  mount_of_olives,
 ];

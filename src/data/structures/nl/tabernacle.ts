@@ -5,7 +5,7 @@ export const tabernacle: Structure = {
   name: "De Tabernakel van Mozes",
   dwelling: "De Tent der Samenkomst",
   subtitle: "Het Heiligdom in de Woestijn",
-  description: "De draagbare aardse woonplaats des Heeren, door Mozes gebouwd in de woestijn naar het voorbeeld dat hem op den berg getoond werd, met Bezaleël als hoofdambachtsman en de ark der getuigenis in het heilige der heiligen. SV-tekst: \"En zij zullen Mij een heiligdom maken, dat Ik in het midden van hen wone.\", Exodus 25:8 (SV)",
+  description: "De draagbare aardse woonplaats des Heeren, door Mozes gebouwd in de woestijn naar het voorbeeld dat hem op den berg getoond werd, met Bezaleël als hoofdambachtsman en de ark der getuigenis in het heilige der heiligen. SV-tekst: \"En zij zullen Mij een heiligdom maken, dat Ik in het midden van hen wone.\", Exodus 25:8 (SV). KJV: \"And let them make me a sanctuary; that I may dwell among them.\", Exodus 25:8 (KJV)",
   modelPath: "/models/tabernacle.glb?v=2",
   modelVariants: [
     { id: "default", label: "Standaard", path: "/models/tabernacle.glb?v=2" },
@@ -147,6 +147,7 @@ export const tabernacle: Structure = {
     title: "Het Voorbeeld op den Berg",
     intro: "Gods gedetailleerde aanwijzingen aan Mozes voor de bouw van het heiligdom.",
     blocks: [
+      { heading: "Gods Verlangen", body: "En zij zullen Mij een heiligdom maken, dat Ik in het midden van hen wone. SV: Exodus 25:8. KJV: \"And let them make me a sanctuary; that I may dwell among them.\"" },
       { heading: "Het Vrijwillig Offer", body: "Spreek tot de kinderen Israëls, dat zij Mij een hefoffer brengen; van een ieder, die het uit vrijwilligheid zijns harten geeft, zult gij Mijn hefoffer nemen." },
       { heading: "Het Voorbeeld", body: "Naar al wat Ik u tot een voorbeeld des tabernakels, en een voorbeeld van al deszelfs gereedschap wijzen zal, even alzo zult gijlieden dat maken." },
       { heading: "De Werklieden", body: "Zie, Ik heb met name geroepen Bezaleël, den zoon van Uri... en Ik heb hem vervuld met den Geest Gods, met wijsheid, en met verstand, en met wetenschap." },

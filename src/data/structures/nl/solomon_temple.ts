@@ -12,10 +12,10 @@ export const solomon_temple: Structure = {
     { text: "het heilige", target: { kind: "section", section: "interior" } },
     { text: "de aanspraakplaats", target: { kind: "section", section: "interior" } },
   ],
-  modelPath: "/models/solomon_temple.glb?v=2",
+  modelPath: "/models/solomon_temple.glb?v=3",
   modelVariants: [
     {
-      id: "default", label: "Standaard", path: "/models/solomon_temple.glb?v=2",
+      id: "default", label: "Standaard", path: "/models/solomon_temple.glb?v=3",
       // the cutaway-only fittings do not exist on the exterior model
       anchors: { holy_place: null, showbread_tables: null, gold_walls: null, candlesticks: null },
     },
@@ -233,7 +233,7 @@ export const solomon_temple: Structure = {
     kicker: "Eredienst",
     title: "Dienst van de Tempel",
     cta: "Ontdek het Dagelijks Leven",
-    text: "Salomo verdeelde de priesters, nakomelingen van Aäron, in vierentwintig afdelingen die om beurten dienden (1 Kron. 24:1-19), terwijl elke morgen en avond een lam ten brandoffer gebracht werd (Num. 28:3-4). Bij de inwijding daalde de wolk der heerlijkheid zo krachtig neder, dat de priesters niet konden blijven staan om te dienen. SV-tekst: \"En de priesters konden niet staan om te dienen, vanwege de wolk; want de heerlijkheid des Heeren had het huis des Heeren vervuld.\", 1 Koningen 8:11 (SV)",
+    text: "Salomo verdeelde de priesters, nakomelingen van Aäron, in vierentwintig afdelingen die om beurten dienden (1 Kron. 24:1-19), terwijl elke morgen en avond een lam ten brandoffer gebracht werd (Num. 28:3-4). Bij de inwijding daalde de wolk der heerlijkheid zo krachtig neder, dat de priesters niet konden blijven staan om te dienen. Daarna verscheen de Heere Zelf aan Salomo bij nacht, en zeide tot hem: Ik heb uw gebed gehoord, en heb dit huis, dat gij gebouwd hebt, geheiligd, om Mijn Naam aldaar te zetten tot in eeuwigheid; en Mijn ogen en Mijn hart zullen daar zijn te allen dage (1 Kon. 9:3). Doch aan deze zegen werd een voorwaarde verbonden: indien gijlieden u afkeren zult, en Mijn inzettingen verlaten, en henengaan en andere goden dienen, zo zal Ik Israël uitroeien van het land, en dit huis zal tot een spreekwoord en spotrede worden onder alle volken (1 Kon. 9:6-7), een waarschuwing die eeuwen later letterlijk vervuld werd toen Nebukadnezar, koning van Babel, den tempel verbrandde en met der aarde gelijk maakte (2 Kon. 25:9). SV-tekst: \"Ik heb uw gebed gehoord, en uw smeking, die gij voor Mijn aangezicht smekende gedaan hebt; Ik heb dit huis geheiligd, hetwelk gij gebouwd hebt, om Mijn Naam aldaar te zetten tot in eeuwigheid; en Mijn ogen en Mijn hart zullen daar zijn te allen dage.\", 1 Koningen 9:3 (SV). KJV: \"I have hallowed this house, which thou hast built, to put my name there for ever; and mine eyes and mine heart shall be there perpetually.\", 1 Kings 9:3 (KJV)",
     image: "/img/solomon_temple/daily-life.webp",
   },
   geography: {
@@ -254,6 +254,9 @@ export const solomon_temple: Structure = {
       { heading: "De Gouden Overtrekking", body: "Alzo overtoog Salomo het huis van binnen met louter goud; en hij sloot de aanspraakplaats af met gouden ketenen, en overtoog ze met goud." },
       { heading: "Hirams Kopersmeedwerk", body: "Koning Salomo zond heen, en liet Hiram van Tyrus halen, een werker in koper; en hij goot twee pilaren van koper, elk achttien ellen hoog." },
       { heading: "De Inwijding", body: "En het geschiedde, toen de priesters uit het heilige uitgingen, dat de wolk het huis des Heeren vervulde." },
+      { heading: "De Heere Antwoordt Salomo", body: "Ik heb uw gebed gehoord... Ik heb dit huis geheiligd, hetwelk gij gebouwd hebt, om Mijn Naam aldaar te zetten tot in eeuwigheid; en Mijn ogen en Mijn hart zullen daar zijn te allen dage. SV: 1 Koningen 9:3. KJV: \"I have hallowed this house, which thou hast built, to put my name there for ever; and mine eyes and mine heart shall be there perpetually.\"" },
+      { heading: "De Waarschuwing", body: "Maar indien gijlieden u te enen male afkeren zult, en Mijn inzettingen en Mijn geboden verlaten... zo zal Ik Israël uitroeien van het land... en dit huis zal tot een spreekwoord en spotrede worden onder alle volken. SV: 1 Koningen 9:6-7." },
+      { heading: "De Latere Vervulling", body: "Wat God voorzegde, geschiedde: eeuwen later verbrandde Nebukadnezar, koning van Babel, het huis des Heeren, en brak den muur van Jeruzalem af, om Salomo's tempel latere herbouw en verwoesting door Herodes' opvolgers heen wees dit alles voorwaarts naar Christus, van Wien Hij zeide: Breekt dezen tempel, en in drie dagen zal Ik denzelven oprichten, sprekende van den tempel Zijns lichaams (Joh. 2:19,21). SV: 2 Koningen 25:9." },
     ],
   },
   quiz: [
@@ -334,6 +337,7 @@ export const solomon_temple: Structure = {
     { era: "Bouw", year: "4e tot 11e jaar van Salomo", text: "De tempel wordt zeven jaar lang in stilte gebouwd." },
     { era: "Voltooid", year: "11e jaar van Salomo's regering", text: "In het elfde jaar, in de maand Bul, zijnde de achtste maand, was het huis volmaakt in al zijn stukken." },
     { era: "Inwijding", year: "Feest in de zevende maand", text: "Salomo wijdt de tempel in, en de heerlijkheid des Heeren vervult het huis." },
+    { era: "Verwoesting door Babel", year: "586 v.Chr.", text: "Nebukadnezar, koning van Babel, verbrandt het huis des Heeren, en het volk wordt in ballingschap gevoerd (2 Kon. 25:9)." },
   ],
   keywords: ["salomo", "tempel", "jeruzalem", "aanspraakplaats", "heilige der heiligen", "goud", "koper", "jachin", "boaz"],
 };

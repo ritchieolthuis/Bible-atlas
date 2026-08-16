@@ -12,10 +12,10 @@ export const solomon_temple: Structure = {
     { text: "the holy place", target: { kind: "section", section: "interior" } },
     { text: "the oracle", target: { kind: "section", section: "interior" } },
   ],
-  modelPath: "/models/solomon_temple.glb?v=2",
+  modelPath: "/models/solomon_temple.glb?v=3",
   modelVariants: [
     {
-      id: "default", label: "Standard", path: "/models/solomon_temple.glb?v=2",
+      id: "default", label: "Standard", path: "/models/solomon_temple.glb?v=3",
       // the cutaway-only fittings do not exist on the exterior model
       anchors: { holy_place: null, showbread_tables: null, gold_walls: null, candlesticks: null },
     },
