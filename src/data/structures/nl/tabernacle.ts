@@ -9,7 +9,7 @@ export const tabernacle: Structure = {
   modelPath: "/models/tabernacle.glb?v=2",
   modelVariants: [
     { id: "default", label: "Standaard", path: "/models/tabernacle.glb?v=2" },
-    { id: "inside", label: "Binnenkant", path: "/models/tabernacle_inside.glb?v=2",
+    { id: "inside", label: "Binnenkant", path: "/models/tabernacle_inside.glb?v=3",
       // A separate export, turned a quarter turn and framed on the court, so
       // the default anchors land in the wrong places here. Measured against
       // this model's own geometry.

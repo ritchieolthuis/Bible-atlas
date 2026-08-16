@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+# Builds the site with Git LFS files resolved to their real binary content
+# and publishes straight to GitHub Pages via the Pages deployment API, so
+# large models never have to be git-pushed to a branch (which is capped at
+# GitHub's 100MB per-file limit) — Actions' artifact upload has no such cap.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (base path for project Pages site)
+        run: npm run build
+        env:
+          VITE_BASE: /the3d-bible/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
