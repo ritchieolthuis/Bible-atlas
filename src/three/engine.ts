@@ -631,7 +631,7 @@ export class ViewerEngine {
           // pass plus four occlusion rays a few times a second)
           (geo as any).computeBoundsTree({ indirect: true, maxLeafTris: 24 });
         }
-        this.applyRim(m, structure.id);
+        this.applyRim(m, structure.id, cacheKey);
         meshes.push(m);
       }
     });
@@ -655,8 +655,12 @@ export class ViewerEngine {
    *  sharpening it. Before adding or changing an override here, extract
    *  and visually diff the model's embedded texture against the external
    *  one first  -  do not assume "higher resolution" means "compatible". */
-  private applyRim(mesh: THREE.Mesh, structureId: string) {
+  private applyRim(mesh: THREE.Mesh, structureId: string, cacheKey?: string) {
     if (structureId === "new_jerusalem") return;
+    // The noahs_ark override below is baked against the exterior model's UV
+    // atlas; the "inside" variant is a separate export with its own embedded
+    // textures (see modelVariants on noahs_ark), so it must keep those.
+    const isNoahsArkInside = structureId === "noahs_ark" && !!cacheKey?.includes("_inside");
     try {
       const src = mesh.material as THREE.MeshStandardMaterial;
       const nm = new THREE.MeshStandardNodeMaterial();
@@ -670,7 +674,7 @@ export class ViewerEngine {
       nm.metalness = src.metalness ?? 0.1;
       mesh.material = nm;
 
-      if (structureId === "noahs_ark") {
+      if (structureId === "noahs_ark" && !isNoahsArkInside) {
         const texLoader = new THREE.TextureLoader();
         
         // Load diffuse map
@@ -743,7 +747,10 @@ export class ViewerEngine {
          disconnected patches. herods_temple already sources its own textures
          via needsExternalTextures above  -  an override here would never even
          run for it. Do not re-add either without first
-         confirming the external texture's UV layout matches the model. */
+         confirming the external texture's UV layout matches the model.
+         noahs_ark's "inside" variant is skipped above for the same reason:
+         it is a distinct export with its own embedded UV atlas, not the
+         exterior's. */
       const fres = float(1.0).sub(normalView.dot(positionViewDirection).clamp(0, 1)).pow(2.6);
       nm.emissiveNode = fres.mul(this.rimColor).mul(this.rimIntensity);
       mesh.material = nm;
