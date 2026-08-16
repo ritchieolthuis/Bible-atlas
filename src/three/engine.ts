@@ -631,7 +631,7 @@ export class ViewerEngine {
           // pass plus four occlusion rays a few times a second)
           (geo as any).computeBoundsTree({ indirect: true, maxLeafTris: 24 });
         }
-        this.applyRim(m, structure.id, cacheKey);
+        this.applyRim(m, structure.id);
         meshes.push(m);
       }
     });
@@ -655,12 +655,8 @@ export class ViewerEngine {
    *  sharpening it. Before adding or changing an override here, extract
    *  and visually diff the model's embedded texture against the external
    *  one first  -  do not assume "higher resolution" means "compatible". */
-  private applyRim(mesh: THREE.Mesh, structureId: string, cacheKey?: string) {
+  private applyRim(mesh: THREE.Mesh, structureId: string) {
     if (structureId === "new_jerusalem") return;
-    // The noahs_ark override below is baked against the exterior model's UV
-    // atlas; the "inside" variant is a separate export with its own embedded
-    // textures (see modelVariants on noahs_ark), so it must keep those.
-    const isNoahsArkInside = structureId === "noahs_ark" && !!cacheKey?.includes("_inside");
     try {
       const src = mesh.material as THREE.MeshStandardMaterial;
       const nm = new THREE.MeshStandardNodeMaterial();
@@ -674,28 +670,7 @@ export class ViewerEngine {
       nm.metalness = src.metalness ?? 0.1;
       mesh.material = nm;
 
-      if (structureId === "noahs_ark" && !isNoahsArkInside) {
-        const texLoader = new THREE.TextureLoader();
-        
-        // Load diffuse map
-        const diffuse = texLoader.load(withBase("/img/noahs_ark/texture_diffuse.webp"));
-        diffuse.colorSpace = THREE.SRGBColorSpace;
-        diffuse.flipY = false;
-        nm.map = diffuse;
-
-        // Load normal map
-        const normal = texLoader.load(withBase("/img/noahs_ark/texture_normal.webp"));
-        normal.flipY = false;
-        nm.normalMap = normal;
-
-        // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load(withBase("/img/noahs_ark/texture_pbr.webp"));
-        pbr.flipY = false;
-        nm.roughnessMap = pbr;
-        nm.metalnessMap = pbr;
-        
-        nm.roughness = 1.0;
-      } else if (structureId === "new_jerusalem") {
+      if (structureId === "new_jerusalem") {
         const texLoader = new THREE.TextureLoader();
 
         // Load diffuse map
@@ -741,16 +716,14 @@ export class ViewerEngine {
         nm.roughness = 1.0;
         nm.metalness = 1.0;
       }
-      /* solomon_temple and herods_temple intentionally have no override here:
-         their external /img/{id}/texture_*.* files use a different UV atlas
-         than the embedded model, so applying them scrambles the surface into
+      /* solomon_temple, herods_temple, and noahs_ark (both default and
+         inside variants) intentionally have no override here: their
+         external /img/{id}/texture_*.* files use a different UV atlas than
+         the embedded model, so applying them scrambles the surface into
          disconnected patches. herods_temple already sources its own textures
          via needsExternalTextures above  -  an override here would never even
-         run for it. Do not re-add either without first
-         confirming the external texture's UV layout matches the model.
-         noahs_ark's "inside" variant is skipped above for the same reason:
-         it is a distinct export with its own embedded UV atlas, not the
-         exterior's. */
+         run for it. Do not re-add any of these without first confirming the
+         external texture's UV layout matches the model. */
       const fres = float(1.0).sub(normalView.dot(positionViewDirection).clamp(0, 1)).pow(2.6);
       nm.emissiveNode = fres.mul(this.rimColor).mul(this.rimIntensity);
       mesh.material = nm;
