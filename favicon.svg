@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Bible Book Cover -->
+  <rect x="4" y="2" width="24" height="26" rx="3.5" fill="#3d5066"/>
+  <!-- Spine Shadow & Inner Line -->
+  <rect x="4" y="2" width="4.5" height="26" rx="2" fill="#2c3a4b"/>
+  <rect x="7.2" y="2" width="1.2" height="26" fill="#ffffff" fill-opacity="0.2"/>
+  <!-- White Cross -->
+  <g fill="#ffffff">
+    <rect x="14.4" y="7.5" width="3.2" height="13" rx="0.8"/>
+    <rect x="10" y="11.5" width="12" height="3.2" rx="0.8"/>
+  </g>
+  <!-- Bookmark Ribbon -->
+  <path d="M12 28v3.6l2.5-1.9 2.5 1.9V28z" fill="#2c3a4b"/>
+</svg>
