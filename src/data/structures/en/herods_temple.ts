@@ -19,7 +19,7 @@ export const herods_temple: Structure = {
       id: "inside", label: "Interior", path: "/models/herods_temple_inside.glb",
       // exterior-only features do not exist on the interior cutaway model
       anchors: {
-        sanctuary: null, pinnacle: null, treasury: null,
+        sanctuary: [0.5, 0.5, 0.5], pinnacle: null, treasury: null,
         outer_court: null, solomons_porch: null,
         beautiful_gate: null, antonia: null,
       },
