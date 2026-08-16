@@ -16,8 +16,13 @@ interface Props {
   onPrefetch?: (id: string) => void;
 }
 
+/** Above this many pixels of finger movement between pointerdown and
+ *  pointerup, a touch is treated as a scroll gesture rather than a tap. */
+const TAP_MOVE_THRESHOLD = 10;
+
 export const StructureLibrary = memo(function StructureLibrary({ structures, activeId, favorites, onSelect, onToggleFav, onViewAll, onPrefetch }: Props) {
   const listRef = useRef<HTMLDivElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const { locale } = useLocale();
   const t = useStrings(locale).library;
 
@@ -54,12 +59,25 @@ export const StructureLibrary = memo(function StructureLibrary({ structures, act
               onMouseEnter={() => onPrefetch?.(e.id)}
               onFocus={() => onPrefetch?.(e.id)}
               onClick={() => onSelect(e.id)}
+              onPointerDown={(ev) => {
+                if (ev.pointerType === "touch") touchStart.current = { x: ev.clientX, y: ev.clientY };
+              }}
               onPointerUp={(ev) => {
                 // iOS Safari can silently drop the synthetic `click` event on
                 // a button inside a scrollable list right after a scroll
                 // gesture; pointerup fires reliably regardless, so use it as
                 // the primary trigger there and let onClick cover mouse/kbd.
-                if (ev.pointerType === "touch") onSelect(e.id);
+                // But pointerup also fires at the end of a scroll drag, so
+                // only treat it as a selection if the finger barely moved -
+                // otherwise every scroll would select whatever card the
+                // finger happened to lift over.
+                if (ev.pointerType !== "touch") return;
+                const start = touchStart.current;
+                touchStart.current = null;
+                if (!start) return;
+                const dx = ev.clientX - start.x;
+                const dy = ev.clientY - start.y;
+                if (Math.hypot(dx, dy) <= TAP_MOVE_THRESHOLD) onSelect(e.id);
               }}
               className={`structure-card !border-transparent hover:!bg-white/8 ${active ? "!bg-white/10 !border-white/15" : ""}`}
             >
