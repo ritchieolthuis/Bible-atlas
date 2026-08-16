@@ -11,14 +11,6 @@ export const noahs_ark: Structure = {
     { text: "de reine en onreine dieren", target: { kind: "section", section: "artifacts" } },
   ],
   modelPath: "/models/noahs_ark.glb",
-  modelVariants: [
-    { id: "default", label: "Standaard", path: "/models/noahs_ark.glb" },
-    { id: "inside", label: "Binnenkant", path: "/models/noahs_ark_inside.glb",
-      // A separate export of the interior; the exterior hotspots (deur,
-      // venster, verdiepingen) do not exist as distinct fittings here.
-      anchors: { pitch: null, window: null, door: null, stories: null },
-    },
-  ],
   tint: "#5b4a3a",
   camera: { azimuth: -60, elevation: 20, dist: 1.2, targetY: 0.5 },
   facts: [
