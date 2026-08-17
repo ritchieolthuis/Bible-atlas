@@ -82,6 +82,13 @@ export interface AnchorProjection {
 export interface LoadedModel {
   group: THREE.Group;
   meshes: THREE.Mesh[];
+  /** What hotspot/hover/occlusion raycasts are actually cast against. Equal
+   *  to `meshes` for every model except the ones in RAYCAST_PROXY_STRUCTURES
+   *  (see buildRaycastProxy), where a coarse invisible stand-in mesh is used
+   *  instead so picking stays cheap without needing a BVH over the visible
+   *  geometry. Kept separate from `meshes` so wireframe/xray/rendering  -
+   *  which do need the real visible mesh list  -  are unaffected. */
+  raycastMeshes: THREE.Mesh[];
   size: THREE.Vector3;
   structureId: string;
   /** the exact `${structureId}:${targetPath}` key this model is cached under  -
@@ -89,6 +96,11 @@ export interface LoadedModel {
    *  distinct keys, so residency tracking must key on this, not structureId. */
   cacheKey: string;
 }
+
+/** Structures whose visible geometry is too dense to build a BVH over
+ *  without blocking the main thread  -  see buildRaycastProxy. Their
+ *  hotspots are raycast against a coarse invisible proxy box instead. */
+const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall"]);
 
 type FrameCallback = () => void;
 
@@ -349,7 +361,7 @@ export class ViewerEngine {
       const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const ny = -((e.clientY - rect.top) / rect.height) * 2 + 1;
       this.raycaster.setFromCamera(new THREE.Vector2(nx, ny), this.camera);
-      const hits = this.raycaster.intersectObjects(this.current.meshes, false);
+      const hits = this.raycaster.intersectObjects(this.current.raycastMeshes, false);
       if (!hits.length) {
         this.showAnchorPick("no surface under the cursor  -  aim at the model");
         return;
@@ -678,6 +690,7 @@ export class ViewerEngine {
     // recenter: footprint center to origin, base to y=0
     inner.position.set(-center.x * s, -box.min.y * s, -center.z * s);
 
+    const usesProxy = RAYCAST_PROXY_STRUCTURES.has(structure.id);
     const meshes: THREE.Mesh[] = [];
     inner.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
@@ -685,7 +698,11 @@ export class ViewerEngine {
         m.castShadow = true;
         m.receiveShadow = true;
         const geo = m.geometry as THREE.BufferGeometry;
-        if (!(geo as any).boundsTree) {
+        // Skipped for proxy structures: their raycasts never touch this
+        // geometry (see buildRaycastProxy below), and building a BVH over it
+        // anyway is exactly the multi-second-to-unbounded main-thread stall
+        // the proxy exists to avoid  -  see RAYCAST_PROXY_STRUCTURES.
+        if (!usesProxy && !(geo as any).boundsTree) {
           // indirect keeps the index buffer as authored instead of reordering
           // it, and fatter leaves mean far less tree to build  -  this runs on
           // the main thread during load, and our query load is tiny (one snap
@@ -698,7 +715,26 @@ export class ViewerEngine {
     });
 
     const nsize = size.clone().multiplyScalar(s);
-    return { group, meshes, size: nsize, structureId: structure.id, cacheKey };
+    const raycastMeshes = usesProxy ? [this.buildRaycastProxy(group, nsize)] : meshes;
+    return { group, meshes, raycastMeshes, size: nsize, structureId: structure.id, cacheKey };
+  }
+
+  /** A coarse, invisible stand-in for hotspot/hover/occlusion raycasts, used
+   *  only by structures in RAYCAST_PROXY_STRUCTURES whose visible geometry
+   *  is too dense to ever raycast against directly (see that set's comment).
+   *  A single box over the model's full footprint is a deliberately loose
+   *  approximation  -  it can't distinguish "behind the tree" from "behind
+   *  the ground"  -  but every hotspot these structures carry today is
+   *  authored with snap: "none" (placed exactly, no surface search needed),
+   *  so the only things this proxy actually has to answer are hover-pick
+   *  and occlusion, where "roughly where the model's mass is" is enough. */
+  private buildRaycastProxy(group: THREE.Group, size: THREE.Vector3): THREE.Mesh {
+    const geo = new THREE.BoxGeometry(size.x || 1, size.y || 1, size.z || 1);
+    geo.translate(0, (size.y || 1) / 2, 0);
+    const proxy = new THREE.Mesh(geo, new THREE.MeshBasicMaterial());
+    proxy.visible = false;
+    group.add(proxy);
+    return proxy;
   }
 
   /** TSL rim-light: a soft warm fresnel edge so the architecture reads
@@ -1018,6 +1054,14 @@ export class ViewerEngine {
         mm.dispose?.();
       });
     });
+    // raycastMeshes is `meshes` itself except for RAYCAST_PROXY_STRUCTURES,
+    // where it's one extra invisible proxy box not covered by the loop above
+    if (m.raycastMeshes !== m.meshes) {
+      m.raycastMeshes.forEach((mesh) => {
+        mesh.geometry.dispose();
+        (mesh.material as THREE.Material).dispose();
+      });
+    }
   }
 
   private disposeCached(id: string) {
@@ -1070,7 +1114,7 @@ export class ViewerEngine {
         probe.set(((i + 0.5) / n - 0.5) * model.size.x, top, ((j + 0.5) / n - 0.5) * model.size.z);
         ray.set(model.group.localToWorld(probe), DOWN);
         ray.far = model.size.y + 0.6;
-        const hit = ray.intersectObjects(model.meshes, false)[0];
+        const hit = ray.intersectObjects(model.raycastMeshes, false)[0];
         if (!hit) continue;
         const h = model.group.worldToLocal(hit.point.clone()).y;
         y[j * n + i] = h;
@@ -1154,7 +1198,7 @@ export class ViewerEngine {
       const start = model.group.localToWorld(at.addScaledVector(outward, reach));
       ray.set(start, target.sub(start).normalize());
       ray.far = reach * 2.2;
-      for (const hit of ray.intersectObjects(model.meshes, false)) {
+      for (const hit of ray.intersectObjects(model.raycastMeshes, false)) {
         if (!hit.face) continue;
         const n = hit.face.normal.clone().transformDirection(hit.object.matrixWorld);
         if (Math.abs(n.y) > 0.6) continue; // a floor or a coping, not a wall
@@ -1196,7 +1240,7 @@ export class ViewerEngine {
     ray.set(from, dir.normalize());
     ray.far = Math.max(0.01, dist - 0.06);
     ray.firstHitOnly = true;
-    return ray.intersectObjects(model.meshes, false).length === 0;
+    return ray.intersectObjects(model.raycastMeshes, false).length === 0;
   }
 
   private snapAnchors(model: LoadedModel, structure: Structure) {
@@ -1270,7 +1314,7 @@ export class ViewerEngine {
     if (!this.current) return null;
     this.raycaster.setFromCamera(new THREE.Vector2(nx, ny), this.camera);
     this.raycaster.firstHitOnly = true;
-    const hits = this.raycaster.intersectObjects(this.current.meshes, false);
+    const hits = this.raycaster.intersectObjects(this.current.raycastMeshes, false);
     if (!hits.length) return null;
     const pt = this.current.group.worldToLocal(hits[0].point.clone());
     const s = this.current.size;
@@ -1307,7 +1351,7 @@ export class ViewerEngine {
       // pins rest on the mesh skin, so stop just short of the surface  - 
       // anything the ray still hits is genuinely in front of the pin
       this.raycaster.far = Math.max(0.01, dist - 0.05);
-      const hits = this.raycaster.intersectObjects(this.current!.meshes, false);
+      const hits = this.raycaster.intersectObjects(this.current!.raycastMeshes, false);
       this.occlusionCache.set(id, hits.length > 0);
     });
   }

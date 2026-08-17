@@ -11,6 +11,16 @@ export const new_jerusalem: Structure = {
     { text: "geen tempel is daarin", target: { kind: "section", section: "interior" } },
   ],
   modelPath: "/models/new_jerusalem.glb",
+  modelVariants: [
+    { id: "default", label: "Standaard", path: "/models/new_jerusalem.glb" },
+    { id: "throne", label: "De Troon en het Lam", path: "/models/new_jerusalem_throne.glb",
+      // A separate, close-up export of just the throne and the Lamb; the
+      // wider city's other fittings (river, gates, wall, foundations, tree)
+      // do not exist as distinct geometry here.
+      anchors: { river: null, tree_of_life: null, gates: null, wall: null, foundations: null,
+        throne: [0.5, 0.55, 0.5] },
+    },
+  ],
   tint: "#e5e4e2",
   camera: { azimuth: 45, elevation: 30, dist: 1.8, targetY: 0.5 },
   facts: [

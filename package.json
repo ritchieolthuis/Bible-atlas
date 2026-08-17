@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && node tools/check-css-classes.mjs && vite build",
+    "build": "tsc -b && node tools/check-css-classes.mjs && node tools/check-mobile-models.mjs && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
