@@ -49,9 +49,11 @@ const MAX_RESIDENT = IS_LOW_MEMORY_DEVICE ? 2 : 6;
 const LOW_MEMORY_MODEL_BYTE_LIMIT = 90 * 1024 * 1024;
 
 export class ModelTooHeavyError extends Error {
-  constructor(public byteSize: number) {
+  byteSize: number;
+  constructor(byteSize: number) {
     super(`model exceeds low-memory device limit: ${byteSize} bytes`);
     this.name = "ModelTooHeavyError";
+    this.byteSize = byteSize;
   }
 }
 const TARGET_SIZE = 2.0; // normalized model footprint, world units
