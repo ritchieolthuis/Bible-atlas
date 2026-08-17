@@ -2,10 +2,10 @@ import type { Structure } from "@/types/structure";
 
 export const golgotha: Structure = {
   id: "golgotha",
-  name: "Golgotha",
+  name: "Golgotha (Calvary)",
   dwelling: "Golgotha",
   subtitle: "The place of a skull",
-  description: "The place outside the wall of Jerusalem where Jesus was crucified between two thieves, and where He gave up the ghost after crying, It is finished. KJV Verse: \"And they bring him unto the place Golgotha, which is, being interpreted, The place of a skull.\", Mark 15:22 (KJV)",
+  description: "The place outside the wall of Jerusalem where Jesus was crucified between two thieves, and where He gave up the ghost after crying, It is finished. Called Golgotha in Hebrew, and Calvary in the Latin-derived name by which the King James Version renders it in Luke. KJV Verse: \"And when they were come to the place, which is called Calvary, there they crucified him, and the malefactors, one on the right hand, and the other on the left.\", Luke 23:33 (KJV)",
   descriptionLinks: [
     { text: "crucified between two thieves", target: { kind: "hotspot", hotspotId: "two_thieves" } },
     { text: "It is finished", target: { kind: "hotspot", hotspotId: "the_cross" } },
@@ -72,14 +72,14 @@ export const golgotha: Structure = {
     kicker: "His Words",
     title: "The Words from the Cross",
     cta: "Hear His Words",
-    text: "From the cross Jesus spoke seven times. He prayed for those who crucified Him: Father, forgive them; for they know not what they do (Luke 23:34). He gave paradise to the repentant thief: Verily I say unto thee, To day shalt thou be with me in paradise (Luke 23:43). He gave His mother into John's care: Woman, behold thy son... Behold thy mother (John 19:26-27). At the ninth hour He cried with a loud voice, Eli, Eli, lama sabachthani? that is to say, My God, my God, why hast thou forsaken me? (Matthew 27:46, citing Psalm 22:1). He said, I thirst (John 19:28). He cried, It is finished (John 19:30). And He cried with a loud voice, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost (Luke 23:46). KJV Verse: \"And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost.\", Luke 23:46 (KJV)",
+    text: "From the cross Jesus spoke seven times. He prayed for those who crucified Him: Father, forgive them; for they know not what they do (Luke 23:34). He gave paradise to the repentant thief: Verily I say unto thee, To day shalt thou be with me in paradise (Luke 23:43). He gave His mother into John's care: Woman, behold thy son... Behold thy mother (John 19:26-27). At the ninth hour He cried with a loud voice, Eli, Eli, lama sabachthani? that is to say, My God, my God, why hast thou forsaken me? (Matthew 27:46, citing Psalm 22:1). He said, I thirst (John 19:28). He cried, It is finished (John 19:30). And He cried with a loud voice, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost (Luke 23:46). While He hung there, they that passed by reviled him, wagging their heads, and saying, Thou that destroyest the temple, and buildest it in three days, save thyself. If thou be the Son of God, come down from the cross. Likewise also the chief priests mocking him, with the scribes and elders, said, He saved others; himself he cannot save. If he be the King of Israel, let him now come down from the cross, and we will believe him: he trusted in God; let him deliver him now, if he will have him: for he said, I am the Son of God (Matthew 27:39-43). KJV Verse: \"And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost.\", Luke 23:46 (KJV)",
     image: "/img/golgotha/interior.webp",
   },
   floorPlan: {
     kicker: "Around the Cross",
     title: "What Stood at Golgotha",
     cta: "See the Scene",
-    text: "Golgotha lay just outside the city wall, near enough that many read the title over His cross, and near a garden containing a new tomb (John 19:20, 41). Three crosses stood there together, Jesus in the midst, with a multitude of priests, soldiers, and onlookers gathered below. KJV Verse: \"And he bearing his cross went forth into a place called the place of a skull, which is called in the Hebrew Golgotha: Where they crucified him, and two other with him, on either side one, and Jesus in the midst.\", John 19:17-18 (KJV)",
+    text: "Then delivered he him therefore unto them to be crucified. And they took Jesus, and led him away. And he bearing his cross went forth into a place called the place of a skull (John 19:16-17). As they came out, they found a man of Cyrene, Simon by name: him they compelled to bear his cross (Matthew 27:32). Golgotha lay just outside the city wall, near enough that many read the title over His cross, and near a garden containing a new tomb (John 19:20, 41). Three crosses stood there together, Jesus in the midst, with a multitude of priests, soldiers, and onlookers gathered below. KJV Verse: \"And he bearing his cross went forth into a place called the place of a skull, which is called in the Hebrew Golgotha: Where they crucified him, and two other with him, on either side one, and Jesus in the midst.\", John 19:17-18 (KJV)",
     image: "/img/golgotha/floor-plan.webp",
     rooms: [
       {
@@ -108,7 +108,7 @@ export const golgotha: Structure = {
     kicker: "What Happened There",
     title: "Signs at the Ninth Hour",
     cta: "Explore the Signs",
-    text: "From the sixth hour there was darkness over all the land unto the ninth hour (Matthew 27:45). And, behold, the veil of the temple was rent in twain from the top to the bottom; and the earth did quake, and the rocks rent (Matthew 27:51). Now when the centurion, and they that were with him, watching Jesus, saw the earthquake, and those things that were done, they feared greatly, saying, Truly this was the Son of God (Matthew 27:54). KJV Verse: \"Now from the sixth hour there was darkness over all the land unto the ninth hour.\", Matthew 27:45 (KJV)",
+    text: "From the sixth hour there was darkness over all the land unto the ninth hour (Matthew 27:45). And, behold, the veil of the temple was rent in twain from the top to the bottom; and the earth did quake, and the rocks rent; And the graves were opened; and many bodies of the saints which slept arose (Matthew 27:51-52). Now when the centurion, and they that were with him, watching Jesus, saw the earthquake, and those things that were done, they feared greatly, saying, Truly this was the Son of God (Matthew 27:54). KJV Verse: \"Now from the sixth hour there was darkness over all the land unto the ninth hour.\", Matthew 27:45 (KJV)",
     image: "/img/golgotha/artifacts.webp",
     items: [
       { name: "The Titulus", purpose: "Pilate's written accusation, fixed above His head", material: "Wood, lettered in Hebrew, Greek, and Latin", context: "And Pilate wrote a title... JESUS OF NAZARETH THE KING OF THE JEWS (John 19:19-20)." },
@@ -132,32 +132,6 @@ export const golgotha: Structure = {
     regionLabel: "Outside the wall of Jerusalem, near a garden and a new tomb",
     image: "/img/golgotha/map.webp",
   },
-  extras: [
-    {
-      id: "the_way_to_golgotha",
-      kicker: "The Journey",
-      title: "The Way to the Cross",
-      cta: "Explore the Journey",
-      text: "Then delivered he him therefore unto them to be crucified. And they took Jesus, and led him away. And he bearing his cross went forth into a place called the place of a skull (John 19:16-17). As they came out, they found a man of Cyrene, Simon by name: him they compelled to bear his cross (Matthew 27:32). KJV Verse: \"And as they led him away, they laid hold upon one Simon, a Cyrenian, coming out of the country, and on him they laid the cross, that he might bear it after Jesus.\", Luke 23:26 (KJV)",
-      image: "/img/golgotha/way-to-golgotha.webp",
-    },
-    {
-      id: "the_mockery",
-      kicker: "The Mockery",
-      title: "Save Thyself",
-      cta: "Explore the Mockery",
-      text: "And they that passed by reviled him, wagging their heads, and saying... If thou be the Son of God, come down from the cross. Likewise also the chief priests mocking him, with the scribes and elders, said... He saved others; himself he cannot save. If he be the King of Israel, let him now come down from the cross, and we will believe him (Matthew 27:39-42). KJV Verse: \"He trusted in God; let him deliver him now, if he will have him: for he said, I am the Son of God.\", Matthew 27:43 (KJV)",
-      image: "/img/golgotha/mockery.webp",
-    },
-    {
-      id: "the_veil_rent",
-      kicker: "The Temple",
-      title: "The Veil Rent in Two",
-      cta: "Explore What Followed",
-      text: "And, behold, the veil of the temple was rent in twain from the top to the bottom; and the earth did quake, and the rocks rent; And the graves were opened; and many bodies of the saints which slept arose (Matthew 27:51-52). KJV Verse: \"And the veil of the temple was rent in twain from the top to the bottom.\", Mark 15:38 (KJV)",
-      image: "/img/golgotha/veil-rent.webp",
-    },
-  ],
   lesson: {
     title: "The Crucifixion at Golgotha",
     intro: "The words Jesus spoke and the events that took place at Golgotha, from His condemnation to His burial in the new tomb.",

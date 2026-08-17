@@ -72,14 +72,14 @@ export const golgotha: Structure = {
     kicker: "Zijn Woorden",
     title: "De Zeven Kruiswoorden",
     cta: "Lees Zijn Woorden",
-    text: "Vanaf het kruis sprak Jezus zevenmaal. Hij bad voor hen die Hem kruisigden: Vader, vergeef het hun; want zij weten niet, wat zij doen (Lukas 23:34). Hij gaf het paradijs aan de berouwvolle moordenaar: Voorwaar, zeg Ik u: Heden zult gij met Mij in het Paradijs zijn (Lukas 23:43). Hij gaf Zijn moeder in Johannes' zorg: Vrouw, zie, uw zoon... Zie, uw moeder (Johannes 19:26-27). Omtrent de negende ure riep Hij met een grote stem, zeggende: Eli, Eli, lama sabachthani! dat is: Mijn God! Mijn God! waarom hebt Gij Mij verlaten? (Mattheüs 27:46, aanhalend Psalm 22:2). Hij zeide: Mij dorst (Johannes 19:28). Hij riep: Het is volbracht (Johannes 19:30). En Jezus, roepende met een grote stem, zeide: Vader, in Uw handen beveel Ik Mijn geest. En als Hij dat gezegd had, gaf Hij den geest (Lukas 23:46). SV-tekst: \"En Jezus, roepende met een grote stem, zeide: Vader, in Uw handen beveel Ik Mijn geest. En als Hij dat gezegd had, gaf Hij den geest.\", Lukas 23:46 (SV)",
+    text: "Vanaf het kruis sprak Jezus zevenmaal. Hij bad voor hen die Hem kruisigden: Vader, vergeef het hun; want zij weten niet, wat zij doen (Lukas 23:34). Hij gaf het paradijs aan de berouwvolle moordenaar: Voorwaar, zeg Ik u: Heden zult gij met Mij in het Paradijs zijn (Lukas 23:43). Hij gaf Zijn moeder in Johannes' zorg: Vrouw, zie, uw zoon... Zie, uw moeder (Johannes 19:26-27). Omtrent de negende ure riep Hij met een grote stem, zeggende: Eli, Eli, lama sabachthani! dat is: Mijn God! Mijn God! waarom hebt Gij Mij verlaten? (Mattheüs 27:46, aanhalend Psalm 22:2). Hij zeide: Mij dorst (Johannes 19:28). Hij riep: Het is volbracht (Johannes 19:30). En Jezus, roepende met een grote stem, zeide: Vader, in Uw handen beveel Ik Mijn geest. En als Hij dat gezegd had, gaf Hij den geest (Lukas 23:46). Terwijl Hij daar hing, lasterden zij die voorbijgingen Hem, schuddende hun hoofden, en zeggende: Gij, die den tempel afbreekt, en in drie dagen opbouwt, verlos Uzelven. Indien Gij Gods Zoon zijt, kom af van het kruis. En desgelijks ook de overpriesters met de Schriftgeleerden, en ouderlingen, en Farizeën, Hem bespottende, zeiden: Anderen heeft Hij verlost, Hij kan Zichzelven niet verlossen. Indien Hij de Koning Israëls is, dat Hij nu afkome van het kruis, en wij zullen Hem geloven: Hij heeft op God betrouwd; dat Hij Hem nu verlosse, indien Hij Hem wel wil; want Hij heeft gezegd: Ik ben Gods Zoon (Mattheüs 27:39-43). SV-tekst: \"En Jezus, roepende met een grote stem, zeide: Vader, in Uw handen beveel Ik Mijn geest. En als Hij dat gezegd had, gaf Hij den geest.\", Lukas 23:46 (SV)",
     image: "/img/golgotha/interior.webp",
   },
   floorPlan: {
     kicker: "Rondom het Kruis",
     title: "Wat er op Golgotha Stond",
     cta: "Bekijk het Tafereel",
-    text: "Golgotha lag net buiten de stadsmuur, dicht genoeg dat velen het opschrift boven Zijn kruis lazen, en nabij een hof met een nieuw graf (Johannes 19:20, 41). Drie kruisen stonden daar samen, Jezus in het midden, met een menigte priesters, soldaten en toeschouwers eronder verzameld. SV-tekst: \"En dragende Zijn kruis, ging Hij uit naar de plaats, genaamd Hoofdschedelplaats, welke in het Hebreeuws genaamd wordt Golgotha; Alwaar zij Hem kruisigden, en met Hem twee anderen, aan elke zijde een, en Jezus in het midden.\", Johannes 19:17-18 (SV)",
+    text: "Toen gaf hij Hem dan hun over, opdat Hij gekruisigd zou worden. Zij namen dan Jezus, en leidden Hem weg. En Hij, dragende Zijn kruis, ging uit naar de plaats, genaamd Hoofdschedelplaats (Johannes 19:16-17). En als zij uitgingen, vonden zij een man van Cyrene, met name Simon; dezen dwongen zij, dat hij Zijn kruis zou dragen (Mattheüs 27:32). Golgotha lag net buiten de stadsmuur, dicht genoeg dat velen het opschrift boven Zijn kruis lazen, en nabij een hof met een nieuw graf (Johannes 19:20, 41). Drie kruisen stonden daar samen, Jezus in het midden, met een menigte priesters, soldaten en toeschouwers eronder verzameld. SV-tekst: \"En dragende Zijn kruis, ging Hij uit naar de plaats, genaamd Hoofdschedelplaats, welke in het Hebreeuws genaamd wordt Golgotha; Alwaar zij Hem kruisigden, en met Hem twee anderen, aan elke zijde een, en Jezus in het midden.\", Johannes 19:17-18 (SV)",
     image: "/img/golgotha/floor-plan.webp",
     rooms: [
       {
@@ -108,7 +108,7 @@ export const golgotha: Structure = {
     kicker: "Wat er Gebeurde",
     title: "Tekenen op het Negende Uur",
     cta: "Bekijk de Tekenen",
-    text: "En van de zesde ure aan werd er duisternis over de gehele aarde, tot de negende ure toe (Mattheüs 27:45). En zie, het voorhangsel des tempels scheurde in tweeën, van boven tot beneden; en de aarde beefde, en de steenrotsen scheurden (Mattheüs 27:51). En de hoofdman over honderd, en die met hem Jezus bewaarden, ziende de aardbeving, en de dingen, die geschied waren, werden zeer bevreesd, zeggende: Waarlijk, Deze was Gods Zoon (Mattheüs 27:54). SV-tekst: \"En van de zesde ure aan werd er duisternis over de gehele aarde, tot de negende ure toe.\", Mattheüs 27:45 (SV)",
+    text: "En van de zesde ure aan werd er duisternis over de gehele aarde, tot de negende ure toe (Mattheüs 27:45). En zie, het voorhangsel des tempels scheurde in tweeën, van boven tot beneden; en de aarde beefde, en de steenrotsen scheurden; En de graven werden geopend, en vele lichamen der heiligen, die ontslapen waren, werden opgewekt (Mattheüs 27:51-52). En de hoofdman over honderd, en die met hem Jezus bewaarden, ziende de aardbeving, en de dingen, die geschied waren, werden zeer bevreesd, zeggende: Waarlijk, Deze was Gods Zoon (Mattheüs 27:54). SV-tekst: \"En van de zesde ure aan werd er duisternis over de gehele aarde, tot de negende ure toe.\", Mattheüs 27:45 (SV)",
     image: "/img/golgotha/artifacts.webp",
     items: [
       { name: "De Titulus", purpose: "Pilatus' geschreven beschuldiging, boven Zijn hoofd bevestigd", material: "Hout, beletterd in Hebreeuws, Grieks en Latijn", context: "En Pilatus schreef ook een opschrift... JEZUS DE NAZARENER, DE KONING DER JODEN (Johannes 19:19-20)." },
@@ -132,32 +132,6 @@ export const golgotha: Structure = {
     regionLabel: "Buiten de muur van Jeruzalem, nabij een hof en een nieuw graf",
     image: "/img/golgotha/map.webp",
   },
-  extras: [
-    {
-      id: "the_way_to_golgotha",
-      kicker: "De Tocht",
-      title: "De Weg naar het Kruis",
-      cta: "Bekijk de Tocht",
-      text: "Toen gaf hij Hem dan hun over, opdat Hij gekruisigd zou worden. Zij namen dan Jezus, en leidden Hem weg. En Hij, dragende Zijn kruis, ging uit naar de plaats, genaamd Hoofdschedelplaats (Johannes 19:16-17). En als zij uitgingen, vonden zij een man van Cyrene, met name Simon; dezen dwongen zij, dat hij Zijn kruis zou dragen (Mattheüs 27:32). SV-tekst: \"En als zij Hem wegleidden, namen zij een Simon van Cyrene, komende van den akker, en legden hem het kruis op, dat hij het achter Jezus droeg.\", Lukas 23:26 (SV)",
-      image: "/img/golgotha/way-to-golgotha.webp",
-    },
-    {
-      id: "the_mockery",
-      kicker: "De Bespotting",
-      title: "Behoud Uzelven",
-      cta: "Bekijk de Bespotting",
-      text: "En die voorbijgingen, lasterden Hem, schuddende hun hoofden... Indien Gij Gods Zoon zijt, kom af van het kruis. En desgelijks ook de overpriesters met de Schriftgeleerden, en ouderlingen, en Farizeën, Hem bespottende, zeiden... Anderen heeft Hij verlost, Hij kan Zichzelven niet verlossen. Indien Hij de Koning Israëls is, dat Hij nu afkome van het kruis, en wij zullen Hem geloven (Mattheüs 27:39-42). SV-tekst: \"Hij heeft op God betrouwd; dat Hij Hem nu verlosse, indien Hij Hem wel wil; want Hij heeft gezegd: Ik ben Gods Zoon.\", Mattheüs 27:43 (SV)",
-      image: "/img/golgotha/mockery.webp",
-    },
-    {
-      id: "the_veil_rent",
-      kicker: "De Tempel",
-      title: "Het Voorhangsel Gescheurd",
-      cta: "Bekijk het Vervolg",
-      text: "En zie, het voorhangsel des tempels scheurde in tweeën, van boven tot beneden; en de aarde beefde, en de steenrotsen scheurden; En de graven werden geopend, en vele lichamen der heiligen, die ontslapen waren, werden opgewekt (Mattheüs 27:51-52). SV-tekst: \"En het voorhangsel des tempels scheurde in tweeën, van boven tot beneden.\", Markus 15:38 (SV)",
-      image: "/img/golgotha/veil-rent.webp",
-    },
-  ],
   lesson: {
     title: "De Kruisiging op Golgotha",
     intro: "De woorden die Jezus sprak en de gebeurtenissen die plaatsvonden op Golgotha, van Zijn veroordeling tot Zijn begrafenis in het nieuwe graf.",
