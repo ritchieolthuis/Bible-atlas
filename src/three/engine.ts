@@ -61,10 +61,14 @@ export class ModelTooHeavyError extends Error {
  *  mobile counterpart in `/models/mobile/<file>.glb`, if one could exist.
  *  Callers still HEAD-check it since not every model has a mobile build. */
 function toMobilePath(resolvedPath: string): string | null {
-  const m = resolvedPath.match(/^(.*)\/models\/([^/]+\.glb)$/);
+  // A modelPath may carry a cache-busting query string (e.g. "?v=3"), which
+  // must round-trip onto the mobile URL too, or the browser/CDN never sees
+  // it as a different resource from whatever it cached before the bump.
+  const [path, query] = resolvedPath.split(/(?=\?)/);
+  const m = path.match(/^(.*)\/models\/([^/]+\.glb)$/);
   if (!m) return null;
   const [, prefix, file] = m;
-  return `${prefix}/models/mobile/${file}`;
+  return `${prefix}/models/mobile/${file}${query || ""}`;
 }
 const TARGET_SIZE = 2.0; // normalized model footprint, world units
 const UP = new THREE.Vector3(0, 1, 0);
