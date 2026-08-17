@@ -40,6 +40,20 @@ export const IS_LOW_MEMORY_DEVICE =
 
 /** dwellings kept parsed in memory at once (~2MB of source geometry each) */
 const MAX_RESIDENT = IS_LOW_MEMORY_DEVICE ? 2 : 6;
+
+/** Above this file size, a .glb reliably crash-loops low-memory devices
+ *  (see IS_LOW_MEMORY_DEVICE) well before the 300MB ceiling  -  the download
+ *  itself, the decoded texture upload, and the rest of the scene all add up.
+ *  Kept well under that ceiling so there is headroom for the scene already
+ *  on stage. Desktop has no such limit. */
+const LOW_MEMORY_MODEL_BYTE_LIMIT = 90 * 1024 * 1024;
+
+export class ModelTooHeavyError extends Error {
+  constructor(public byteSize: number) {
+    super(`model exceeds low-memory device limit: ${byteSize} bytes`);
+    this.name = "ModelTooHeavyError";
+  }
+}
 const TARGET_SIZE = 2.0; // normalized model footprint, world units
 const UP = new THREE.Vector3(0, 1, 0);
 const DOWN = new THREE.Vector3(0, -1, 0);
@@ -490,7 +504,32 @@ export class ViewerEngine {
     const cacheKey = `${structure.id}:${targetPath}`;
     const cached = this.cache.get(cacheKey);
     if (cached) return cached;
-    const p = new Promise<LoadedModel>((resolve, reject) => {
+    const p = (async (): Promise<LoadedModel> => {
+      // Low-memory devices (phones/tablets) reliably crash on very large
+      // .glb files well before the browser reports an out-of-memory error  -
+      // check the size up front and fail with a message instead of a
+      // silent crash. Desktop has no ceiling here.
+      if (IS_LOW_MEMORY_DEVICE && !targetPath.endsWith(".obj")) {
+        try {
+          const head = await fetch(targetPath, { method: "HEAD" });
+          const len = Number(head.headers.get("content-length") || 0);
+          if (len > LOW_MEMORY_MODEL_BYTE_LIMIT) {
+            throw new ModelTooHeavyError(len);
+          }
+        } catch (e) {
+          if (e instanceof ModelTooHeavyError) throw e;
+          // HEAD failing (offline, server quirk) shouldn't block loading  -
+          // let the real load attempt surface its own error.
+        }
+      }
+      return this.loadInner(structure, targetPath, cacheKey);
+    })();
+    this.cache.set(cacheKey, p);
+    return p;
+  }
+
+  private loadInner(structure: Structure, targetPath: string, cacheKey: string): Promise<LoadedModel> {
+    return new Promise<LoadedModel>((resolve, reject) => {
       const isObj = targetPath.endsWith('.obj');
       // .obj geometry carries no material of its own, so it always needs its
       // external /img/{id}/texture_*.png maps applied.
@@ -559,8 +598,6 @@ export class ViewerEngine {
         );
       }
     });
-    this.cache.set(cacheKey, p);
-    return p;
   }
 
   /** Compile a model's shaders and upload its textures while it is still

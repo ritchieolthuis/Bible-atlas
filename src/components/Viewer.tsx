@@ -3,7 +3,7 @@ import type { Structure, Vec3 } from "@/types/structure";
 import { structuresFor } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
-import { ViewerEngine, IS_LOW_MEMORY_DEVICE } from "@/three/engine";
+import { ViewerEngine, IS_LOW_MEMORY_DEVICE, ModelTooHeavyError } from "@/three/engine";
 import { HotspotLayer } from "./HotspotLayer";
 import { DevHotspotEditor } from "@/dev/DevHotspotEditor";
 
@@ -68,6 +68,7 @@ export const Viewer = memo(function Viewer({
   const [engineReady, setEngineReady] = useState(false);
   const [markersVisible, setMarkersVisible] = useState(false);
   const [loading, setLoading] = useState<{ name: string; pct: number } | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [tool, setTool] = useState<ToolMode>("rotate");
@@ -177,8 +178,10 @@ export const Viewer = memo(function Viewer({
       }, 400);
       
       const variantPath = targetVariantId ? next.modelVariants?.find(v => v.id === targetVariantId)?.path : undefined;
+      let tooHeavy = false;
       const model = await engine.load(next, variantPath).catch((e) => {
         console.error("model load failed", e);
+        if (e instanceof ModelTooHeavyError) tooHeavy = true;
         return null;
       });
       if (loadingTimer.current) clearTimeout(loadingTimer.current);
@@ -186,10 +189,12 @@ export const Viewer = memo(function Viewer({
       setLoading(null);
 
       if (!model) {
+        setLoadError(tooHeavy ? t.loadTooHeavy(next.dwelling) : null);
         onSwap(next);
         engine.clearStage?.(); // We will add this to engine
         return;
       }
+      setLoadError(null);
 
       // the engine drives the exchange; panels flip at the handover so copy
       // and geometry change on the same beat
@@ -495,6 +500,22 @@ export const Viewer = memo(function Viewer({
               <div className="h-full rounded-full bg-terracotta transition-all duration-300" style={{ width: `${loading.pct}%` }} />
             </div>
             <p className="loading-fact font-serif mt-3 text-[0.85rem] text-ink-muted">{t.loadingFact}</p>
+          </div>
+        </div>
+      )}
+
+      {/* ── model too heavy for this device ── */}
+      {!loading && loadError && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-paper/85 px-6 backdrop-blur-[2px]" role="alert">
+          <div className="flex w-[280px] flex-col items-center gap-2 text-center">
+            <p className="font-serif text-[0.9rem] text-ink-muted">{loadError}</p>
+            <button
+              type="button"
+              onClick={() => setLoadError(null)}
+              className="mt-1 rounded-full border border-line-warm px-4 py-1.5 text-[0.8rem] text-ink-muted transition hover:bg-white/60"
+            >
+              {t.closeDetail}
+            </button>
           </div>
         </div>
       )}

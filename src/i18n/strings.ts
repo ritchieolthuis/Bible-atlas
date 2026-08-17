@@ -63,6 +63,7 @@ export interface UiStrings {
     disclaimer: string;
     loadingPrefix: string;
     loadingFact: string;
+    loadTooHeavy: (name: string) => string;
     canvasAria: (dwelling: string) => string;
     stageAria: (dwelling: string) => string;
     clickToExplore: string;
@@ -198,6 +199,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       disclaimer: "Note: This 3D model may vary due to rendering and visualization; the biblical Scriptures take precedence.",
       loadingPrefix: "Loading",
       loadingFact: "Preparing the temple courts…",
+      loadTooHeavy: (name) => `The ${name} model is too large for this device's memory. Try again on a desktop computer or a device with more memory.`,
       canvasAria: (dwelling) => `3D model of the ${dwelling}`,
       stageAria: (dwelling) => `Interactive 3D viewer. Use arrow keys to rotate the ${dwelling} model, plus and minus to zoom.`,
       clickToExplore: "Click to explore",
@@ -331,6 +333,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       disclaimer: "Let op: Dit 3D-model kan door rendering en visualisatie afwijken; de Bijbelse geschriften zijn leidend.",
       loadingPrefix: "Bezig met laden van",
       loadingFact: "De voorhoven van de tempel worden voorbereid…",
+      loadTooHeavy: (name) => `Het model van ${name} is te zwaar voor het geheugen van dit toestel. Probeer het op een computer of een toestel met meer geheugen.`,
       canvasAria: (dwelling) => `3D-model van ${dwelling}`,
       stageAria: (dwelling) => `Interactieve 3D-viewer. Gebruik de pijltjestoetsen om ${dwelling} te draaien, plus en min om te zoomen.`,
       clickToExplore: "Klik om te verkennen",
