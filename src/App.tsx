@@ -10,7 +10,7 @@ import { Viewer } from "@/components/Viewer";
 import { InfoPanel } from "@/components/InfoPanel";
 import { BottomCards } from "@/components/BottomCards";
 import { Footer } from "@/components/Footer";
-import { LessonModal, QuizModal, ArtifactsModal, TimelineModal, SectionModal, SearchOverlay } from "@/components/modals";
+import { LessonModal, QuizModal, ArtifactsModal, TimelineModal, GospelModal, SectionModal, SearchOverlay } from "@/components/modals";
 import { CloseIcon } from "@/components/icons";
 
 type ModalId = string | null;
@@ -29,6 +29,7 @@ export default function App() {
     { id: "lessons", label: t.nav.scripture },
     { id: "library", label: t.nav.library },
     { id: "notes", label: t.nav.timeline },
+    { id: "gospel", label: t.nav.gospel },
   ];
 
   const [viewerStructure, setViewerEmpire] = useState<Structure>(() => structureById(locale, DEFAULT_EMPIRE_ID));
@@ -134,6 +135,7 @@ export default function App() {
       if (nav === "lessons") setModal("lesson");
       else if (nav === "structures" || nav === "library") setSearchOpen(true);
       else if (nav === "notes") setModal("timeline");
+      else if (nav === "gospel") setModal("gospel");
     },
     [],
   );
@@ -316,6 +318,7 @@ export default function App() {
       {modal === "quiz" && <QuizModal key={panelStructure.id} structure={panelStructure} onClose={() => setModal(null)} />}
       {modal === "artifacts" && <ArtifactsModal structure={panelStructure} onClose={() => setModal(null)} />}
       {modal === "timeline" && <TimelineModal structure={panelStructure} onClose={() => setModal(null)} />}
+      {modal === "gospel" && <GospelModal onClose={() => setModal(null)} />}
       {(modal === "interior" || modal === "floorPlan" || modal === "dailyLife" || modal === "geography" || panelStructure.extras?.some((e) => e.id === modal)) && (
         <SectionModal structure={panelStructure} section={modal!} onClose={() => setModal(null)} />
       )}

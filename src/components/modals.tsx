@@ -133,6 +133,45 @@ export const ArtifactsModal = memo(function ArtifactsModal({ structure, onClose 
   );
 });
 
+/* ═══ Gospel ═══ */
+export const GospelModal = memo(function GospelModal({ onClose }: { onClose: () => void }) {
+  const { locale } = useLocale();
+  const g = useStrings(locale).modals.gospel;
+  return (
+    <ModalShell title={g.title} kicker={g.kicker} onClose={onClose} wide>
+      <p className="font-serif text-[1.05rem] italic leading-snug text-ink-soft">{g.subtitle}</p>
+      <p className="mt-4 text-[0.92rem] leading-relaxed text-ink-soft">{g.intro}</p>
+      <div className="mt-5 space-y-5">
+        {g.steps.map((s, i) => (
+          <section key={s.heading} className="flex gap-4">
+            <span className="font-display flex h-7 w-7 flex-none items-center justify-center rounded-full border border-line-strong bg-paper-deep text-[0.85rem] font-bold text-terracotta">
+              {i + 1}
+            </span>
+            <div>
+              <h3 className="font-display text-[1.1rem] font-bold text-ink">{s.heading}</h3>
+              <p className="mt-1 text-[0.88rem] leading-relaxed text-ink-soft">{s.body}</p>
+              <div className="mt-3 space-y-2">
+                {s.verses.map((v) => (
+                  <blockquote key={v.ref} className="border-l-2 border-terracotta/50 pl-3">
+                    <p className="font-serif text-[0.88rem] italic leading-snug text-ink-soft">"{v.text}"</p>
+                    <cite className="mt-0.5 block text-[0.75rem] not-italic text-ink-muted">{v.ref}</cite>
+                  </blockquote>
+                ))}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+      <div className="mt-6 rounded-2xl border border-line-warm bg-paper-deep p-6">
+        <div className="kicker !text-terracotta">{g.prayerKicker}</div>
+        <p className="mt-2 text-[0.9rem] leading-relaxed text-ink-soft">{g.prayerIntro}</p>
+        <p className="font-serif mt-4 text-[1.05rem] italic leading-relaxed text-ink">{g.prayerText}</p>
+      </div>
+      <p className="mt-5 text-[0.9rem] leading-relaxed text-ink-soft">{g.afterword}</p>
+    </ModalShell>
+  );
+});
+
 /* ═══ Timeline ═══ */
 export const TimelineModal = memo(function TimelineModal({ structure, onClose }: { structure: Structure; onClose: () => void }) {
   const { locale } = useLocale();
@@ -208,10 +247,15 @@ export const SectionModal = memo(function SectionModal({
       {rooms && (
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {rooms.map((r) => (
-            <div key={r.name} className="artifact-card p-4">
-              <h3 className="font-display text-[1.05rem] font-bold text-ink">{r.name}</h3>
-              {r.note && <p className="mt-1 text-[0.82rem] font-medium text-terracotta-deep">{r.note}</p>}
-              {r.verse && <p className="font-serif mt-1.5 text-[0.8rem] italic leading-relaxed text-ink-muted">{r.verse}</p>}
+            <div key={r.name} className="artifact-card overflow-hidden p-0">
+              {r.image && (
+                <img src={withBase(r.image)} alt={r.name} className="h-32 w-full object-cover" loading="lazy" />
+              )}
+              <div className="p-4">
+                <h3 className="font-display text-[1.05rem] font-bold text-ink">{r.name}</h3>
+                {r.note && <p className="mt-1 text-[0.82rem] font-medium text-terracotta-deep">{r.note}</p>}
+                {r.verse && <p className="font-serif mt-1.5 text-[0.8rem] italic leading-relaxed text-ink-muted">{r.verse}</p>}
+              </div>
             </div>
           ))}
         </div>

@@ -92,6 +92,8 @@ export interface FloorPlanRoom {
   note?: string;
   /** exact scripture citation for this room/measurement, e.g. \`"...five cubits was the length thereof" - Exodus 38:1 (KJV)\` */
   verse?: string;
+  /** small illustrative image for this room/feature, shown alongside the card (path under /img) */
+  image?: string;
 }
 
 export interface LessonBlock {
