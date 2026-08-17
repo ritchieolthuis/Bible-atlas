@@ -56,6 +56,16 @@ export class ModelTooHeavyError extends Error {
     this.byteSize = byteSize;
   }
 }
+
+/** For a resolved `/models/<file>.glb` path, points at the pre-compressed
+ *  mobile counterpart in `/models/mobile/<file>.glb`, if one could exist.
+ *  Callers still HEAD-check it since not every model has a mobile build. */
+function toMobilePath(resolvedPath: string): string | null {
+  const m = resolvedPath.match(/^(.*)\/models\/([^/]+\.glb)$/);
+  if (!m) return null;
+  const [, prefix, file] = m;
+  return `${prefix}/models/mobile/${file}`;
+}
 const TARGET_SIZE = 2.0; // normalized model footprint, world units
 const UP = new THREE.Vector3(0, 1, 0);
 const DOWN = new THREE.Vector3(0, -1, 0);
@@ -502,16 +512,28 @@ export class ViewerEngine {
 
   /* ── model loading & normalization ─────────────────────────────── */
   load(structure: Structure, variantPath?: string): Promise<LoadedModel> {
-    const targetPath = withBase(variantPath || structure.modelPath);
-    const cacheKey = `${structure.id}:${targetPath}`;
+    const desktopPath = withBase(variantPath || structure.modelPath);
+    const cacheKey = `${structure.id}:${desktopPath}`;
     const cached = this.cache.get(cacheKey);
     if (cached) return cached;
     const p = (async (): Promise<LoadedModel> => {
+      let targetPath = desktopPath;
       // Low-memory devices (phones/tablets) reliably crash on very large
-      // .glb files well before the browser reports an out-of-memory error  -
-      // check the size up front and fail with a message instead of a
-      // silent crash. Desktop has no ceiling here.
+      // .glb files well before the browser reports an out-of-memory error.
+      // Heavy models (>~140MB) are pre-compressed (Draco geometry + WebP
+      // textures, same visual quality, no simplification) into
+      // /models/mobile/<file>. On a low-memory device, prefer that file when
+      // it exists; desktop always gets the original, full-quality asset.
       if (IS_LOW_MEMORY_DEVICE && !targetPath.endsWith(".obj")) {
+        const mobilePath = toMobilePath(targetPath);
+        if (mobilePath) {
+          try {
+            const head = await fetch(mobilePath, { method: "HEAD" });
+            if (head.ok) targetPath = mobilePath;
+          } catch {
+            /* mobile variant unreachable  -  fall through to the desktop path */
+          }
+        }
         try {
           const head = await fetch(targetPath, { method: "HEAD" });
           const len = Number(head.headers.get("content-length") || 0);
