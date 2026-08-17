@@ -11,6 +11,10 @@ import { eden_fall } from "./eden_fall";
 import { mount_of_olives } from "./mount_of_olives";
 import { golgotha } from "./golgotha";
 
+// In de volgorde waarin de gebeurtenissen in de Schrift plaatsvinden: de
+// schepping en de zondeval, via de aartsvaders, de uittocht en de intocht,
+// het koninkrijk en de ballingschap, het leven van Christus, en tot slot de
+// toekomstige stad uit Openbaring.
 export const STRUCTURES_NL: Structure[] = [
   eden_fall,
   noahs_ark,
@@ -20,7 +24,7 @@ export const STRUCTURES_NL: Structure[] = [
   solomon_temple,
   ezekiel_temple,
   herods_temple,
-  new_jerusalem,
   mount_of_olives,
   golgotha,
+  new_jerusalem,
 ];

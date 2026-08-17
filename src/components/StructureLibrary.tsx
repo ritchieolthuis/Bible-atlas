@@ -81,7 +81,15 @@ export const StructureLibrary = memo(function StructureLibrary({ structures, act
               }}
               className={`structure-card !border-transparent hover:!bg-white/8 ${active ? "!bg-white/10 !border-white/15" : ""}`}
             >
-              <img className="thumb !border-white/15 !bg-white/6" src={structureImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />
+              <span className="relative flex-none">
+                <img className="thumb !border-white/15 !bg-white/6" src={structureImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />
+                <span
+                  className="font-display absolute -left-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border border-white/20 bg-terracotta-deep text-[0.68rem] font-bold text-white shadow-sm"
+                  aria-hidden
+                >
+                  {i + 1}
+                </span>
+              </span>
               <span className="min-w-0 flex-1 leading-tight">
                 <span className="font-display block text-[0.98rem] font-bold leading-[1.1] text-white">{e.name}</span>
                 <span className="mt-0.5 block truncate text-[0.78rem] text-white/55">{e.dwelling}</span>
