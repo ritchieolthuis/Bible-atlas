@@ -359,7 +359,11 @@ export class ViewerEngine {
     // impossible to guess by hand. Double-clicking the spot you mean converts
     // the ray hit straight into the triple the data file wants, and copies it
     // to the clipboard so it can be pasted into the structure's hotspot list.
-    this.canvas.addEventListener("dblclick", (e: MouseEvent) => {
+    // Dev-only: a visitor double-clicking the model in production should
+    // never see an internal authoring readout.
+    const devMode =
+      import.meta.env.DEV && typeof window !== "undefined" && new URLSearchParams(window.location.search).get("dev") === "1";
+    if (devMode) this.canvas.addEventListener("dblclick", (e: MouseEvent) => {
       if (!this.current) return;
       const rect = this.canvas.getBoundingClientRect();
       const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
