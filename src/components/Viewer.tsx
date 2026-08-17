@@ -14,6 +14,7 @@ import {
   RotateCcwIcon,
   ZoomInIcon,
   ZoomOutIcon,
+  FullscreenIcon,
   PanIcon,
   LayersIcon,
   VaseIcon,
@@ -67,6 +68,7 @@ export const Viewer = memo(function Viewer({
   const currentStructureRef = useRef<Structure | null>(null);
   const [engineReady, setEngineReady] = useState(false);
   const [markersVisible, setMarkersVisible] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [loading, setLoading] = useState<{ name: string; pct: number } | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -129,6 +131,22 @@ export const Viewer = memo(function Viewer({
   useEffect(() => {
     engineRef.current?.setPanMode(tool === "pan");
   }, [tool]);
+
+  /* keep isFullscreen in sync with the real state  -  Escape or a browser
+     chrome control can exit fullscreen without going through toggleFullscreen */
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(document.fullscreenElement === containerRef.current);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+    } else {
+      containerRef.current?.requestFullscreen?.();
+    }
+  }, []);
 
   /* dismiss the layers menu on an outside click, or on Escape */
   useEffect(() => {
@@ -339,6 +357,10 @@ export const Viewer = memo(function Viewer({
           <button className="tool-btn" onClick={() => engineRef.current?.zoomBy(1.28)}>
             <ZoomOutIcon />
             <span>{t.zoomOut}</span>
+          </button>
+          <button className={`tool-btn ${isFullscreen ? "is-on" : ""}`} onClick={toggleFullscreen} aria-pressed={isFullscreen}>
+            <FullscreenIcon />
+            <span>{isFullscreen ? t.exitFullscreen : t.fullscreen}</span>
           </button>
           <div className="relative" ref={layersRef}>
             <button className={`tool-btn ${layersOpen ? "is-on" : ""}`} onClick={() => setLayersOpen((v) => !v)} aria-expanded={layersOpen} aria-haspopup="true">

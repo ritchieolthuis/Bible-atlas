@@ -49,6 +49,8 @@ export interface UiStrings {
     pan: string;
     zoomIn: string;
     zoomOut: string;
+    fullscreen: string;
+    exitFullscreen: string;
     layers: string;
     layerLabels: string;
     layerGrid: string;
@@ -197,6 +199,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       pan: "Pan",
       zoomIn: "Zoom in",
       zoomOut: "Zoom out",
+      fullscreen: "Fullscreen",
+      exitFullscreen: "Exit fullscreen",
       layers: "Layers",
       layerLabels: "Hotspot pins",
       layerGrid: "Turntable grid",
@@ -368,6 +372,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       pan: "Verschuiven",
       zoomIn: "Inzoomen",
       zoomOut: "Uitzoomen",
+      fullscreen: "Volledig scherm",
+      exitFullscreen: "Volledig scherm sluiten",
       layers: "Lagen",
       layerLabels: "Hotspot-pins",
       layerGrid: "Draaitafelraster",

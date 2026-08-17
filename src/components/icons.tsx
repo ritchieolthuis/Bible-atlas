@@ -88,6 +88,11 @@ export const ZoomOutIcon = (p: SVGProps<SVGSVGElement>) => (
     <path d="M15.4 15.4L20.5 20.5" />
   </svg>
 );
+export const FullscreenIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M8 3H5a2 2 0 00-2 2v3M16 3h3a2 2 0 012 2v3M8 21H5a2 2 0 01-2-2v-3M16 21h3a2 2 0 002-2v-3" />
+  </svg>
+);
 export const PanIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <path d="M12 3v18M3 12h18" />
