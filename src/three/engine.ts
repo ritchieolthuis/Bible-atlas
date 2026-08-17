@@ -823,29 +823,15 @@ export class ViewerEngine {
         nm.roughness = 1.0;
         nm.metalness = 1.0;
       }
-      else if (structureId === "tower_babel") {
-        const texLoader = new THREE.TextureLoader();
-
-        // Load diffuse map
-        const diffuse = texLoader.load(withBase("/img/tower_babel/texture_diffuse.webp"));
-        diffuse.colorSpace = THREE.SRGBColorSpace;
-        diffuse.flipY = false;
-        nm.map = diffuse;
-
-        // Load normal map
-        const normal = texLoader.load(withBase("/img/tower_babel/texture_normal.webp"));
-        normal.flipY = false;
-        nm.normalMap = normal;
-
-        // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load(withBase("/img/tower_babel/texture_pbr.webp"));
-        pbr.flipY = false;
-        nm.roughnessMap = pbr;
-        nm.metalnessMap = pbr;
-
-        nm.roughness = 1.0;
-        nm.metalness = 1.0;
-      }
+      /* tower_babel intentionally has no override here (removed): the
+         external /img/tower_babel/texture_*.webp files were baked against
+         the old model's UV atlas. The current model (swapped in for a
+         sharper Meshy AI export) has its own different UV layout and
+         carries its own embedded, already-correct texture  -  applying the
+         old override here scrambled the surface into the flat, detail-less
+         sand color seen instead of the baked stonework. Do not re-add
+         without first confirming the external texture's UV layout matches
+         the current model. */
       /* solomon_temple and herods_temple intentionally have no override here:
          their external /img/{id}/texture_*.* files use a different UV atlas
          than the embedded model, so applying them scrambles the surface into
