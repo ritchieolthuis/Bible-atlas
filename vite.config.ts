@@ -18,6 +18,14 @@ export default defineConfig({
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
+        // Some third-party hosts (e.g. the desamenkomst.nl uploader) don't
+        // reliably serve Vite's default assets/ subfolder — files inside it
+        // 404 even though sibling folders like gltf/ or per-structure img
+        // folders work fine. Flattening build output to the site root
+        // sidesteps that entirely: every hashed file sits next to index.html.
+        entryFileNames: "[name]-[hash].js",
+        chunkFileNames: "[name]-[hash].js",
+        assetFileNames: "[name]-[hash][extname]",
         manualChunks: {
           three: ["three", "three/webgpu", "three/tsl", "three-mesh-bvh"],
           gsap: ["gsap"],

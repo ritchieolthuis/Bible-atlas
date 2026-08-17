@@ -2,8 +2,8 @@ import type { Structure } from "@/types/structure";
 
 export const golgotha: Structure = {
   id: "golgotha",
-  name: "Golgotha (Calvary)",
-  dwelling: "Golgotha",
+  name: "Calvary",
+  dwelling: "Calvary",
   subtitle: "The place of a skull",
   description: "The place outside the wall of Jerusalem where Jesus was crucified between two thieves, and where He gave up the ghost after crying, It is finished. Called Golgotha in Hebrew, and Calvary in the Latin-derived name by which the King James Version renders it in Luke. KJV Verse: \"And when they were come to the place, which is called Calvary, there they crucified him, and the malefactors, one on the right hand, and the other on the left.\", Luke 23:33 (KJV)",
   descriptionLinks: [
