@@ -42,11 +42,26 @@ export const IS_LOW_MEMORY_DEVICE =
 const MAX_RESIDENT = IS_LOW_MEMORY_DEVICE ? 2 : 6;
 
 /** Above this file size, a .glb reliably crash-loops low-memory devices
- *  (see IS_LOW_MEMORY_DEVICE) well before the 300MB ceiling  -  the download
- *  itself, the decoded texture upload, and the rest of the scene all add up.
- *  Kept well under that ceiling so there is headroom for the scene already
- *  on stage. Desktop has no such limit. */
-const LOW_MEMORY_MODEL_BYTE_LIMIT = 90 * 1024 * 1024;
+ *  (see IS_LOW_MEMORY_DEVICE) well before the browser's actual OOM ceiling -
+ *  the download itself, the decoded texture upload, and the rest of the
+ *  scene already on stage all add up. Desktop has no such limit.
+ *
+ *  Scaled by `navigator.deviceMemory` (RAM in GB) where the browser exposes
+ *  it - Chrome/Android does, Safari/iOS never does. A flat 90MB limit was
+ *  observed too high for at least one real low-memory device (a stalled
+ *  load that Safari then killed with "A problem repeatedly occurred"), so
+ *  devices that don't report their memory get a more conservative default
+ *  rather than the old flat ceiling. */
+function lowMemoryModelByteLimit(): number {
+  const MB = 1024 * 1024;
+  const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+  if (typeof deviceMemory === "number") {
+    // Roughly: a 4GB-RAM phone gets ~60MB, 8GB gets ~90MB, capped both ends.
+    return Math.max(30, Math.min(90, deviceMemory * 15)) * MB;
+  }
+  // Unknown RAM (notably all of iOS Safari): assume the low end.
+  return 45 * MB;
+}
 
 export class ModelTooHeavyError extends Error {
   byteSize: number;
@@ -104,7 +119,18 @@ export interface LoadedModel {
 /** Structures whose visible geometry is too dense to build a BVH over
  *  without blocking the main thread  -  see buildRaycastProxy. Their
  *  hotspots are raycast against a coarse invisible proxy box instead. */
-const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall", "solomon_temple", "tower_babel", "mount_of_olives"]);
+const RAYCAST_PROXY_STRUCTURES = new Set([
+  "eden_fall",
+  "solomon_temple",
+  "tower_babel",
+  "mount_of_olives",
+  "golgotha",
+  "new_jerusalem",
+  "noahs_ark_inside",
+  "tabernacle_inside",
+  "walls_jericho",
+  "herods_temple",
+]);
 
 /** Ceiling on how long a model's shader/texture warm-up may hold up a
  *  structure swap  -  see the comment on `warm()`. This is a last-resort
@@ -579,7 +605,7 @@ export class ViewerEngine {
             throw new Error(`model not found at ${targetPath}`);
           }
           const len = Number(head.headers.get("content-length") || 0);
-          if (len > LOW_MEMORY_MODEL_BYTE_LIMIT) {
+          if (len > lowMemoryModelByteLimit()) {
             throw new ModelTooHeavyError(len);
           }
         } catch (e) {
