@@ -927,8 +927,10 @@ export class ViewerEngine {
       const fres = float(1.0).sub(normalView.dot(positionViewDirection).clamp(0, 1)).pow(2.6);
       nm.emissiveNode = fres.mul(this.rimColor).mul(this.rimIntensity);
       mesh.material = nm;
+      return Promise.resolve();
     } catch {
       /* keep original material */
+      return Promise.resolve();
     }
   }
 
