@@ -104,7 +104,7 @@ export interface LoadedModel {
 /** Structures whose visible geometry is too dense to build a BVH over
  *  without blocking the main thread  -  see buildRaycastProxy. Their
  *  hotspots are raycast against a coarse invisible proxy box instead. */
-const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall", "solomon_temple"]);
+const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall", "solomon_temple", "tower_babel", "mount_of_olives"]);
 
 /** Ceiling on how long a model's shader/texture warm-up may hold up a
  *  structure swap  -  see the comment on `warm()`. This is a last-resort

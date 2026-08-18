@@ -156,7 +156,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       tagline: "Explore the Structures of Scripture",
     },
     banner: {
-      lead: "Every structure in The 3D Bible is described in the",
+      lead: "Every structure in The 3D Bible is accurately reconstructed from the descriptions in the",
       bibleName: "King James Bible",
       verse: "All Scripture is given by inspiration of God, 2 Timothy 3:16 (KJV)",
       dismiss: "Dismiss credits",
@@ -329,7 +329,7 @@ export const STRINGS: Record<Locale, UiStrings> = {
       tagline: "Ontdek de Bouwwerken van de Schrift",
     },
     banner: {
-      lead: "Elk bouwwerk in The 3D Bible wordt beschreven volgens de",
+      lead: "Elk bouwwerk in The 3D Bible is nauwkeurig gereconstrueerd naar de beschrijvingen uit de",
       bibleName: "Statenvertaling",
       verse: "Al de Schrift is van God ingegeven  -  2 Timotheüs 3:16 (SV)",
       dismiss: "Melding sluiten",
