@@ -7,7 +7,9 @@ import { walls_jericho } from "./walls_jericho";
 import { herods_temple } from "./herods_temple";
 import { new_jerusalem } from "./new_jerusalem";
 import { ezekiel_temple } from "./ezekiel_temple";
-import { eden_fall } from "./eden_fall";
+// eden_fall import intentionally unused  -  see the comment in
+// STRUCTURES_EN below for why it's temporarily out of the registered list.
+// import { eden_fall } from "./eden_fall";
 import { mount_of_olives } from "./mount_of_olives";
 import { golgotha } from "./golgotha";
 
