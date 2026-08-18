@@ -663,9 +663,9 @@ export class ViewerEngine {
           targetPath,
           (object) => {
             applyExternalTextures(object).then(() => {
-              const model = this.normalize(object, structure, cacheKey);
+              const [model, rimReady] = this.normalize(object, structure, cacheKey);
               this.snapAnchors(model, structure);
-              this.warm(model).then(() => resolve(model));
+              rimReady.then(() => this.warm(model)).then(() => resolve(model));
             }).catch(reject);
           },
           undefined,
@@ -681,9 +681,9 @@ export class ViewerEngine {
               : Promise.resolve();
             applied.then(() => {
               try {
-                const model = this.normalize(gltf.scene, structure, cacheKey);
+                const [model, rimReady] = this.normalize(gltf.scene, structure, cacheKey);
                 this.snapAnchors(model, structure);
-                this.warm(model).then(() => resolve(model));
+                rimReady.then(() => this.warm(model)).then(() => resolve(model));
               } catch (e) {
                 reject(e);
               }
@@ -763,7 +763,11 @@ export class ViewerEngine {
     }
   }
 
-  private normalize(sceneObj: THREE.Group, structure: Structure, cacheKey: string): LoadedModel {
+  /** Returns the model plus a promise that resolves once every mesh's
+   *  material textures (see applyRim) are actually decoded  -  callers must
+   *  await it before warm()'s compileAsync, or a shader can get compiled
+   *  and locked in against still-empty textures (see applyRim's doc comment). */
+  private normalize(sceneObj: THREE.Group, structure: Structure, cacheKey: string): [LoadedModel, Promise<void>] {
     const group = new THREE.Group();
     const inner = sceneObj;
     group.add(inner);
@@ -780,6 +784,7 @@ export class ViewerEngine {
 
     const usesProxy = RAYCAST_PROXY_STRUCTURES.has(structure.id);
     const meshes: THREE.Mesh[] = [];
+    const rimReady: Promise<void>[] = [];
     inner.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         const m = o as THREE.Mesh;
@@ -797,14 +802,15 @@ export class ViewerEngine {
           // pass plus four occlusion rays a few times a second)
           (geo as any).computeBoundsTree({ indirect: true, maxLeafTris: 24 });
         }
-        this.applyRim(m, structure.id, cacheKey);
+        rimReady.push(this.applyRim(m, structure.id, cacheKey));
         meshes.push(m);
       }
     });
 
     const nsize = size.clone().multiplyScalar(s);
     const raycastMeshes = usesProxy ? [this.buildRaycastProxy(group, nsize)] : meshes;
-    return { group, meshes, raycastMeshes, size: nsize, structureId: structure.id, cacheKey };
+    const model = { group, meshes, raycastMeshes, size: nsize, structureId: structure.id, cacheKey };
+    return [model, Promise.all(rimReady).then(() => {})];
   }
 
   /** A coarse, invisible stand-in for hotspot/hover/occlusion raycasts, used
@@ -840,12 +846,22 @@ export class ViewerEngine {
    *  sharpening it. Before adding or changing an override here, extract
    *  and visually diff the model's embedded texture against the external
    *  one first  -  do not assume "higher resolution" means "compatible". */
-  private applyRim(mesh: THREE.Mesh, structureId: string, cacheKey?: string) {
+  /** Returns a promise that resolves once any textures this mesh needs are
+   *  actually decoded and assigned. `warm()` calls `renderer.compileAsync`
+   *  right after `normalize()`  -  with MeshStandardNodeMaterial, that
+   *  compiles and locks in the shader against whatever `map`/`normalMap`/etc
+   *  hold *at that moment*. TextureLoader.load() returns an empty Texture
+   *  immediately and fills it in asynchronously, so if the swap-in above
+   *  isn't awaited before compileAsync runs, the shader gets compiled
+   *  against blank textures and never picks up the real image once it
+   *  arrives  -  the mesh renders as flat, textureless material forever
+   *  (see the noahs_ark default variant regression this fixed). */
+  private applyRim(mesh: THREE.Mesh, structureId: string, cacheKey?: string): Promise<void> {
     // new_jerusalem's embedded texture is already correct for its model's UV
     // atlas; the external /img/new_jerusalem/texture_*.webp files were a
     // different, incompatible bake and have been removed. Do not re-add an
     // override here without first confirming the UV layout matches.
-    if (structureId === "new_jerusalem") return;
+    if (structureId === "new_jerusalem") return Promise.resolve();
     // The noahs_ark override below is baked ONLY against the original
     // default/exterior model's UV atlas (public/models/noahs_ark.glb).
     // Every other variant (inside, rainbow, and any future addition) is a
@@ -872,25 +888,22 @@ export class ViewerEngine {
 
       if (isNoahsArkDefaultVariant) {
         const texLoader = new THREE.TextureLoader();
-        
-        // Load diffuse map
-        const diffuse = texLoader.load(withBase("/img/noahs_ark/texture_diffuse.webp"));
-        diffuse.colorSpace = THREE.SRGBColorSpace;
-        diffuse.flipY = false;
-        nm.map = diffuse;
 
-        // Load normal map
-        const normal = texLoader.load(withBase("/img/noahs_ark/texture_normal.webp"));
-        normal.flipY = false;
-        nm.normalMap = normal;
-
-        // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load(withBase("/img/noahs_ark/texture_pbr.webp"));
-        pbr.flipY = false;
-        nm.roughnessMap = pbr;
-        nm.metalnessMap = pbr;
-        
-        nm.roughness = 1.0;
+        return Promise.all([
+          texLoader.loadAsync(withBase("/img/noahs_ark/texture_diffuse.webp")),
+          texLoader.loadAsync(withBase("/img/noahs_ark/texture_normal.webp")),
+          texLoader.loadAsync(withBase("/img/noahs_ark/texture_pbr.webp")),
+        ]).then(([diffuse, normal, pbr]) => {
+          diffuse.colorSpace = THREE.SRGBColorSpace;
+          diffuse.flipY = false;
+          normal.flipY = false;
+          pbr.flipY = false;
+          nm.map = diffuse;
+          nm.normalMap = normal;
+          nm.roughnessMap = pbr;
+          nm.metalnessMap = pbr;
+          nm.roughness = 1.0;
+        });
       }
       /* tower_babel intentionally has no override here (removed): the
          external /img/tower_babel/texture_*.webp files were baked against
