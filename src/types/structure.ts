@@ -141,6 +141,11 @@ export interface Structure {
     label: string;
     path: string;
     anchors?: Record<string, Vec3 | null>;
+    /** Override the structure's default opening shot while this variant is
+     *  shown  -  a cutaway/interior export usually has a different orientation
+     *  and footprint than the exterior, so the same azimuth can end up
+     *  facing the back instead of the front. Falls back to `camera` when absent. */
+    camera?: CameraPreset;
   }[];
   /** per-structure warm accent used for subtle scene tinting */
   tint: string;

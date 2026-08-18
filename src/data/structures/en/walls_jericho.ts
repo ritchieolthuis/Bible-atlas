@@ -12,7 +12,7 @@ export const walls_jericho: Structure = {
   ],
   modelPath: "/models/walls_jericho.glb?v=2",
   tint: "#a99a86",
-  camera: { azimuth: 45, elevation: 25, dist: 1.5, targetY: 0.3 },
+  camera: { azimuth: 45, elevation: 25, dist: 1.1, targetY: 0.3 },
   facts: [
     { label: "Period", value: "Conquest of Canaan", icon: "period" },
     { label: "Region", value: "Jericho, the city of palm trees", icon: "region" },
@@ -27,7 +27,7 @@ export const walls_jericho: Structure = {
       short: "Fell down flat",
       detail: "And it came to pass, when the people heard the sound of the trumpet, and the people shouted with a great shout, that the wall fell down flat (Joshua 6:20).",
       category: "structure",
-      anchor: [0.06, 0.6, 0.5],
+      anchor: [0.06,0.45,0.30],
       snap: "wall",
     },
     {
@@ -36,7 +36,7 @@ export const walls_jericho: Structure = {
       short: "Upon the town wall",
       detail: "For her house was upon the town wall, and she dwelt upon the wall... she bound the scarlet line in the window (Joshua 2:15, 21).",
       category: "roof",
-      anchor: [0.94, 0.55, 0.55],
+      anchor: [0.94,0.50,0.47],
       snap: "wall",
     },
     {
@@ -45,7 +45,7 @@ export const walls_jericho: Structure = {
       short: "Straitly shut up",
       detail: "Now Jericho was straitly shut up because of the children of Israel: none went out, and none came in (Joshua 6:1).",
       category: "entrance",
-      anchor: [0.72, 0.94, 0.6],
+      anchor: [0.94,0.40,0.70],
       snap: "wall",
     },
     {

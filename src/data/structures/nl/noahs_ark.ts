@@ -14,13 +14,23 @@ export const noahs_ark: Structure = {
   modelVariants: [
     { id: "default", label: "Standaard", path: "/models/noahs_ark.glb" },
     { id: "inside", label: "Binnenkant", path: "/models/noahs_ark_inside.glb",
-      // A separate export of the interior; the exterior hotspots (deur,
-      // venster, verdiepingen) do not exist as distinct fittings here.
+      // A separate export of the interior; the exterior-only hotspots (deur,
+      // venster, bepekking) do not exist as distinct fittings here. "stories"
+      // does apply here: this export is itself a lengthwise cross-section
+      // that shows all drie verdiepingen stacked, so it gets its own anchor
+      // instead of being hidden.
+      anchors: { pitch: null, window: null, door: null, stories: [0.535, 0.5, 0.474] },
+    },
+    { id: "rainbow", label: "Na de Vloed", path: "/models/noahs_ark_rainbow.glb",
+      // A separate scene (the ark at rest under the rainbow, Gen. 9:13) with
+      // its own geometry and orientation; none of the exterior/interior
+      // hotspot fittings apply here, so all are hidden.
+      camera: { azimuth: 0, elevation: 10, dist: 1.04, targetY: 0.4 },
       anchors: { pitch: null, window: null, door: null, stories: null },
     },
   ],
   tint: "#5b4a3a",
-  camera: { azimuth: -60, elevation: 20, dist: 1.2, targetY: 0.5 },
+  camera: { azimuth: -50, elevation: 22, dist: 1.3, targetY: 0.45 },
   facts: [
     { label: "Periode", value: "Voor de zondvloed; Noach was zeshonderd jaar oud", icon: "period" },
     { label: "Regio", value: "Rustte op de bergen van Ararat", icon: "region" },
@@ -53,7 +63,7 @@ export const noahs_ark: Structure = {
       short: "Gezet in haar zijde",
       detail: "En de deur der ark zult gij in haar zijde zetten (Genesis 6:16).",
       category: "entrance",
-      anchor: [0.8, 0.4, 0.5],
+      anchor: [0.88,0.35,0.5],
       snap: "wall",
     },
     {

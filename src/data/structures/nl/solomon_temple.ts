@@ -23,13 +23,16 @@ export const solomon_temple: Structure = {
       id: "inside", label: "Binnenkant", path: "/models/solomon_temple_inside.glb",
       // a separate export with its own bounds. The exterior features are
       // not repeated inside: the cutaway only carries its own fittings.
+      // The exterior azimuth (-38) shows a blank back corner of this
+      // reoriented export; 90 faces into the open cutaway instead.
+      camera: { azimuth: 90, elevation: 30, dist: 1.2, targetY: 0.32 },
       anchors: {
         boaz_pillar: null, porch: null,
         side_chambers: null, molten_lavers: null,
-        oracle: [0.3786, 0.1549, 0.4942],
+        oracle: [0.28, 0.75, 0.49],
         brasen_sea: [0.8808, 0.2488, 0.7963],
         jachin_pillar: [0.89, 0.81, 0.26],
-        candlesticks: [0.6525, 0.145, 0.281],
+        candlesticks: [0.42, 0.18, 0.50],
       },
     },
   ],
@@ -49,7 +52,7 @@ export const solomon_temple: Structure = {
       short: "De linker koperen pilaar: 'In Hem is kracht'",
       detail: "Daarna richtte hij de pilaren op in het voorhuis des tempels... en den linker pilaar noemde hij Boaz (1 Koningen 7:21). Achtien ellen hoog, met een kapiteel van lelies.",
       category: "facade",
-      anchor: [0.338, 0.50, 0.836],
+      anchor: [0.340,0.50,0.025],
       snap: "none",
     },
     {
@@ -58,7 +61,7 @@ export const solomon_temple: Structure = {
       short: "De rechter koperen pilaar: 'Hij zal bevestigen'",
       detail: "En den rechter pilaar opgericht hebbende, zo noemde hij zijn naam Jachin (1 Koningen 7:21). Een monumentaal bronzen meesterwerk van Hiram uit Tyrus.",
       category: "facade",
-      anchor: [0.522, 0.50, 0.836],
+      anchor: [0.663,0.50,0.025],
       snap: "none",
     },
     {
@@ -67,8 +70,8 @@ export const solomon_temple: Structure = {
       short: "De monumentale ingang met de rode voorhang",
       detail: "Het voorhuis nu, voor aan den tempel van het huis, twintig ellen was zijn lengte, voor de breedte van het huis; tien ellen was zijn breedte, voor het huis (1 Koningen 6:3).",
       category: "entrance",
-      anchor: [0.536, 0.99, 0.764],
-      snap: "roof",
+      anchor: [0.5,0.5,0.3],
+      snap: "none",
     },
     {
       id: "brasen_sea",
@@ -94,8 +97,8 @@ export const solomon_temple: Structure = {
       short: "Het heilige der heiligen, overtogen met gesloten goud",
       detail: "De aanspraakplaats vooraan was van twintig ellen in lengte, en van twintig ellen in breedte, en van twintig ellen in haar hoogte; en hij overtoog ze met gesloten goud (1 Koningen 6:20).",
       category: "interior",
-      anchor: [0.430, 0.84, 0.20],
-      snap: "roof",
+      anchor: [0.430,0.84,0.20],
+      snap: "none",
     },
     {
       id: "side_chambers",
@@ -103,8 +106,8 @@ export const solomon_temple: Structure = {
       short: "Drie verdiepingen rondom het huis gebouwd",
       detail: "En hij bouwde aan den wand van het huis gaanderijen rondom... en hij maakte zijdekamers rondom (1 Koningen 6:5).",
       category: "structure",
-      anchor: [0.207, 0.84, 0.321],
-      snap: "roof",
+      anchor: [0.207,0.84,0.321],
+      snap: "none",
     },
     {
       id: "holy_place",

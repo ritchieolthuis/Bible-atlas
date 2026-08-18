@@ -12,7 +12,7 @@ export const eden_fall: Structure = {
   ],
   modelPath: "/models/eden_fall.glb",
   tint: "#5c7a4a",
-  camera: { azimuth: -30, elevation: 35, dist: 4.2, targetY: 0.3 },
+  camera: { azimuth: -5, elevation: 18, dist: 0.95, targetY: 0.2 },
   facts: [
     { label: "Periode", value: "De Scheppingsweek", icon: "period" },
     { label: "Regio", value: "Eden, oostwaarts, doorstroomd door een viervoudige rivier", icon: "region" },
@@ -27,7 +27,7 @@ export const eden_fall: Structure = {
       short: "In het midden van den hof",
       detail: "En de Heere God had allerlei geboomte uit het aardrijk doen spruiten, begeerlijk voor het gezicht en goed tot spijze; en den boom des levens in het midden van den hof, en den boom der kennis des goeds en des kwaads (Genesis 2:9). Van dezen laatsten boom had God gezegd: daarvan zult gij niet eten; want ten dage als gij daarvan eet, zult gij den dood sterven (Genesis 2:17).",
       category: "structure",
-      anchor: [0.498, 0.65, 0.519],
+      anchor: [0.499,0.85,0.375],
       snap: "none",
     },
     {
@@ -36,7 +36,7 @@ export const eden_fall: Structure = {
       short: "Verdeeld in vier hoofden",
       detail: "En een rivier ging uit Eden om den hof te bewateren; en werd van daar verdeeld en werd tot vier hoofden (Genesis 2:10).",
       category: "court",
-      anchor: [0.2, 0.1, 0.8],
+      anchor: [0.492,0.03,0.934],
       snap: "none",
     },
     {
@@ -47,6 +47,24 @@ export const eden_fall: Structure = {
       category: "artifact-zone",
       /* moved onto the model's own red serpent figure, previously overlapping tree_of_life */
       anchor: [0.237, 0.149, 0.715],
+      snap: "none",
+    },
+    {
+      id: "adam",
+      title: "Adam",
+      short: "Den mens dien Hij geformeerd had",
+      detail: "En de Heere God formeerde den mens uit het stof der aarde, en blies in zijn neusgaten den adem des levens; alzo werd de mens tot een levende ziel (Genesis 2:7). Hij nam hem en zette hem in den hof van Eden, om dien te bouwen en te bewaren.",
+      category: "artifact-zone",
+      anchor: [0.870,0.46,0.662],
+      snap: "none",
+    },
+    {
+      id: "eve",
+      title: "Eva",
+      short: "Moeder van al wat leeft",
+      detail: "En de Heere God bouwde de ribbe die Hij van Adam genomen had, tot een vrouw, en bracht haar tot Adam; en Adam zeide: Dit is nu been van mijn benen, en vlees van mijn vlees, men zal haar Manninne heten, omdat zij uit den man genomen is (Genesis 2:22-23). Later noemde Adam haar naam Eva, omdat zij een moeder aller levenden is (Genesis 3:20).",
+      category: "artifact-zone",
+      anchor: [0.225,0.44,0.694],
       snap: "none",
     },
   ],

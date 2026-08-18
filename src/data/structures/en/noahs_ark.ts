@@ -14,13 +14,23 @@ export const noahs_ark: Structure = {
   modelVariants: [
     { id: "default", label: "Outside", path: "/models/noahs_ark.glb" },
     { id: "inside", label: "Inside", path: "/models/noahs_ark_inside.glb",
-      // A separate export of the interior; the exterior hotspots (pitch,
-      // window, door, stories) do not exist as distinct fittings here.
+      // A separate export of the interior; the exterior-only hotspots
+      // (pitch, window, door) do not exist as distinct fittings here.
+      // "stories" does apply: this export is itself a lengthwise
+      // cross-section showing all three decks stacked, so it gets its own
+      // anchor instead of being hidden.
+      anchors: { pitch: null, window: null, door: null, stories: [0.535, 0.5, 0.474] },
+    },
+    { id: "rainbow", label: "After the Flood", path: "/models/noahs_ark_rainbow.glb",
+      // A separate scene (the ark at rest under the rainbow, Gen. 9:13) with
+      // its own geometry and orientation; none of the exterior/interior
+      // hotspot fittings apply here, so all are hidden.
+      camera: { azimuth: 0, elevation: 10, dist: 1.04, targetY: 0.4 },
       anchors: { pitch: null, window: null, door: null, stories: null },
     },
   ],
   tint: "#5b4a3a",
-  camera: { azimuth: 0, elevation: 0, dist: 1.8, targetY: 0.5 },
+  camera: { azimuth: -50, elevation: 22, dist: 1.3, targetY: 0.45 },
   facts: [
     { label: "Period", value: "Before the Flood; Noah was six hundred years old", icon: "period" },
     { label: "Region", value: "Rested on the mountains of Ararat", icon: "region" },
@@ -53,7 +63,7 @@ export const noahs_ark: Structure = {
       short: "Set in the side thereof",
       detail: "And the door of the ark shalt thou set in the side thereof (Genesis 6:16).",
       category: "entrance",
-      anchor: [0.8, 0.4, 0.5],
+      anchor: [0.88,0.35,0.5],
       snap: "wall",
     },
     {

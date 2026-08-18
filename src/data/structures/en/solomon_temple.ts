@@ -23,13 +23,16 @@ export const solomon_temple: Structure = {
       id: "inside", label: "Inside", path: "/models/solomon_temple_inside.glb",
       // a separate export with its own bounds. The exterior features are
       // not repeated inside: the cutaway only carries its own fittings.
+      // The exterior azimuth (-38) shows a blank back corner of this
+      // reoriented export; 90 faces into the open cutaway instead.
+      camera: { azimuth: 90, elevation: 30, dist: 1.2, targetY: 0.32 },
       anchors: {
         boaz_pillar: null, porch: null,
         side_chambers: null, molten_lavers: null,
-        oracle: [0.3786, 0.1549, 0.4942],
+        oracle: [0.28, 0.75, 0.49],
         brasen_sea: [0.8808, 0.2488, 0.7963],
         jachin_pillar: [0.89, 0.81, 0.26],
-        candlesticks: [0.6525, 0.145, 0.281],
+        candlesticks: [0.42, 0.18, 0.50],
       },
     },
   ],
@@ -49,7 +52,7 @@ export const solomon_temple: Structure = {
       short: "The left bronze pillar: 'In it is strength'",
       detail: "And he set up the pillars in the porch of the temple... and called the name thereof Boaz (1 Kings 7:21). Eighteen cubits high, with chapiters of lily work.",
       category: "facade",
-      anchor: [0.338, 0.50, 0.836],
+      anchor: [0.340,0.50,0.025],
       snap: "none",
     },
     {
@@ -58,7 +61,7 @@ export const solomon_temple: Structure = {
       short: "The right bronze pillar: 'He will establish'",
       detail: "And he set up the right pillar, and called the name thereof Jachin (1 Kings 7:21). A monumental bronze masterwork cast by Hiram of Tyre.",
       category: "facade",
-      anchor: [0.522, 0.50, 0.836],
+      anchor: [0.663,0.50,0.025],
       snap: "none",
     },
     {
@@ -67,8 +70,8 @@ export const solomon_temple: Structure = {
       short: "The monumental entrance with scarlet veil",
       detail: "The porch before the temple of the house, twenty cubits was the length thereof, and ten cubits was the breadth thereof before the house (1 Kings 6:3).",
       category: "entrance",
-      anchor: [0.536, 0.99, 0.764],
-      snap: "roof",
+      anchor: [0.5,0.5,0.3],
+      snap: "none",
     },
     {
       id: "brasen_sea",
@@ -94,8 +97,8 @@ export const solomon_temple: Structure = {
       short: "The most holy place overlaid with pure gold",
       detail: "The oracle in the forepart was twenty cubits in length, and twenty cubits in breadth, and twenty cubits in the height thereof: and he overlaid it with pure gold (1 Kings 6:20).",
       category: "interior",
-      anchor: [0.430, 0.84, 0.20],
-      snap: "roof",
+      anchor: [0.430,0.84,0.20],
+      snap: "none",
     },
     {
       id: "side_chambers",
@@ -103,8 +106,8 @@ export const solomon_temple: Structure = {
       short: "Three stories built against the temple walls",
       detail: "And against the wall of the house he built chambers round about... and he made chambers round about (1 Kings 6:5).",
       category: "structure",
-      anchor: [0.207, 0.84, 0.321],
-      snap: "roof",
+      anchor: [0.207,0.84,0.321],
+      snap: "none",
     },
     {
       id: "holy_place",

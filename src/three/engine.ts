@@ -130,6 +130,7 @@ const RAYCAST_PROXY_STRUCTURES = new Set([
   "tabernacle_inside",
   "walls_jericho",
   "herods_temple",
+  "parting_sea",
 ]);
 
 /** Ceiling on how long a model's shader/texture warm-up may hold up a
@@ -845,10 +846,17 @@ export class ViewerEngine {
     // different, incompatible bake and have been removed. Do not re-add an
     // override here without first confirming the UV layout matches.
     if (structureId === "new_jerusalem") return;
-    // The noahs_ark override below is baked against the exterior model's UV
-    // atlas; the "inside" variant is a separate export with its own embedded
-    // textures (see modelVariants on noahs_ark), so it must keep those.
-    const isNoahsArkInside = structureId === "noahs_ark" && !!cacheKey?.includes("_inside");
+    // The noahs_ark override below is baked ONLY against the original
+    // default/exterior model's UV atlas (public/models/noahs_ark.glb).
+    // Every other variant (inside, rainbow, and any future addition) is a
+    // separate export with its own embedded texture and must keep it  -
+    // applying this override to the wrong UV layout scrambles the surface
+    // into flat/disconnected patches (see the tower_babel and
+    // solomon_temple/herods_temple notes below for the same failure mode).
+    // Opt IN by exact model path instead of opting OUT by variant id, so a
+    // newly added variant is safe by default even if no one remembers to
+    // exclude it here.
+    const isNoahsArkDefaultVariant = structureId === "noahs_ark" && !!cacheKey?.endsWith("/models/noahs_ark.glb");
     try {
       const src = mesh.material as THREE.MeshStandardMaterial;
       const nm = new THREE.MeshStandardNodeMaterial();
@@ -862,7 +870,7 @@ export class ViewerEngine {
       nm.metalness = src.metalness ?? 0.1;
       mesh.material = nm;
 
-      if (structureId === "noahs_ark" && !isNoahsArkInside) {
+      if (isNoahsArkDefaultVariant) {
         const texLoader = new THREE.TextureLoader();
         
         // Load diffuse map
@@ -1397,13 +1405,23 @@ export class ViewerEngine {
   private refreshOcclusion() {
     this.occlusionCache.clear();
     if (!this.current) return;
+    // The coarse box proxy (see buildRaycastProxy) approximates a structure's
+    // full footprint as one solid block. That's fine for hover/click picking,
+    // but for occlusion it's actively wrong: any anchor that sits low or near
+    // the model's own centre - a figure on open ground, a courtyard fitting -
+    // is *inside* that block's volume, so a ray from the camera to it always
+    // exits through the block's own near face first and reads as blocked,
+    // regardless of viewing angle. These structures' hotspots are all
+    // snap:"none" (placed exactly), so skipping occlusion for them just
+    // means their pins stay visible, which is the correct behaviour here.
+    if (this.current.raycastMeshes !== this.current.meshes) return;
     const camPos = this.camera.position;
     this.raycaster.firstHitOnly = true;
     this._pendingOcclusion?.forEach(({ id, world }) => {
       const dir = this.occScratch.copy(world).sub(camPos);
       const dist = dir.length();
       this.raycaster.set(camPos, dir.normalize());
-      // pins rest on the mesh skin, so stop just short of the surface  - 
+      // pins rest on the mesh skin, so stop just short of the surface  -
       // anything the ray still hits is genuinely in front of the pin
       this.raycaster.far = Math.max(0.01, dist - 0.05);
       const hits = this.raycaster.intersectObjects(this.current!.raycastMeshes, false);

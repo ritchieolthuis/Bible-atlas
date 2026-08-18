@@ -12,7 +12,7 @@ export const walls_jericho: Structure = {
   ],
   modelPath: "/models/walls_jericho.glb?v=2",
   tint: "#a99a86",
-  camera: { azimuth: 45, elevation: 25, dist: 1.5, targetY: 0.3 },
+  camera: { azimuth: 45, elevation: 25, dist: 1.1, targetY: 0.3 },
   facts: [
     { label: "Periode", value: "Verovering van Kanaän", icon: "period" },
     { label: "Regio", value: "Jericho, de palmstad", icon: "region" },
@@ -27,7 +27,7 @@ export const walls_jericho: Structure = {
       short: "Viel onder zich",
       detail: "En het geschiedde, als het volk het geluid der bazuin hoorde, dat het volk juichte met een groot gejuich; en de muur viel onder zich (Jozua 6:20).",
       category: "structure",
-      anchor: [0.06, 0.6, 0.5],
+      anchor: [0.06,0.45,0.30],
       snap: "wall",
     },
     {
@@ -36,7 +36,7 @@ export const walls_jericho: Structure = {
       short: "Op den stadsmuur",
       detail: "Want haar huis was op den stadsmuur, en zij woonde op den muur... zij bond het scharlaken snoer in het venster (Jozua 2:15, 21).",
       category: "roof",
-      anchor: [0.94, 0.55, 0.55],
+      anchor: [0.94,0.50,0.47],
       snap: "wall",
     },
     {
@@ -45,7 +45,7 @@ export const walls_jericho: Structure = {
       short: "Stiptelijk gesloten",
       detail: "Jericho nu sloot de poorten toe, en was gesloten, voor het aangezicht van de kinderen Israëls: er ging niemand uit, en er ging niemand in (Jozua 6:1).",
       category: "entrance",
-      anchor: [0.72, 0.94, 0.6],
+      anchor: [0.94,0.40,0.70],
       snap: "wall",
     },
     {

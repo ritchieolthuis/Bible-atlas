@@ -66,8 +66,25 @@ export const Viewer = memo(function Viewer({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<ViewerEngine | null>(null);
   const currentStructureRef = useRef<Structure | null>(null);
+  /** `${structureId}:${variantId}` for the request currently in flight (set
+   *  synchronously before the first await) - closes the race where
+   *  StrictMode's double-invoked effect, or any other near-simultaneous
+   *  caller, fires presentStructure twice for the same target before
+   *  currentStructureRef has been updated by the first call. */
+  const pendingKeyRef = useRef<string | null>(null);
   const [engineReady, setEngineReady] = useState(false);
-  const [markersVisible, setMarkersVisible] = useState(false);
+  /** id of the structure markers are currently shown/fading in for, or null.
+   *  Storing the id rather than a bare boolean matters: `structure` (the
+   *  prop) can flip to a new pick before the state update from the
+   *  previous pick's completed load has flushed, producing one render
+   *  where the new structure's pins exist but a stale "visible" from the
+   *  old pick is still true. That falsely starts the pins' GSAP fade-in,
+   *  which then gets killed a render later when this state catches up -
+   *  leaving the pins permanently stuck at opacity 0 (clearProps only
+   *  runs on the tween's natural completion, not on kill()). Comparing
+   *  the id directly in the JSX below instead of relying on a boolean
+   *  closes that window. */
+  const [markersVisibleFor, setMarkersVisibleFor] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loading, setLoading] = useState<{ name: string; pct: number } | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -208,11 +225,21 @@ export const Viewer = memo(function Viewer({
       // If we are already showing this structure AND this variant, do nothing
       if (isSameEmpire && activeVariantId === targetVariantId && !opts.initial) return;
 
+      // Close the race where two near-simultaneous calls for the same target
+      // (e.g. React StrictMode double-invoking the reactive effect below)
+      // both pass the check above before either has updated
+      // currentStructureRef. The second one bails here instead of resetting
+      // markersVisible after the first call already turned it on.
+      const pendingKey = `${next.id}:${targetVariantId}`;
+      if (pendingKeyRef.current === pendingKey) return;
+      pendingKeyRef.current = pendingKey;
+
+      try {
       const token = ++requestRef.current;
       currentStructureRef.current = next;
       setActiveId(null);
       setHoverId(null);
-      setMarkersVisible(false);
+      setMarkersVisibleFor(null);
       setActiveVariantId(targetVariantId);
 
       // loading state if the fetch is slow
@@ -220,8 +247,12 @@ export const Viewer = memo(function Viewer({
       loadingTimer.current = setTimeout(() => {
         if (token === requestRef.current) setLoading({ name: next.dwelling, pct: 8 });
       }, 400);
-      
-      const variantPath = targetVariantId ? next.modelVariants?.find(v => v.id === targetVariantId)?.path : undefined;
+
+      const targetVariant = targetVariantId ? next.modelVariants?.find(v => v.id === targetVariantId) : undefined;
+      const variantPath = targetVariant?.path;
+      // a cutaway/interior export often has a different orientation than the
+      // exterior, so it gets its own opening shot when authored with one
+      const framed = targetVariant?.camera ? { ...next, camera: targetVariant.camera } : next;
       let tooHeavy = false;
       const model = await engine.load(next, variantPath).catch((e) => {
         console.error("model load failed", e);
@@ -242,7 +273,7 @@ export const Viewer = memo(function Viewer({
 
       // the engine drives the exchange; panels flip at the handover so copy
       // and geometry change on the same beat
-      await engine.transition(model, next, {
+      await engine.transition(model, framed, {
         instant: opts.initial,
         onMidpoint: () => {
           if (token === requestRef.current) onSwap(next);
@@ -250,7 +281,7 @@ export const Viewer = memo(function Viewer({
       });
       if (token !== requestRef.current) return; // superseded mid-animation
 
-      setMarkersVisible(true);
+      setMarkersVisibleFor(next.id);
 
       // warm the neighbours so the next pick is already in memory  -  skipped
       // on touch/low-memory devices, where the initial model alone can
@@ -262,6 +293,9 @@ export const Viewer = memo(function Viewer({
           engine.preload(EMPIRES[(idx + 1) % EMPIRES.length]);
           engine.preload(EMPIRES[(idx - 1 + EMPIRES.length) % EMPIRES.length]);
         }, 1200);
+      }
+      } finally {
+        if (pendingKeyRef.current === pendingKey) pendingKeyRef.current = null;
       }
     },
     [onSwap, activeVariantId],
@@ -296,9 +330,10 @@ export const Viewer = memo(function Viewer({
 
   const resetView = useCallback(() => {
     setActiveId(null);
-    engineRef.current?.frameStructure(structure, true);
+    const activeVariantCamera = structure.modelVariants?.find((v) => v.id === activeVariantId)?.camera;
+    engineRef.current?.frameStructure(activeVariantCamera ? { ...structure, camera: activeVariantCamera } : structure, true);
     setTool("rotate");
-  }, [structure]);
+  }, [structure, activeVariantId]);
 
   /* layer toggles */
   const toggleLayer = (key: "labels" | "grid" | "wire" | "xray") => {
@@ -355,7 +390,7 @@ export const Viewer = memo(function Viewer({
         hoverId={hoverId}
         onHover={setHoverId}
         onActivate={setActiveId}
-        visible={markersVisible && layers.labels}
+        visible={markersVisibleFor === shownStructure.id && layers.labels}
       />
 
       {DEV_MODE && (

@@ -18,17 +18,23 @@ export const tabernacle: Structure = {
       // A separate export, turned a quarter turn and framed on the court, so
       // the default anchors land in the wrong places here. Measured against
       // this model's own geometry.
+      // The default exterior azimuth (-45) shows the back of this reoriented
+      // export; +135 (a half turn from -45) faces the front/entrance side instead.
+      camera: { azimuth: 135, elevation: 25, dist: 0.75, targetY: 0.3 },
       anchors: {
         curtains: [0.428, 0.96, 0.346],
-        brazen_altar: [0.485, 0.11, 0.837],
+        brazen_altar: [0.685, 0.30, 0.635],
         laver: [0.421, 0.29, 0.529],
-        court_gate: [0.5, 0.19, 0.9],
-        court_hangings: [0.06, 0.95, 0.5],
+        // the gate screen and the perimeter fence are exterior-only
+        // features of the court; this cutaway is framed on the tent's
+        // interior, so both are hidden here rather than mis-pinned
+        court_gate: null,
+        court_hangings: null,
       },
     }
   ],
   tint: "#a47864",
-  camera: { azimuth: -45, elevation: 30, dist: 1.0, targetY: 0.3 },
+  camera: { azimuth: -45, elevation: 30, dist: 0.78, targetY: 0.3 },
   facts: [
     { label: "Period", value: "Exodus", icon: "period" },
     { label: "Region", value: "The Wilderness of Sinai", icon: "region" },
