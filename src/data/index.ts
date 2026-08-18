@@ -42,7 +42,7 @@ export const structureById = (locale: Locale, id: string): Structure => {
   return list.find((e) => e.id === id) ?? list[0];
 };
 
-export const DEFAULT_EMPIRE_ID = "solomon_temple";
+export const DEFAULT_EMPIRE_ID = "eden_fall";
 
 /** Resolve per-structure image paths (thumbnail derived from hero set).
  *  Image assets are shared across locales  -  only the text differs. */

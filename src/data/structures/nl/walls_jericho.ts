@@ -110,11 +110,11 @@ export const walls_jericho: Structure = {
     title: "De Val van Jericho",
     intro: "Hoe de Heere Jericho in de hand van Jozua gaf.",
     blocks: [
-      { heading: "De Belofte", body: "En de Heere zeide tot Jozua: Zie, Ik heb Jericho, en haar koning, en de strijdbare helden, in uw hand gegeven. SV: Jozua 6:2. KJV: \"See, I have given into thine hand Jericho, and the king thereof, and the mighty men of valour.\"" },
+      { heading: "De Belofte", body: "En de Heere zeide tot Jozua: Zie, Ik heb Jericho, en haar koning, en de strijdbare helden, in uw hand gegeven. SV: Jozua 6:2" },
       { heading: "De Optocht", body: "Gij dan allen, die krijgslieden zijt, zult rondom de stad gaan, de stad omringende eenmaal; alzo zult gij zes dagen doen." },
       { heading: "Het Bevel tot Zwijgen", body: "En Jozua had het volk geboden, zeggende: Gij zult niet juichen, ja, gij zult uw stem niet laten horen, en geen woord zal er uit uw mond uitgaan, tot op den dag, dat ik tot ulieden zeggen zal: Juicht! dan zult gij juichen. SV: Jozua 6:10." },
       { heading: "De Zevende Dag", body: "En het geschiedde op den zevenden dag, dat zij zich vroeg opmaakten, met het opgaan des dageraads, en gingen rondom de stad op dezelfde wijze zeven malen." },
-      { heading: "Het Gejuich", body: "En het geschiedde ten zevenden male, als de priesters met de bazuinen bliezen, dat Jozua tot het volk zeide: Juicht, want de Heere heeft ulieden de stad gegeven. SV: Jozua 6:16. KJV: \"Shout; for the LORD hath given you the city.\"" },
+      { heading: "Het Gejuich", body: "En het geschiedde ten zevenden male, als de priesters met de bazuinen bliezen, dat Jozua tot het volk zeide: Juicht, want de Heere heeft ulieden de stad gegeven. SV: Jozua 6:16" },
       { heading: "De Verwoesting", body: "Het volk dan juichte, als zij met de bazuinen bliezen; en het geschiedde... dat de muur onder zich viel." },
       { heading: "Rachab Behouden", body: "En Jozua behield Rachab, de hoer, in het leven, en het huisgezin haars vaders, en al wat zij had." },
       { heading: "De Vervloeking", body: "En Jozua bezwoer hen ter zelfder tijd, zeggende: Vervloekt zij die man voor het aangezicht des Heeren, die zich op zal maken, en deze stad Jericho zal bouwen! In zijn eersten zoon zal hij haar gronden, en in zijn jongsten zal hij haar poorten stellen. SV: Jozua 6:26." },

@@ -92,7 +92,7 @@ export const tower_babel: Structure = {
     kicker: "Het Volk",
     title: "Eén Taal",
     cta: "Ontdek het Dagelijks Leven",
-    text: "Toen de Heere de stad en den toren bezien had, sprak Hij tot Zichzelven: Ziet, zij zijn enerlei volk, en hebben allen enerlei spraak; en dit is het, dat zij beginnen te maken; ook zullen zij nu niet afgesneden worden van al wat zij bedacht hebben te maken. Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore (Gen. 11:6-7). Alzo verwarde de Heere hun spraak, zodat de een de taal des anderen niet meer verstond, en verstrooide hen van daar over de gehele aarde, waarom die plaats Babel (verwarring) genoemd werd (Gen. 11:8-9). Alle bewoners der aarde deelden tot dan één taal en spraak. SV-tekst: \"Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore.\", Genesis 11:7 (SV). KJV: \"Go to, let us go down, and there confound their language, that they may not understand one another's speech.\", Genesis 11:7 (KJV)",
+    text: "Toen de Heere de stad en den toren bezien had, sprak Hij tot Zichzelven: Ziet, zij zijn enerlei volk, en hebben allen enerlei spraak; en dit is het, dat zij beginnen te maken; ook zullen zij nu niet afgesneden worden van al wat zij bedacht hebben te maken. Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore (Gen. 11:6-7). Alzo verwarde de Heere hun spraak, zodat de een de taal des anderen niet meer verstond, en verstrooide hen van daar over de gehele aarde, waarom die plaats Babel (verwarring) genoemd werd (Gen. 11:8-9). Alle bewoners der aarde deelden tot dan één taal en spraak. SV-tekst: \"Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore.\", Genesis 11:7 (SV)",
     image: "/img/tower_babel/daily-life.webp",
   },
   geography: {
@@ -107,10 +107,10 @@ export const tower_babel: Structure = {
     title: "De Verwarring der Talen",
     intro: "Hoe God de taal der ganse aarde verwarde.",
     blocks: [
-      { heading: "Eén Spraak", body: "En de ganse aarde was van enerlei spraak en enerlei woorden. SV: Genesis 11:1. KJV: \"And the whole earth was of one language, and of one speech.\"" },
+      { heading: "Eén Spraak", body: "En de ganse aarde was van enerlei spraak en enerlei woorden. SV: Genesis 11:1" },
       { heading: "De Eerzucht", body: "En zij zeiden: Kom aan, laat ons voor ons een stad bouwen, en een toren, welks opperste in den hemel zij, en laat ons een naam voor ons maken, opdat wij niet misschien over de ganse aarde verstrooid worden. SV: Genesis 11:4." },
       { heading: "De Waarneming des Heeren", body: "Toen kwam de Heere neder, om te bezien de stad en den toren, die de kinderen der mensen bouwden. SV: Genesis 11:5." },
-      { heading: "Gods Eigen Woorden", body: "En de Heere zeide: Ziet, zij zijn enerlei volk, en hebben allen enerlei spraak; en dit is het, dat zij beginnen te maken; ook zullen zij nu niet afgesneden worden van al wat zij bedacht hebben te maken. Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore. SV: Genesis 11:6-7. KJV: \"Go to, let us go down, and there confound their language, that they may not understand one another's speech.\"" },
+      { heading: "Gods Eigen Woorden", body: "En de Heere zeide: Ziet, zij zijn enerlei volk, en hebben allen enerlei spraak; en dit is het, dat zij beginnen te maken; ook zullen zij nu niet afgesneden worden van al wat zij bedacht hebben te maken. Kom aan, laat Ons nedergaan, en laat Ons aldaar hun spraak verwarren, opdat iegelijk de spraak zijns naasten niet hore. SV: Genesis 11:6-7" },
       { heading: "De Verstrooiing", body: "Alzo verstrooide hen de Heere van daar over de ganse aarde; en zij hielden op de stad te bouwen." },
       { heading: "De Naam Babel", body: "Daarom noemde men haar naam Babel; want aldaar verwarde de Heere de spraak der ganse aarde." },
     ],

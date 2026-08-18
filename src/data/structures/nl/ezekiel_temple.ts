@@ -124,7 +124,7 @@ export const ezekiel_temple: Structure = {
       { heading: "De Terugkeer der Heerlijkheid", body: "En ziet, de heerlijkheid des Gods van Israël kwam van den weg naar het oosten; en Zijn stem was als het geruis van vele wateren; en de aarde werd verlicht van Zijn heerlijkheid." },
       { heading: "De Gesloten Oostpoort", body: "Toen zeide de Heere tot mij: Deze poort zal toegesloten zijn, zij zal niet geopend worden, en niemand zal door dezelve ingaan; omdat de Heere, de God Israëls, door dezelve is ingegaan." },
       { heading: "De Rivier des Levens", body: "Deze wateren gaan uit naar het oostelijke landpale, en zullen afgaan naar het vlakke veld, en in de zee komen; zij zullen uitgaan in de zee, en de wateren zullen genezen worden." },
-      { heading: "De Naam der Stad", body: "En de naam der stad zal van dien dag af zijn: De Heere is aldaar. SV: Ezechiël 48:35. KJV: \"And the name of the city from that day shall be, The LORD is there.\"" },
+      { heading: "De Naam der Stad", body: "En de naam der stad zal van dien dag af zijn: De Heere is aldaar. SV: Ezechiël 48:35" },
     ],
   },
   quiz: [

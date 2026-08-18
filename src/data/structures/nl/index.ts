@@ -7,9 +7,7 @@ import { walls_jericho } from "./walls_jericho";
 import { herods_temple } from "./herods_temple";
 import { new_jerusalem } from "./new_jerusalem";
 import { ezekiel_temple } from "./ezekiel_temple";
-// eden_fall import intentionally unused  -  see the comment in
-// STRUCTURES_NL below for why it's temporarily out of the registered list.
-// import { eden_fall } from "./eden_fall";
+import { eden_fall } from "./eden_fall";
 import { mount_of_olives } from "./mount_of_olives";
 import { golgotha } from "./golgotha";
 
@@ -18,11 +16,7 @@ import { golgotha } from "./golgotha";
 // het koninkrijk en de ballingschap, het leven van Christus, en tot slot de
 // toekomstige stad uit Openbaring.
 export const STRUCTURES_NL: Structure[] = [
-  // eden_fall temporarily hidden: its .glb hangs indefinitely mid-load in
-  // every tested browser (dev server and production build alike, no console
-  // error) for a cause not yet isolated. Data/model untouched -  re-add this
-  // line once the load hang is fixed and verified.
-  // eden_fall,
+  eden_fall,
   noahs_ark,
   tower_babel,
   tabernacle,
