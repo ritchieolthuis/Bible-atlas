@@ -560,21 +560,35 @@ export class ViewerEngine {
         if (mobilePath) {
           try {
             const head = await fetch(mobilePath, { method: "HEAD" });
-            if (head.ok) targetPath = mobilePath;
+            // A bare `head.ok` check isn't enough: some dev servers (Vite's
+            // SPA fallback) and misconfigured static hosts answer a missing
+            // file with 200 + index.html instead of a real 404, which then
+            // sends GLTFLoader an HTML document to parse as glTF binary and
+            // fails the load entirely. Require the content-type to actually
+            // look like a model response before trusting the mobile path.
+            const type = head.headers.get("content-type") || "";
+            if (head.ok && !type.includes("text/html")) targetPath = mobilePath;
           } catch {
             /* mobile variant unreachable  -  fall through to the desktop path */
           }
         }
         try {
           const head = await fetch(targetPath, { method: "HEAD" });
+          const type = head.headers.get("content-type") || "";
+          if (!head.ok || type.includes("text/html")) {
+            throw new Error(`model not found at ${targetPath}`);
+          }
           const len = Number(head.headers.get("content-length") || 0);
           if (len > LOW_MEMORY_MODEL_BYTE_LIMIT) {
             throw new ModelTooHeavyError(len);
           }
         } catch (e) {
           if (e instanceof ModelTooHeavyError) throw e;
-          // HEAD failing (offline, server quirk) shouldn't block loading  -
-          // let the real load attempt surface its own error.
+          // A real network failure (offline, server quirk) shouldn't block
+          // loading  -  let the real load attempt surface its own error. But
+          // if we just proved the file doesn't exist there, retry against
+          // the desktop path instead of feeding GLTFLoader an HTML response.
+          if (targetPath === mobilePath) targetPath = desktopPath;
         }
       }
       return this.loadInner(structure, targetPath, cacheKey);
