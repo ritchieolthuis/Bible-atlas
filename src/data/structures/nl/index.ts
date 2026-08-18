@@ -10,6 +10,7 @@ import { ezekiel_temple } from "./ezekiel_temple";
 import { eden_fall } from "./eden_fall";
 import { mount_of_olives } from "./mount_of_olives";
 import { golgotha } from "./golgotha";
+import { parting_sea } from "./parting_sea";
 
 // In de volgorde waarin de gebeurtenissen in de Schrift plaatsvinden: de
 // schepping en de zondeval, via de aartsvaders, de uittocht en de intocht,
@@ -19,6 +20,7 @@ export const STRUCTURES_NL: Structure[] = [
   eden_fall,
   noahs_ark,
   tower_babel,
+  parting_sea,
   tabernacle,
   walls_jericho,
   solomon_temple,

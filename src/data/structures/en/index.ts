@@ -10,6 +10,7 @@ import { ezekiel_temple } from "./ezekiel_temple";
 import { eden_fall } from "./eden_fall";
 import { mount_of_olives } from "./mount_of_olives";
 import { golgotha } from "./golgotha";
+import { parting_sea } from "./parting_sea";
 
 // In the order the events happen in Scripture: creation and the fall,
 // through the patriarchs, the Exodus and conquest, the kingdom and exile,
@@ -18,6 +19,7 @@ export const STRUCTURES_EN: Structure[] = [
   eden_fall,
   noahs_ark,
   tower_babel,
+  parting_sea,
   tabernacle,
   walls_jericho,
   solomon_temple,
