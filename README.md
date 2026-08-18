@@ -1,10 +1,10 @@
-# Bible Atlas
+# The 3D Bible
 
 **Explore the structures of the Bible.** An interactive 3D encyclopedia of biblical architecture
 described in the King James Bible. Turn each structure on its plinth, read the features pinned to its
 stonework, and follow the building through its rooms, its objects and its geography.
 
-![Bible Atlas](./public/og-cover.jpg)
+![The 3D Bible](./public/og-cover.jpg)
 
 ---
 

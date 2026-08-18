@@ -104,7 +104,18 @@ export interface LoadedModel {
 /** Structures whose visible geometry is too dense to build a BVH over
  *  without blocking the main thread  -  see buildRaycastProxy. Their
  *  hotspots are raycast against a coarse invisible proxy box instead. */
-const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall"]);
+const RAYCAST_PROXY_STRUCTURES = new Set(["eden_fall", "solomon_temple"]);
+
+/** Ceiling on how long a model's shader/texture warm-up may hold up a
+ *  structure swap  -  see the comment on `warm()`. This is a last-resort
+ *  safety net against a genuinely pathological compileAsync stall (multiple
+ *  minutes), not a normal-case budget: a heavy model (a large embedded 4K
+ *  texture, hundreds of thousands of triangles) can legitimately take real
+ *  seconds to compile, and cutting that short shows the model before its
+ *  texture has actually uploaded  -  a few blank-white seconds that read as
+ *  "broken" even though the texture is just about to land. Keep this high
+ *  enough that ordinary loads always finish warm. */
+const WARM_TIMEOUT_MS = 20000;
 
 type FrameCallback = () => void;
 
@@ -645,7 +656,18 @@ export class ViewerEngine {
   }
 
   /** Compile a model's shaders and upload its textures while it is still
-   *  off-stage, so its first visible frame costs nothing extra. */
+   *  off-stage, so its first visible frame costs nothing extra.
+   *
+   *  `compileAsync` has been observed to pathologically stall for tens of
+   *  seconds on some transitions (WebGPURenderer's compat/WebGL path paying
+   *  a cold shader-cache cost right after the landing dwelling) even though
+   *  it always resolves eventually. Racing it against a timeout bounds how
+   *  long a swap can be held hostage; when the timeout wins, the warm-up's
+   *  scene-mutating steps (render-target render, `scene.add/remove`) are
+   *  simply skipped rather than left to run detached from this call  -  a
+   *  late finish could otherwise fight `transition()` over `model.group`
+   *  once the model is already on stage. The uncompiled model still shows;
+   *  it just pays the compile cost on its first real frame instead. */
   private async warm(model: LoadedModel) {
     if (!this.renderer) return;
     try {
@@ -653,7 +675,12 @@ export class ViewerEngine {
       // putting the model in it: this await spans many frames, and a model
       // sitting in the scene graph across it would be drawn on top of the
       // dwelling currently on stage  -  which is what flashed on hover.
-      await this.renderer.compileAsync(model.group, this.camera, this.scene);
+      const timedOut = Symbol("warm-timeout");
+      const result = await Promise.race([
+        this.renderer.compileAsync(model.group, this.camera, this.scene),
+        new Promise((res) => setTimeout(() => res(timedOut), WARM_TIMEOUT_MS)),
+      ]);
+      if (result === timedOut) return;
 
       // The shadow-depth pipeline needs a real render with the model casting.
       // Everything from here to the removal is synchronous  -  no await  -  so no
@@ -679,8 +706,20 @@ export class ViewerEngine {
     }
   }
 
+  /** Warms a neighbour in the background. The load itself (Draco decode,
+   *  BVH build, shader warm-up) is heavy, synchronous, main-thread work with
+   *  no chunking support in this three-mesh-bvh version  -  running it eagerly
+   *  can stall a concurrent, user-initiated `load()` for several seconds (the
+   *  two don't share a promise, but they share the one JS thread). Deferring
+   *  to requestIdleCallback lets a real navigation's own load claim the
+   *  thread first; the preload only runs once the browser is truly idle. */
   preload(structure: Structure, variantPath?: string) {
-    this.load(structure, variantPath).catch(() => {});
+    const run = () => this.load(structure, variantPath).catch(() => {});
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(run, { timeout: 4000 });
+    } else {
+      run();
+    }
   }
 
   private normalize(sceneObj: THREE.Group, structure: Structure, cacheKey: string): LoadedModel {
@@ -761,6 +800,10 @@ export class ViewerEngine {
    *  and visually diff the model's embedded texture against the external
    *  one first  -  do not assume "higher resolution" means "compatible". */
   private applyRim(mesh: THREE.Mesh, structureId: string, cacheKey?: string) {
+    // new_jerusalem's embedded texture is already correct for its model's UV
+    // atlas; the external /img/new_jerusalem/texture_*.webp files were a
+    // different, incompatible bake and have been removed. Do not re-add an
+    // override here without first confirming the UV layout matches.
     if (structureId === "new_jerusalem") return;
     // The noahs_ark override below is baked against the exterior model's UV
     // atlas; the "inside" variant is a separate export with its own embedded
@@ -800,28 +843,6 @@ export class ViewerEngine {
         nm.metalnessMap = pbr;
         
         nm.roughness = 1.0;
-      } else if (structureId === "new_jerusalem") {
-        const texLoader = new THREE.TextureLoader();
-
-        // Load diffuse map
-        const diffuse = texLoader.load(withBase("/img/new_jerusalem/texture_diffuse.webp"));
-        diffuse.colorSpace = THREE.SRGBColorSpace;
-        diffuse.flipY = false;
-        nm.map = diffuse;
-
-        // Load normal map
-        const normal = texLoader.load(withBase("/img/new_jerusalem/texture_normal.webp"));
-        normal.flipY = false;
-        nm.normalMap = normal;
-
-        // Load PBR (Roughness/Metallic) map
-        const pbr = texLoader.load(withBase("/img/new_jerusalem/texture_pbr.webp"));
-        pbr.flipY = false;
-        nm.roughnessMap = pbr;
-        nm.metalnessMap = pbr;
-
-        nm.roughness = 1.0;
-        nm.metalness = 1.0;
       }
       /* tower_babel intentionally has no override here (removed): the
          external /img/tower_babel/texture_*.webp files were baked against

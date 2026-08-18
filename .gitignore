@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+upload-naar-server
 
 # Hyper3D/Rodin export dumps - contain pre-signed URLs with embedded
 # VolcEngine access key IDs, must never be committed.
