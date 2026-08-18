@@ -22,10 +22,16 @@ export default defineConfig({
         // reliably serve Vite's default assets/ subfolder — files inside it
         // 404 even though sibling folders like gltf/ or per-structure img
         // folders work fine. Flattening build output to the site root
-        // sidesteps that entirely: every hashed file sits next to index.html.
-        entryFileNames: "[name]-[hash].js",
-        chunkFileNames: "[name]-[hash].js",
-        assetFileNames: "[name]-[hash][extname]",
+        // sidesteps that entirely: every file sits next to index.html.
+        //
+        // No content hash in the filenames: the desamenkomst.nl uploader
+        // renames on conflict instead of overwriting, so a hash that changes
+        // every build meant every re-upload left the previous build's files
+        // behind (multiple index-*.html/js/css piling up). Fixed names mean
+        // a re-upload just replaces the same files.
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js",
+        assetFileNames: "[name][extname]",
         manualChunks: {
           three: ["three", "three/webgpu", "three/tsl", "three-mesh-bvh"],
           gsap: ["gsap"],
