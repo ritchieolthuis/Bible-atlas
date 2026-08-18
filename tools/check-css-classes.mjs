@@ -38,7 +38,10 @@ const defined = new Set(
 const classNameBlocks = [...jsxText.matchAll(/className=(?:\{`([^`]*)`\}|"([^"]*)"|\{[^}]*?"([^"]*)"[^}]*?\})/g)]
   .map((m) => m[1] || m[2] || m[3] || "")
   .join(" ");
-const usedWords = new Set(classNameBlocks.split(/\s+/).filter(Boolean));
+// split on whitespace AND quote/paren/colon punctuation, so a class name
+// embedded in a template-literal ternary (className={`x ${cond ? "y" : ""}`})
+// is recognized even though it's wrapped in JS syntax rather than bare text
+const usedWords = new Set(classNameBlocks.split(/[\s"'`(){}?:]+/).filter(Boolean));
 
 // classes toggled/added imperatively, e.g. document.body.classList.toggle("rm", cond)
 for (const m of jsxText.matchAll(/classList\.(?:toggle|add|remove|contains)\(\s*["']([^"']+)["']/g)) {

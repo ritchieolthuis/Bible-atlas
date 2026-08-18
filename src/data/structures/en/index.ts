@@ -15,7 +15,11 @@ import { golgotha } from "./golgotha";
 // through the patriarchs, the Exodus and conquest, the kingdom and exile,
 // the life of Christ, and finally the future city of Revelation.
 export const STRUCTURES_EN: Structure[] = [
-  eden_fall,
+  // eden_fall temporarily hidden: its .glb hangs indefinitely mid-load in
+  // every tested browser (dev server and production build alike, no console
+  // error) for a cause not yet isolated. Data/model untouched -  re-add this
+  // line once the load hang is fixed and verified.
+  // eden_fall,
   noahs_ark,
   tower_babel,
   tabernacle,

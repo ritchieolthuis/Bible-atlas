@@ -117,6 +117,16 @@
   background:
     radial-gradient(120% 90% at 50% 38%, #ffffff 0%, #f7f9fa 42%, #eef2f4 78%, #e2e9ec 100%);
 }
+/* Fullscreen fallback for browsers with no Fullscreen API on plain elements
+   (iOS Safari). Pins the stage over the full viewport with a fixed overlay -
+   visually equivalent to native fullscreen even though the browser chrome
+   stays on screen. */
+.viewer-stage-fallback-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100 !important;
+  border-radius: 0 !important;
+}
 /* ══════════════════════════════════════════════════════════════════
    Architectural pins  -  markers fixed to the dwelling, annotation on hover
    ══════════════════════════════════════════════════════════════════ */

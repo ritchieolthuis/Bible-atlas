@@ -133,18 +133,44 @@ export const Viewer = memo(function Viewer({
   }, [tool]);
 
   /* keep isFullscreen in sync with the real state  -  Escape or a browser
-     chrome control can exit fullscreen without going through toggleFullscreen */
+     chrome control can exit fullscreen without going through toggleFullscreen.
+     iOS Safari has no Fullscreen API for plain elements at all (requestFullscreen
+     is undefined on the container, webkitEnterFullscreen only exists on <video>),
+     so isFullscreen there is driven entirely by the CSS-overlay fallback below
+     rather than by fullscreenchange, which never fires. */
   useEffect(() => {
     const onChange = () => setIsFullscreen(document.fullscreenElement === containerRef.current);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
 
+  /* Escape leaves native fullscreen automatically (caught by fullscreenchange
+     above), but the CSS-overlay fallback has no browser-native concept of
+     fullscreen to hook into, so Escape has to be wired up by hand for it. */
+  useEffect(() => {
+    if (!isFullscreen || document.fullscreenElement) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsFullscreen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isFullscreen]);
+
   const toggleFullscreen = useCallback(() => {
+    const el = containerRef.current as (HTMLDivElement & { webkitRequestFullscreen?: () => void }) | null;
     if (document.fullscreenElement) {
       document.exitFullscreen?.();
+      return;
+    }
+    if (el?.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el?.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
     } else {
-      containerRef.current?.requestFullscreen?.();
+      // No Fullscreen API at all (iOS Safari): fall back to a full-viewport
+      // CSS overlay, which reads the same to the visitor even though it
+      // isn't the browser's native fullscreen mode.
+      setIsFullscreen((v) => !v);
     }
   }, []);
 
@@ -176,12 +202,12 @@ export const Viewer = memo(function Viewer({
     async (next: Structure, opts: { initial?: boolean, variantId?: string } = {}) => {
       const engine = engineRef.current;
       if (!engine) return;
-      
+
       const targetVariantId = opts.variantId || next.modelVariants?.[0]?.id || null;
       const isSameEmpire = currentStructureRef.current?.id === next.id;
       // If we are already showing this structure AND this variant, do nothing
       if (isSameEmpire && activeVariantId === targetVariantId && !opts.initial) return;
-      
+
       const token = ++requestRef.current;
       currentStructureRef.current = next;
       setActiveId(null);
@@ -296,7 +322,7 @@ export const Viewer = memo(function Viewer({
     <div className="atlas-card relative h-full w-full overflow-hidden" data-panel="viewer">
       <div
         ref={containerRef}
-        className="viewer-stage absolute inset-0"
+        className={`viewer-stage absolute inset-0 ${isFullscreen && !document.fullscreenElement ? "viewer-stage-fallback-fullscreen" : ""}`}
         role="application"
         aria-label={t.stageAria(structure.dwelling)}
         tabIndex={0}
