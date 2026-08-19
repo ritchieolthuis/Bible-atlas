@@ -12,15 +12,35 @@ import { BottomCards } from "@/components/BottomCards";
 import { Footer } from "@/components/Footer";
 import { LessonModal, QuizModal, ArtifactsModal, TimelineModal, GospelModal, SectionModal, SearchOverlay } from "@/components/modals";
 import { CloseIcon } from "@/components/icons";
+import { IntroScreen } from "@/components/IntroScreen";
 
 type ModalId = string | null;
 
 const mq = (q: string) => (typeof window !== "undefined" ? window.matchMedia(q).matches : false);
 
+const INTRO_SESSION_KEY = "atlas-intro-shown";
+
 export default function App() {
   const { locale, setLocale } = useLocale();
   const t = useStrings(locale);
   const EMPIRES = structuresFor(locale);
+
+  /* one intro per browser tab session, not on every internal navigation */
+  const [showIntro, setShowIntro] = useState(() => {
+    try {
+      return sessionStorage.getItem(INTRO_SESSION_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
+  const dismissIntro = useCallback(() => {
+    setShowIntro(false);
+    try {
+      sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    } catch {
+      /* sessionStorage unavailable */
+    }
+  }, []);
 
   /** mirrors the header's primary nav, for the drawer */
   const NAV_ITEMS = [
@@ -179,6 +199,7 @@ export default function App() {
       className="flex min-h-screen flex-col bg-paper"
       style={{ "--banner-h": creditsOpen ? "40px" : "0px" } as React.CSSProperties}
     >
+      {showIntro && <IntroScreen onDone={dismissIntro} locale={locale} />}
       {creditsOpen && <Banner onDismiss={dismissCredits} />}
       <Header onSearchOpen={() => setSearchOpen(true)} onMenuOpen={() => setMenuOpen(true)} onNav={onNav} activeNav={activeNav} />
 

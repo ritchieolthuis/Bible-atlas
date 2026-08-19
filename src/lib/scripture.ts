@@ -119,11 +119,13 @@ const BOOK_CODES: Record<string, string> = {
 
 const BOOK_NAMES = Object.keys(BOOK_CODES).sort((a, b) => b.length - a.length);
 
-/** Matches "<Book> <chapter>:<verse>" or "<Book> <chapter>:<verse>-<verse>",
- *  book name drawn from BOOK_NAMES (escaped, longest-first so multi-word
- *  and numbered-prefix names win over their shorter abbreviations). */
+/** Matches "<Book> <chapter>:<verse>", plus any trailing "-<verse>" or
+ *  ",<verse>" segments (e.g. "27:45,51", "6:7,38", "9:13-15")  -  the whole
+ *  cited span is captured as one link. Book name drawn from BOOK_NAMES
+ *  (escaped, longest-first so multi-word and numbered-prefix names win
+ *  over their shorter abbreviations). */
 const REFERENCE_RE = new RegExp(
-  `\\b(${BOOK_NAMES.map((n) => n.replace(/[.]/g, "\\.")).join("|")}) (\\d+):(\\d+)(?:-(\\d+))?`,
+  `\\b(${BOOK_NAMES.map((n) => n.replace(/[.]/g, "\\.")).join("|")}) (\\d+):(\\d+)((?:[,-]\\d+)*)`,
   "g",
 );
 
@@ -134,20 +136,27 @@ export interface ScriptureMatch {
   url: string;
 }
 
-/** Scans `text` for Bible references (e.g. "Genesis 2:15", "Gen. 3:14-19")
- *  and returns their positions plus a bible.com deep link in the
- *  translation this app quotes for that locale (SV for nl, KJV for en).
- *  Only verse *ranges* link to their first verse  -  bible.com addresses
- *  single verses, not spans. */
+/** Scans `text` for Bible references (e.g. "Genesis 2:15", "Gen. 3:14-19",
+ *  "Mattheüs 27:45,51") and returns their positions plus a bible.com deep
+ *  link in the translation this app quotes for that locale (SV for nl, KJV
+ *  for en). A contiguous range ("14-19") links to the full span, since
+ *  bible.com's own URLs support "chapter.start-end"; a comma-separated
+ *  citation of disjoint verses ("45,51") can't be expressed that way, so
+ *  it links to just the first verse named. */
 export function findScriptureReferences(text: string, locale: Locale): ScriptureMatch[] {
   const { id, abbr } = BIBLE_VERSION[locale];
   const matches: ScriptureMatch[] = [];
   REFERENCE_RE.lastIndex = 0;
   let m: RegExpExecArray | null;
   while ((m = REFERENCE_RE.exec(text))) {
-    const [full, book, chapter, verse] = m;
+    const [full, book, chapter, firstVerse, suffix] = m;
     const code = BOOK_CODES[book];
     if (!code) continue;
+    // A single trailing "-N" (no comma) is a contiguous range: address the
+    // full span. Anything with a comma cites disjoint verses instead, which
+    // bible.com's URL scheme can't express, so fall back to the first verse.
+    const rangeEnd = /^-\d+$/.test(suffix) ? suffix.slice(1) : null;
+    const verse = rangeEnd ? `${firstVerse}-${rangeEnd}` : firstVerse;
     matches.push({
       start: m.index,
       end: m.index + full.length,
