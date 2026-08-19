@@ -21,6 +21,8 @@ export const mount_of_olives: Structure = {
     { label: "Onderscheidend kenmerk", value: "Uitzicht op den tempel en de stad Jeruzalem", icon: "feature" },
     { label: "Typische bewoners", value: "Jezus en Zijn discipelen, des nachts", icon: "occupants" },
   ],
+  biblicalMeaning: "De Olijfberg was de plaats van Jezus' diepste worsteling in Gethsémané en van Zijn heerlijke hemelvaart, en Zacharia profeteerde dat de Heere op dezen zelfden berg wederkeren zal wanneer Hij Zijn koninkrijk opricht.",
+  didYouKnow: "Volgens Handelingen 1:12 lag de Olijfberg slechts een sabbatsreis (ongeveer duizend meter) van Jeruzalem verwijderd, en van deze berg voer Jezus ten hemel in het gezicht van Zijn discipelen.",
   hotspots: [
     {
       id: "gethsemane",

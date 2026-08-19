@@ -20,6 +20,8 @@ export const walls_jericho: Structure = {
     { label: "Onderscheidend kenmerk", value: "Viel onder zich", icon: "feature" },
     { label: "Typische bewoners", value: "Kanaänieten", icon: "occupants" },
   ],
+  biblicalMeaning: "De val van Jericho's muren toonde dat de overwinning niet door mensenkracht of wapentuig kwam, maar door geloofsgehoorzaamheid aan Gods bevel, en zij was het eerste teken dat de Heere Zelf voor Israël streed in de inneming van het beloofde land.",
+  didYouKnow: "Zes dagen lang trokken de Israëlieten eenmaal daags stilzwijgend om de stad, maar op den zevenden dag trokken zij er zevenmaal omheen, en bij het zevende maal, na het geklank der bazuinen en het gejuich des volks, viel de muur onder zich (Jozua 6:15-20).",
   hotspots: [
     {
       id: "wall",

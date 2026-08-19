@@ -4,6 +4,7 @@ import { structureImages } from "@/data";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { DescriptionText } from "./DescriptionText";
+import { ScriptureText } from "./ScriptureText";
 import {
   LaurelIcon,
   MoreIcon,
@@ -16,6 +17,8 @@ import {
   PlayIcon,
   VaseIcon,
   QuizIcon,
+  CrossIcon,
+  BulbIcon,
 } from "./icons";
 
 const FACT_ICONS = { period: PeriodIcon, region: MapPinIcon, materials: MaterialsIcon, feature: FeatureIcon, occupants: OccupantsIcon };
@@ -99,6 +102,24 @@ export const InfoPanel = memo(function InfoPanel({ structure, flow = false, anim
                 );
               })}
             </dl>
+
+            {/* biblical meaning + did-you-know callouts */}
+            <div className="mt-4 space-y-2.5">
+              <div className="flex items-start gap-3 rounded-2xl bg-paper-deep p-3.5">
+                <CrossIcon className="mt-0.5 h-[18px] w-[18px] flex-none text-terracotta" aria-hidden />
+                <div className="min-w-0">
+                  <h4 className="text-[0.86rem] font-semibold text-ink">{t.biblicalMeaning}</h4>
+                  <p className="mt-0.5 font-serif text-[0.86rem] leading-snug text-ink-soft"><ScriptureText text={structure.biblicalMeaning} /></p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 rounded-2xl bg-paper-deep p-3.5">
+                <BulbIcon className="mt-0.5 h-[18px] w-[18px] flex-none text-terracotta" aria-hidden />
+                <div className="min-w-0">
+                  <h4 className="text-[0.86rem] font-semibold text-ink">{t.didYouKnow}</h4>
+                  <p className="mt-0.5 font-serif text-[0.86rem] leading-snug text-ink-soft"><ScriptureText text={structure.didYouKnow} /></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -42,6 +42,8 @@ export const tabernacle: Structure = {
     { label: "Distinctive feature", value: "Curtains of fine twined linen", icon: "feature" },
     { label: "Typical occupants", value: "Aaron and his sons", icon: "occupants" },
   ],
+  biblicalMeaning: "The tabernacle was God's portable sanctuary among a pilgrim people, where sacrifice and priestly service opened a way of atonement so that the LORD, who otherwise dwells unapproachable, could dwell in the midst of a sinful people.",
+  didYouKnow: "Every part of the tabernacle was made according to a heavenly pattern shown to Moses on the mountain, and the craftsman Bezaleel was filled by the Spirit of God with wisdom and understanding to carry out all the work (Exodus 25:9, 31:2-3).",
   hotspots: [
     {
       id: "curtains",

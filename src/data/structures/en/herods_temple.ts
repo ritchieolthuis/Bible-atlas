@@ -34,6 +34,8 @@ export const herods_temple: Structure = {
     { label: "Distinctive feature", value: "Pinnacle of the temple", icon: "feature" },
     { label: "Typical occupants", value: "Priests, scribes, worshippers", icon: "occupants" },
   ],
+  biblicalMeaning: "This was the temple to which the infant Jesus was brought, where He taught and drove out the moneychangers, and of which He foretold that not one stone would be left upon another, a prophecy fulfilled in AD 70.",
+  didYouKnow: "Herod's expansion of the temple took forty-six years to complete, and the disciples marveled at its massive stones, some of which tradition holds were over thirty feet long.",
   hotspots: [
     {
       id: "sanctuary",

@@ -42,6 +42,8 @@ export const tabernacle: Structure = {
     { label: "Onderscheidend kenmerk", value: "Gordijnen van fijn getweernd linnen", icon: "feature" },
     { label: "Typische bewoners", value: "Aäron en zijn zonen", icon: "occupants" },
   ],
+  biblicalMeaning: "De tabernakel was Gods draagbare heiligdom te midden van een pelgrimerend volk, waarin door offer en priesterdienst een weg tot verzoening werd geopend, opdat de Heere, die anders ontoegankelijk woont, in het midden van een zondig volk wonen kon.",
+  didYouKnow: "Elk deel der tabernakel werd naar een hemels voorbeeld gemaakt, dat Mozes op den berg getoond werd, en de kunstenaar Bezaleël werd door den Geest Gods vervuld met wijsheid en verstand om al het werk uit te voeren (Exodus 25:9, 31:2-3).",
   hotspots: [
     /* Anchors below are measured off tabernacle.glb itself, not estimated.
        Scene layout along z (Exodus 40:6-8, 30:18): gate at z~0.98, then the

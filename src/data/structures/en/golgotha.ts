@@ -20,6 +20,8 @@ export const golgotha: Structure = {
     { label: "Distinctive feature", value: "The title written over Him: THE KING OF THE JEWS", icon: "feature" },
     { label: "Typical occupants", value: "Jesus, two thieves, Roman soldiers, and a watching multitude", icon: "occupants" },
   ],
+  biblicalMeaning: "Calvary was where Jesus Christ, the Lamb of God, gave His life as an atonement for sin, and where His death removed the separation between God and man, just as the veil of the temple was torn in two from the top to the bottom.",
+  didYouKnow: "At the moment Jesus gave up the ghost, darkness covered the whole land from the sixth hour to the ninth hour, and the veil of the temple was rent in twain from the top to the bottom (Matthew 27:45,51).",
   hotspots: [
     {
       id: "the_cross",

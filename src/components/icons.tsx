@@ -167,6 +167,11 @@ export const BulbIcon = (p: SVGProps<SVGSVGElement>) => (
     <path d="M12 3a6 6 0 00-3.3 11c.6.5 1 1.2 1 2h4.6c0-.8.4-1.5 1-2A6 6 0 0012 3z" />
   </svg>
 );
+export const CrossIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M12 3v18M7.5 8h9" />
+  </svg>
+);
 export const SunIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <circle cx="12" cy="12" r="4.2" />

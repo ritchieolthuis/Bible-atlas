@@ -37,6 +37,8 @@ export interface UiStrings {
     moreOptions: string;
     illustrationAlt: (dwelling: string) => string;
     keyFacts: string;
+    biblicalMeaning: string;
+    didYouKnow: string;
     readScripture: string;
     animate: string;
     stop: string;
@@ -190,6 +192,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       moreOptions: "More options",
       illustrationAlt: (dwelling) => `Illustration of the ${dwelling}`,
       keyFacts: "Key Facts",
+      biblicalMeaning: "Biblical Meaning",
+      didYouKnow: "Did You Know?",
       readScripture: "Read Scripture",
       animate: "Animate",
       stop: "Stop",
@@ -366,6 +370,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       moreOptions: "Meer opties",
       illustrationAlt: (dwelling) => `Illustratie van ${dwelling}`,
       keyFacts: "Kerngegevens",
+      biblicalMeaning: "Bijbelse Betekenis",
+      didYouKnow: "Wist je dat?",
       readScripture: "Lees de Schrift",
       animate: "Animeren",
       stop: "Stoppen",

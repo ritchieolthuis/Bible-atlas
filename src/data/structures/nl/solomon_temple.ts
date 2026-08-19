@@ -44,6 +44,8 @@ export const solomon_temple: Structure = {
     { label: "Onderscheidend kenmerk", value: "Overtogen met louter goud", icon: "feature" },
     { label: "Typische bewoners", value: "Priesters des Heeren", icon: "occupants" },
   ],
+  biblicalMeaning: "Salomo's tempel was de eerste vaste woonplaats des Heeren onder Zijn volk, waarin de heerlijkheid Gods bij de inwijding het huis vervulde als een wolk, ten teken dat God zelf in het midden van Israël wonen wilde.",
+  didYouKnow: "De bouw van den tempel nam zeven jaren in beslag, en geen hamer noch bijl noch enig ijzeren gereedschap werd gehoord in het huis, terwijl het gebouwd werd, want de stenen werden reeds volmaakt gereed aangevoerd (1 Koningen 6:7,38).",
   hotspots: [
     {
       id: "boaz_pillar",

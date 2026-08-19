@@ -20,6 +20,8 @@ export const tower_babel: Structure = {
     { label: "Onderscheidend kenmerk", value: "Opperste mag in den hemel zijn", icon: "feature" },
     { label: "Typische bewoners", value: "Kinderen der mensen", icon: "occupants" },
   ],
+  biblicalMeaning: "De Toren van Babel openbaart de hoogmoed des mensen, die zich een naam wilde maken en zonder God verenigd wilde blijven, en toont Gods soevereiniteit, die door de talen te verwarren de mensen over de ganse aarde verstrooide naar Zijn eigen raad.",
+  didYouKnow: "De naam 'Babel' hangt samen met het Hebreeuwse woord voor 'verwarren', want aldaar verwarde de Heere de taal der ganse aarde, zodat de een des anderen spraak niet verstond (Genesis 11:9).",
   hotspots: [
     {
       id: "brick",

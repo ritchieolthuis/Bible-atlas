@@ -21,6 +21,8 @@ export const ezekiel_temple: Structure = {
     { label: "Distinctive feature", value: "Exact measurements by a reed", icon: "feature" },
     { label: "Typical occupants", value: "The sons of Zadok", icon: "occupants" },
   ],
+  biblicalMeaning: "Ezekiel's temple vision was shown to the prophet in the midst of exile, a sign that the glory of the LORD, which had departed the old temple, would one day return and dwell among His people forever.",
+  didYouKnow: "The man with the measuring reed carefully measured every part of the temple, and a river flowed out from under the threshold of the house that grew deeper the farther it went, until it became waters too deep to pass through (Ezekiel 47:1-5).",
   hotspots: [
     {
       id: "sanctuary",

@@ -32,6 +32,8 @@ export const parting_sea: Structure = {
     { label: "Onderscheidend kenmerk", value: "Een pad van droog land dwars door het midden van de zee", icon: "feature" },
     { label: "Typische bewoners", value: "Mozes, de Israëlieten, en het achtervolgende leger van Farao", icon: "occupants" },
   ],
+  biblicalMeaning: "De doortocht door de Rode Zee was Gods machtige verlossing van Zijn volk uit de slavernij van Egypte, en zij openbaarde tegelijk Zijn oordeel over Farao's leger, zodat Israël zag hoe de Heere voor hen streed en zij stil konden zijn.",
+  didYouKnow: "Nadat Israël veilig was overgegaan, deed Mozes zijn hand wederom over de zee uitstrekken, en de wateren keerden weder en bedekten al de wagens en het gehele leger van Farao, zodat niet één van hen overbleef (Exodus 14:27-28).",
   hotspots: [
     {
       id: "moses_staff",

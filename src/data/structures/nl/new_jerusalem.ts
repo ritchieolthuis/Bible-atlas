@@ -30,6 +30,8 @@ export const new_jerusalem: Structure = {
     { label: "Onderscheidend kenmerk", value: "Vierkant (twaalfduizend stadiën)", icon: "feature" },
     { label: "Typische bewoners", value: "Zij die geschreven zijn in het boek des levens des Lams", icon: "occupants" },
   ],
+  biblicalMeaning: "Het Nieuwe Jeruzalem is de vervulling van alle Gods beloften aan Zijn volk, de eeuwige woonstede waar God zelf bij de mensen wonen zal, en waar geen dood noch rouw noch geween noch moeite meer zijn zal, want de eerste dingen zijn voorbijgegaan.",
+  didYouKnow: "De stad wordt vierkant beschreven, twaalfduizend stadiën in lengte, breedte en hoogte gelijk, dat is ongeveer tweeduizend tweehonderd kilometer aan elke zijde, met een muur van honderd vierenveertig ellen (Openbaring 21:16-17).",
   hotspots: [
     {
       id: "cube",

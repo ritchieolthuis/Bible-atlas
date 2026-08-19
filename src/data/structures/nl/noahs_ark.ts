@@ -38,6 +38,8 @@ export const noahs_ark: Structure = {
     { label: "Onderscheidend kenmerk", value: "Driehonderd ellen lang", icon: "feature" },
     { label: "Typische bewoners", value: "Noachs gezin en de dieren", icon: "occupants" },
   ],
+  biblicalMeaning: "De ark was Gods middel om zowel Zijn oordeel over de zonde als Zijn genade tot behoud te openbaren, want al wie buiten de ark was, verging in de vloed, terwijl Noach en zijn huis, die geloof hadden, bewaard bleven, en zo werd de ark een voorafschaduwing van de behoudenis in Christus.",
+  didYouKnow: "De ark was driehonderd ellen lang, vijftig ellen breed en dertig ellen hoog, ongeveer honderdvijfendertig meter lang, en de regen viel veertig dagen en veertig nachten op de aarde (Genesis 6:15, 7:12).",
   hotspots: [
     {
       id: "pitch",

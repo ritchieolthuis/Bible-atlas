@@ -5,6 +5,7 @@ import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
 import { withBase } from "@/lib/utils";
 import { ModalShell } from "./ModalShell";
+import { ScriptureText } from "./ScriptureText";
 import { CheckIcon, ArrowRightIcon, QuizIcon, VaseIcon, SearchIcon, CloseIcon, TimelineIcon } from "./icons";
 
 /* ═══ Lesson ═══ */
@@ -25,7 +26,7 @@ export const LessonModal = memo(function LessonModal({ structure, onClose, onQui
             </span>
             <div>
               <h3 className="font-display text-[1.1rem] font-bold text-ink">{b.heading}</h3>
-              <p className="mt-1 text-[0.88rem] leading-relaxed text-ink-soft">{b.body}</p>
+              <p className="mt-1 text-[0.88rem] leading-relaxed text-ink-soft"><ScriptureText text={b.body} /></p>
             </div>
           </section>
         ))}
@@ -84,7 +85,7 @@ export const QuizModal = memo(function QuizModal({ structure, onClose }: { struc
           </div>
           {picked !== null && (
             <div className="mt-4 rounded-xl border border-line-warm bg-paper-deep p-4">
-              <p className="text-[0.86rem] leading-relaxed text-ink-soft">{q.explanation}</p>
+              <p className="text-[0.86rem] leading-relaxed text-ink-soft"><ScriptureText text={q.explanation} /></p>
               <button className="btn-primary mt-3 w-full" onClick={() => { setStep(step + 1); setPicked(null); }}>
                 {step + 1 === structure.quiz.length ? t.seeResults : t.nextQuestion}
                 <ArrowRightIcon className="h-4 w-4" />
@@ -149,12 +150,12 @@ export const GospelModal = memo(function GospelModal({ onClose }: { onClose: () 
             </span>
             <div>
               <h3 className="font-display text-[1.1rem] font-bold text-ink">{s.heading}</h3>
-              <p className="mt-1 text-[0.88rem] leading-relaxed text-ink-soft">{s.body}</p>
+              <p className="mt-1 text-[0.88rem] leading-relaxed text-ink-soft"><ScriptureText text={s.body} /></p>
               <div className="mt-3 space-y-2">
                 {s.verses.map((v) => (
                   <blockquote key={v.ref} className="border-l-2 border-terracotta/50 pl-3">
                     <p className="font-serif text-[0.88rem] italic leading-snug text-ink-soft">"{v.text}"</p>
-                    <cite className="mt-0.5 block text-[0.75rem] not-italic text-ink-muted">{v.ref}</cite>
+                    <cite className="mt-0.5 block text-[0.75rem] not-italic text-ink-muted"><ScriptureText text={v.ref} /></cite>
                   </blockquote>
                 ))}
               </div>
@@ -238,7 +239,7 @@ export const SectionModal = memo(function SectionModal({
       {section === "geography" && (
         <div className="kicker mt-3 !text-terracotta">{structure.geography.regionLabel}</div>
       )}
-      <p className="font-serif mt-3 text-[1.05rem] leading-snug text-ink-soft">{data.text}</p>
+      <p className="font-serif mt-3 text-[1.05rem] leading-snug text-ink-soft"><ScriptureText text={data.text} /></p>
       {section === "floorPlan" && structure.floorPlan.diagramImage && (
         <div className="mt-4 overflow-hidden rounded-xl border border-line-warm bg-paper-deep">
           <img src={withBase(structure.floorPlan.diagramImage)} alt={`${data.title} diagram`} className="w-full object-contain" />
@@ -254,7 +255,7 @@ export const SectionModal = memo(function SectionModal({
               <div className="p-4">
                 <h3 className="font-display text-[1.05rem] font-bold text-ink">{r.name}</h3>
                 {r.note && <p className="mt-1 text-[0.82rem] font-medium text-terracotta-deep">{r.note}</p>}
-                {r.verse && <p className="font-serif mt-1.5 text-[0.8rem] italic leading-relaxed text-ink-muted">{r.verse}</p>}
+                {r.verse && <p className="font-serif mt-1.5 text-[0.8rem] italic leading-relaxed text-ink-muted"><ScriptureText text={r.verse} /></p>}
               </div>
             </div>
           ))}

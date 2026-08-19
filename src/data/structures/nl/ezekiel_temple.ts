@@ -21,6 +21,8 @@ export const ezekiel_temple: Structure = {
     { label: "Onderscheidend kenmerk", value: "Nauwkeurige afmetingen met een riet", icon: "feature" },
     { label: "Typische bewoners", value: "De zonen van Zadok", icon: "occupants" },
   ],
+  biblicalMeaning: "Ezechiëls tempelvisioen werd den profeet getoond te midden der ballingschap, als een teken dat de heerlijkheid des Heeren, die den ouden tempel verlaten had, eens zou wederkeren en voor eeuwig onder Zijn volk wonen zou.",
+  didYouKnow: "De man met het meetriet mat elk deel des tempels nauwkeurig op, en uit den drempel des huizes vloeide een rivier die, hoe verder zij ging, hoe dieper zij werd, totdat zij een water was dat men niet kon doorwaden (Ezechiël 47:1-5).",
   hotspots: [
     {
       id: "sanctuary",

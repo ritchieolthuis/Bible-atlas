@@ -32,6 +32,8 @@ export const parting_sea: Structure = {
     { label: "Distinctive feature", value: "A path of dry ground through the midst of the sea", icon: "feature" },
     { label: "Typical occupants", value: "Moses, the Israelites, and the pursuing army of Pharaoh", icon: "occupants" },
   ],
+  biblicalMeaning: "The parting of the Red Sea was God's mighty deliverance of His people from slavery in Egypt, and it revealed His judgment upon Pharaoh's army at the same time, so that Israel saw the LORD fight for them and could hold their peace.",
+  didYouKnow: "After Israel had safely crossed over, Moses stretched out his hand over the sea again, and the waters returned and covered all the chariots and the whole army of Pharaoh, so that not so much as one of them remained (Exodus 14:27-28).",
   hotspots: [
     {
       id: "moses_staff",

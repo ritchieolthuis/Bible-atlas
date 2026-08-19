@@ -21,6 +21,8 @@ export const mount_of_olives: Structure = {
     { label: "Distinctive feature", value: "A commanding view of the temple and the city of Jerusalem", icon: "feature" },
     { label: "Typical occupants", value: "Jesus and His disciples, by night", icon: "occupants" },
   ],
+  biblicalMeaning: "The Mount of Olives was the place of Jesus' deepest anguish at Gethsemane and of His glorious ascension, and Zechariah prophesied that the LORD will return to this very mountain when He establishes His kingdom.",
+  didYouKnow: "According to Acts 1:12, the Mount of Olives lay only a sabbath day's journey (about half a mile) from Jerusalem, and it was from this mountain that Jesus ascended into heaven in the sight of His disciples.",
   hotspots: [
     {
       id: "gethsemane",

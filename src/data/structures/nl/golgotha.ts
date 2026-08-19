@@ -20,6 +20,8 @@ export const golgotha: Structure = {
     { label: "Opvallend kenmerk", value: "Het opschrift boven Hem: DE KONING DER JODEN", icon: "feature" },
     { label: "Gewone aanwezigen", value: "Jezus, twee moordenaars, Romeinse soldaten en een toeziende menigte", icon: "occupants" },
   ],
+  biblicalMeaning: "Golgotha was de plaats waar Jezus Christus, het Lam Gods, Zijn leven gaf tot verzoening der zonde, en waar door Zijn dood de scheiding tussen God en mens werd weggenomen, gelijk het voorhangsel des tempels van boven tot beneden scheurde.",
+  didYouKnow: "Op het ogenblik dat Jezus den geest gaf, werd het gehele land duister van de zesde tot de negende ure, en scheurde het voorhangsel des tempels in tweeën, van boven tot beneden (Mattheüs 27:45,51).",
   hotspots: [
     {
       id: "the_cross",

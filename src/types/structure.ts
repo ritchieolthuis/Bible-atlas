@@ -151,6 +151,12 @@ export interface Structure {
   tint: string;
   camera: CameraPreset;
   facts: KeyFact[];
+  /** short "Biblical meaning" callout shown below the key facts, above the
+   *  Read Scripture button  -  why this structure mattered spiritually. */
+  biblicalMeaning: string;
+  /** short "Did you know" callout shown alongside biblicalMeaning  -  a
+   *  concrete, memorable fact (a number, a scripture reference, a detail). */
+  didYouKnow: string;
   hotspots: Hotspot[];
   interior: StructureSection;
   floorPlan: StructureSection & {

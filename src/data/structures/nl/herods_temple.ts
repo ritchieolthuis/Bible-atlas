@@ -34,6 +34,8 @@ export const herods_temple: Structure = {
     { label: "Onderscheidend kenmerk", value: "Tinne des tempels", icon: "feature" },
     { label: "Typische bewoners", value: "Priesters, schriftgeleerden, aanbidders", icon: "occupants" },
   ],
+  biblicalMeaning: "Deze tempel was het huis Gods waarin Jezus als kind gebracht werd, waarin Hij leerde en de wisselaars verdreef, en waarvan Hij voorzeide dat er geen steen op den anderen zou gelaten worden, een profetie die in het jaar 70 na Christus vervuld werd.",
+  didYouKnow: "Herodes' uitbreiding van den tempel duurde zesenveertig jaren, en de discipelen verwonderden zich over de geweldige stenen, waarvan sommige naar overlevering meer dan tien meter lang waren.",
   hotspots: [
     {
       id: "sanctuary",

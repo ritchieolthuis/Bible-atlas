@@ -20,6 +20,8 @@ export const tower_babel: Structure = {
     { label: "Distinctive feature", value: "Top may reach unto heaven", icon: "feature" },
     { label: "Typical occupants", value: "Children of men", icon: "occupants" },
   ],
+  biblicalMeaning: "The Tower of Babel reveals the pride of man, who sought to make a name for himself and stay united apart from God, and it displays God's sovereignty, for by confusing their language He scattered mankind across the whole earth according to His own counsel.",
+  didYouKnow: "The name 'Babel' is linked to the Hebrew word for 'confuse,' for there the LORD confounded the language of all the earth, so that people could no longer understand one another's speech (Genesis 11:9).",
   hotspots: [
     {
       id: "brick",

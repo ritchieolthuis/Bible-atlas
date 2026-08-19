@@ -38,6 +38,8 @@ export const noahs_ark: Structure = {
     { label: "Distinctive feature", value: "Three hundred cubits long", icon: "feature" },
     { label: "Typical occupants", value: "Noah's family and animals", icon: "occupants" },
   ],
+  biblicalMeaning: "The ark was God's means of revealing both His judgment against sin and His grace unto salvation, for all outside the ark perished in the flood while Noah and his household, who had faith, were kept safe, making the ark a foreshadowing of salvation in Christ.",
+  didYouKnow: "The ark measured three hundred cubits long, fifty cubits wide, and thirty cubits high, roughly 450 feet long, and the rain fell upon the earth for forty days and forty nights (Genesis 6:15, 7:12).",
   hotspots: [
     {
       id: "pitch",

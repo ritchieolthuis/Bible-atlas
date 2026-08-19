@@ -20,6 +20,8 @@ export const walls_jericho: Structure = {
     { label: "Distinctive feature", value: "Fell down flat", icon: "feature" },
     { label: "Typical occupants", value: "Canaanites", icon: "occupants" },
   ],
+  biblicalMeaning: "The fall of Jericho's walls showed that the victory came not by human strength or weaponry but by faithful obedience to God's command, and it was the first sign that the LORD Himself was fighting for Israel in the conquest of the promised land.",
+  didYouKnow: "For six days the Israelites marched silently around the city once a day, but on the seventh day they marched around it seven times, and at the seventh time, after the sounding of the trumpets and the shout of the people, the wall fell down flat (Joshua 6:15-20).",
   hotspots: [
     {
       id: "wall",

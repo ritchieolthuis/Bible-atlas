@@ -30,6 +30,8 @@ export const new_jerusalem: Structure = {
     { label: "Distinctive feature", value: "Foursquare (Twelve thousand furlongs)", icon: "feature" },
     { label: "Typical occupants", value: "They which are written in the Lamb's book of life", icon: "occupants" },
   ],
+  biblicalMeaning: "New Jerusalem is the fulfillment of every promise God made to His people, the eternal dwelling where God Himself will live among men, and where there shall be no more death, sorrow, crying, or pain, for the former things are passed away.",
+  didYouKnow: "The city is described as foursquare, twelve thousand furlongs in length, breadth, and height alike, roughly 1,400 miles on each side, with a wall one hundred and forty-four cubits thick (Revelation 21:16-17).",
   hotspots: [
     {
       id: "cube",

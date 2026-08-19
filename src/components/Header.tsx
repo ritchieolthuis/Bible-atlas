@@ -49,11 +49,11 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
 
       {/* Logo */}
       <div className="flex min-w-0 flex-none items-center gap-4">
-        <TempleIcon className="h-9 w-9 flex-none text-terracotta sm:h-10 sm:w-10" aria-hidden />
+        <TempleIcon className="h-8 w-8 flex-none text-terracotta sm:h-9 sm:w-9" aria-hidden />
         <img
           src={withBase("/img/brand/3d-bible-logo.webp")}
           alt={t.brand.name}
-          className="h-10 w-auto flex-none -translate-y-1 sm:h-11"
+          className="h-10 w-auto flex-none -translate-y-0.5 sm:h-11"
         />
       </div>
 

@@ -20,6 +20,8 @@ export const eden_fall: Structure = {
     { label: "Onderscheidend kenmerk", value: "De boom des levens, en de boom der kennis des goeds en des kwaads", icon: "feature" },
     { label: "Typische bewoners", value: "Adam, Eva, en de slang", icon: "occupants" },
   ],
+  biblicalMeaning: "De Hof van Eden was de plaats waar de mens in volmaakte gemeenschap met God leefde; de zondeval verbrak die gemeenschap en bracht zonde en dood in de wereld, waardoor de gehele geschiedenis der verlossing haar begin nam.",
+  didYouKnow: "De naam 'Eden' betekent 'vreugde' of 'genot'. Uit de hof ontsprongen vier rivieren, waaronder de Eufraat en de Hiddekel (Tigris), die vandaag nog altijd bestaan (Genesis 2:10-14).",
   hotspots: [
     {
       id: "tree_of_life",

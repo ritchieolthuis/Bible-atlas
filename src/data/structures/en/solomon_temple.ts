@@ -44,6 +44,8 @@ export const solomon_temple: Structure = {
     { label: "Distinctive feature", value: "Overlaid with pure gold", icon: "feature" },
     { label: "Typical occupants", value: "Priests of the LORD", icon: "occupants" },
   ],
+  biblicalMeaning: "Solomon's Temple was the first permanent dwelling place of the LORD among His people, and at its dedication the glory of God filled the house like a cloud, a sign that God Himself had chosen to dwell in the midst of Israel.",
+  didYouKnow: "The temple took seven years to build, and neither hammer, axe, nor any tool of iron was heard in the house while it was being built, for the stones were made ready before they were brought to the site (1 Kings 6:7,38).",
   hotspots: [
     {
       id: "boaz_pillar",

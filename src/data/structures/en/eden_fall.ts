@@ -20,6 +20,8 @@ export const eden_fall: Structure = {
     { label: "Distinctive feature", value: "The tree of life, and the tree of knowledge of good and evil", icon: "feature" },
     { label: "Typical occupants", value: "Adam, Eve, and the serpent", icon: "occupants" },
   ],
+  biblicalMeaning: "The Garden of Eden was where man lived in perfect fellowship with God; the fall broke that fellowship and brought sin and death into the world, setting in motion the whole history of redemption.",
+  didYouKnow: "The name 'Eden' means 'delight' or 'pleasure.' Four rivers flowed out of the garden, including the Euphrates and the Hiddekel (Tigris), both of which still exist today (Genesis 2:10-14).",
   hotspots: [
     {
       id: "tree_of_life",
