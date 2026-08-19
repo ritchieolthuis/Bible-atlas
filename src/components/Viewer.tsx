@@ -405,7 +405,7 @@ export const Viewer = memo(function Viewer({
           matching padding/icon-size tightening. */}
       <div className="absolute left-2 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2 md:left-3" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
         {/* px keeps the active pill clear of the rail's own edges */}
-        <div className="atlas-card flex h-full max-h-full w-[46px] flex-col items-center gap-0.5 overflow-y-auto !rounded-2xl px-1.5 py-1.5 sm:w-[58px] sm:py-2 md:w-[68px] md:px-2 md:py-2.5">
+        <div className="atlas-card flex h-full max-h-full w-[46px] flex-col items-center gap-0 overflow-y-auto !rounded-2xl px-1.5 py-1 sm:w-[58px] sm:gap-0.5 sm:py-2 md:w-[68px] md:px-2 md:py-2.5">
           <button className={`tool-btn ${tool === "rotate" ? "is-on" : ""}`} onClick={() => setTool("rotate")} aria-pressed={tool === "rotate"}>
             <RotateIcon />
             <span>{t.rotate}</span>
@@ -505,12 +505,14 @@ export const Viewer = memo(function Viewer({
       )}
 
       {/* ── Auto rotate floating pill button ──
-          On a phone the tool rail already owns the left edge top-to-bottom
-          (see the height fix above), so this sits bottom-right there
-          instead of under it; from sm: up the rail is short enough to
-          leave room underneath, so it moves back to bottom-left. */}
+          On a phone (and the sm: range, where the rail's text labels come
+          back and make it tall again) the tool rail already owns the left
+          edge top-to-bottom, so this sits bottom-right there instead of
+          under it; only from md: up is the rail short enough relative to
+          the taller stage to leave room underneath, so it moves back to
+          bottom-left. */}
       {/* Hidden on small screens when hotspot card is active to prevent overlap */}
-      <div className={`absolute bottom-4 right-2 z-30 sm:right-auto sm:left-2 md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
+      <div className={`absolute bottom-4 right-2 z-30 md:right-auto md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
         <button
           type="button"
           onClick={onToggleAnimate}
