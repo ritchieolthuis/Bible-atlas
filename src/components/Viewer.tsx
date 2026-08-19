@@ -504,9 +504,13 @@ export const Viewer = memo(function Viewer({
         </div>
       )}
 
-      {/* ── Auto rotate floating pill button  -  bottom-left under reset ── */}
+      {/* ── Auto rotate floating pill button ──
+          On a phone the tool rail already owns the left edge top-to-bottom
+          (see the height fix above), so this sits bottom-right there
+          instead of under it; from sm: up the rail is short enough to
+          leave room underneath, so it moves back to bottom-left. */}
       {/* Hidden on small screens when hotspot card is active to prevent overlap */}
-      <div className={`absolute bottom-4 left-2 z-30 md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
+      <div className={`absolute bottom-4 right-2 z-30 sm:right-auto sm:left-2 md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
         <button
           type="button"
           onClick={onToggleAnimate}
