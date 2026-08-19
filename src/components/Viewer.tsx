@@ -505,33 +505,31 @@ export const Viewer = memo(function Viewer({
       )}
 
       {/* ── Auto rotate floating pill button ──
-          On a phone (and the sm: range, where the rail's text labels come
-          back and make it tall again) the tool rail already owns the left
-          edge top-to-bottom, so this sits bottom-right there instead of
-          under it; only from md: up is the rail short enough relative to
-          the taller stage to leave room underneath, so it moves back to
-          bottom-left. */}
+          Sits bottom-left under the tool rail at every width, matching
+          desktop; on phones it's shrunk (tighter padding, smaller switch,
+          shorter label) so it clears the rail's own width instead of
+          overlapping it. */}
       {/* Hidden on small screens when hotspot card is active to prevent overlap */}
-      <div className={`absolute bottom-4 right-2 z-30 md:right-auto md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
+      <div className={`absolute bottom-4 left-2 z-30 md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
         <button
           type="button"
           onClick={onToggleAnimate}
-          className="atlas-card group flex items-center gap-2 !rounded-full border border-line-strong bg-white/95 px-3 py-1.5 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98] sm:gap-2.5 sm:px-3.5"
+          className="atlas-card group flex items-center gap-1.5 !rounded-full border border-line-strong bg-white/95 px-2 py-1 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98] sm:gap-2.5 sm:px-3.5 sm:py-1.5"
           aria-label={t.autoRotate}
           aria-pressed={animating}
         >
-          <RotateCcwIcon className="h-4 w-4 text-ink transition-transform duration-500 group-hover:-rotate-45" />
-          <span className="font-serif text-[0.82rem] font-medium text-ink select-none sm:text-[0.88rem]">
+          <RotateCcwIcon className="h-3.5 w-3.5 text-ink transition-transform duration-500 group-hover:-rotate-45 sm:h-4 sm:w-4" />
+          <span className="font-serif text-[0.68rem] font-medium text-ink select-none sm:text-[0.88rem]">
             {t.autoRotate}
           </span>
           <div
-            className={`relative h-5 w-9 rounded-full transition-colors duration-200 ${
+            className={`relative h-4 w-7 rounded-full transition-colors duration-200 sm:h-5 sm:w-9 ${
               animating ? "bg-[#5B9BD5]" : "bg-[#c5ced3]"
             }`}
           >
             <div
-              className={`absolute top-[2.5px] h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-                animating ? "translate-x-[18px]" : "translate-x-[2.5px]"
+              className={`absolute top-[2px] h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200 sm:top-[2.5px] sm:h-3.5 sm:w-3.5 ${
+                animating ? "translate-x-[14px] sm:translate-x-[18px]" : "translate-x-[2px] sm:translate-x-[2.5px]"
               }`}
             />
           </div>
@@ -559,19 +557,23 @@ export const Viewer = memo(function Viewer({
         </div>
       )}
 
-      {/* ── tip card ── */}
+      {/* ── tip card ──
+          Visible at every width now (previously md:-only, which hid it on
+          phones); shrunk on small screens so it sits clear in the
+          bottom-right corner opposite the auto-rotate pill, matching the
+          desktop layout instead of disappearing there. */}
       {tipVisible && !activeHs && (
-        <div className="absolute bottom-4 right-4 z-30 hidden w-[210px] rounded-2xl border border-line-strong bg-[#eef2f4] p-3.5 shadow-card md:block">
+        <div className="absolute bottom-4 right-2 z-30 w-[150px] rounded-xl border border-line-strong bg-[#eef2f4] p-2 shadow-card sm:w-[180px] sm:p-2.5 md:right-4 md:w-[210px] md:rounded-2xl md:p-3.5">
           <div className="flex items-center justify-between">
-            <span className="font-display flex items-center gap-1.5 text-[0.85rem] font-semibold text-ink">
-              <BulbIcon className="h-4 w-4 text-ink-muted" />
+            <span className="font-display flex items-center gap-1 text-[0.68rem] font-semibold text-ink sm:gap-1.5 sm:text-[0.78rem] md:text-[0.85rem]">
+              <BulbIcon className="h-3 w-3 text-ink-muted sm:h-3.5 sm:w-3.5 md:h-4 md:w-4" />
               {t.tip}
             </span>
             <button className="rounded p-0.5 text-ink-muted transition-colors hover:text-ink" onClick={() => setTipVisible(false)} aria-label={t.tipDismiss}>
-              <CloseIcon className="h-3.5 w-3.5" />
+              <CloseIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             </button>
           </div>
-          <p className="font-serif mt-1.5 text-[0.85rem] leading-snug text-ink-soft">
+          <p className="font-serif mt-1 text-[0.68rem] leading-snug text-ink-soft sm:mt-1.5 sm:text-[0.76rem] md:text-[0.85rem]">
             {t.tipText}
           </p>
         </div>
