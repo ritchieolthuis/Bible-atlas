@@ -22,7 +22,7 @@ export const new_jerusalem: Structure = {
         throne: [0.5, 0.55, 0.5] },
     },
   ],
-  camera: { azimuth: 45, elevation: 30, dist: 1.8, targetY: 0.5 },
+  camera: { azimuth: -45, elevation: 30, dist: 1.2, targetY: 0.4 },
   facts: [
     { label: "Periode", value: "De eeuwigheid", icon: "period" },
     { label: "Regio", value: "Een nieuwen hemel en een nieuwe aarde", icon: "region" },
