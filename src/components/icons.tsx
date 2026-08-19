@@ -167,6 +167,17 @@ export const BulbIcon = (p: SVGProps<SVGSVGElement>) => (
     <path d="M12 3a6 6 0 00-3.3 11c.6.5 1 1.2 1 2h4.6c0-.8.4-1.5 1-2A6 6 0 0012 3z" />
   </svg>
 );
+export const SunIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <circle cx="12" cy="12" r="4.2" />
+    <path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" />
+  </svg>
+);
+export const MoonIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M20.5 14.8A8.5 8.5 0 119.2 3.5a7 7 0 0011.3 11.3z" />
+  </svg>
+);
 export const HandIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <path d="M8 11V5.5a1.5 1.5 0 013 0V10M11 10V4.5a1.5 1.5 0 013 0V10M14 10V6a1.5 1.5 0 013 0v7" />

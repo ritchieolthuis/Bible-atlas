@@ -28,6 +28,8 @@ import {
   EyeIcon,
   CheckIcon,
   ChevronDownIcon,
+  SunIcon,
+  MoonIcon,
 } from "./icons";
 
 interface ViewerProps {
@@ -93,9 +95,17 @@ export const Viewer = memo(function Viewer({
   const [tool, setTool] = useState<ToolMode>("rotate");
   const [layersOpen, setLayersOpen] = useState(false);
   const layersRef = useRef<HTMLDivElement>(null);
+  const [timeOfDayOpen, setTimeOfDayOpen] = useState(false);
+  const timeOfDayRef = useRef<HTMLDivElement>(null);
   const [layers, setLayers] = useState({ labels: true, grid: false, wire: false, xray: false });
   const [tipVisible, setTipVisible] = useState(true);
   const [activeVariantId, setActiveVariantId] = useState<string | null>(null);
+  /* each structure remembers its own hour so switching dwellings doesn't
+     reset a night scene someone set up, or drag a night look onto the next
+     one they open for the first time. */
+  const DEFAULT_HOUR = 14;
+  const [timeByStructure, setTimeByStructure] = useState<Record<string, number>>({});
+  const timeOfDay = timeByStructure[structure.id] ?? DEFAULT_HOUR;
   const requestRef = useRef(0);
   const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -144,6 +154,11 @@ export const Viewer = memo(function Viewer({
   useEffect(() => {
     engineRef.current?.setAutoRotate(animating);
   }, [animating]);
+
+  const handleTimeChange = useCallback((hours: number) => {
+    setTimeByStructure((prev) => ({ ...prev, [structure.id]: hours }));
+    engineRef.current?.setTimeOfDay(hours, 0.3);
+  }, [structure.id]);
 
   useEffect(() => {
     engineRef.current?.setPanMode(tool === "pan");
@@ -210,6 +225,23 @@ export const Viewer = memo(function Viewer({
     };
   }, [layersOpen]);
 
+  /* dismiss the time-of-day popover on an outside click, or on Escape */
+  useEffect(() => {
+    if (!timeOfDayOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (!timeOfDayRef.current?.contains(e.target as Node)) setTimeOfDayOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setTimeOfDayOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown, true);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown, true);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [timeOfDayOpen]);
+
   /* ── structure switching ── */
   /* Every request gets a token. A newer request supersedes an older one at
      any point  -  while its model is still downloading, or mid-animation  -  so
@@ -270,6 +302,11 @@ export const Viewer = memo(function Viewer({
         return;
       }
       setLoadError(null);
+
+      // each structure remembers its own hour; prime it before the handover
+      // so the transition's own re-tint picks up the incoming dwelling's
+      // hour instead of leaving the outgoing one's in place
+      engine.primeTimeOfDay(timeByStructure[next.id] ?? DEFAULT_HOUR);
 
       // the engine drives the exchange; panels flip at the handover so copy
       // and geometry change on the same beat
@@ -514,12 +551,12 @@ export const Viewer = memo(function Viewer({
         </div>
       )}
 
-      {/* ── Auto rotate floating pill button ──
+      {/* ── Auto rotate + Time of day floating pills ──
           Sits bottom-left under the tool rail at every width, matching
           desktop  -  the whole overlay wrapper scales down on phones instead
           of this element getting its own compact layout. */}
       {/* Hidden on small screens when hotspot card is active to prevent overlap */}
-      <div className={`pointer-events-auto absolute bottom-4 left-3 z-30 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
+      <div className={`pointer-events-auto absolute bottom-4 left-3 z-30 flex items-end gap-2 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
         <button
           type="button"
           onClick={onToggleAnimate}
@@ -543,6 +580,48 @@ export const Viewer = memo(function Viewer({
             />
           </div>
         </button>
+
+        <div className="relative" ref={timeOfDayRef}>
+          <button
+            type="button"
+            onClick={() => setTimeOfDayOpen((v) => !v)}
+            className="atlas-card group flex h-[38px] w-[38px] items-center justify-center !rounded-full border border-line-strong bg-white/95 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
+            aria-label={t.timeOfDayAria}
+            aria-expanded={timeOfDayOpen}
+            aria-haspopup="true"
+          >
+            {timeOfDay >= 6.5 && timeOfDay < 18.5 ? (
+              <SunIcon className="h-4 w-4 text-terracotta" />
+            ) : (
+              <MoonIcon className="h-4 w-4 text-slateblue" />
+            )}
+          </button>
+          {timeOfDayOpen && (
+            <div className="atlas-card absolute bottom-[46px] left-0 z-40 w-[240px] !rounded-2xl border border-line-strong bg-white/95 p-4 shadow-card backdrop-blur-md">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="font-serif text-[0.82rem] font-medium text-ink-soft">{t.timeOfDay}</span>
+                <span className="font-display text-[0.95rem] font-bold text-ink tabular-nums">
+                  {String(Math.floor(timeOfDay)).padStart(2, "0")}:{String(Math.round((timeOfDay % 1) * 60)).padStart(2, "0")}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={24}
+                step={0.25}
+                value={timeOfDay}
+                onChange={(ev) => handleTimeChange(Number(ev.target.value))}
+                aria-label={t.timeOfDayAria}
+                className="w-full accent-terracotta"
+              />
+              <div className="mt-1.5 flex items-center justify-between text-[0.68rem] text-ink-muted">
+                <span>00:00</span>
+                <span>12:00</span>
+                <span>24:00</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── active hotspot detail card ── */}

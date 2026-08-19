@@ -182,7 +182,16 @@ export class ViewerEngine {
   private keyLight!: THREE.DirectionalLight;
   private rimLight!: THREE.DirectionalLight;
   private bounceLight!: THREE.DirectionalLight;
+  private fillLight!: THREE.DirectionalLight;
+  private hemiLight!: THREE.HemisphereLight;
   private envTex: THREE.Texture | null = null;
+  /** 2D context behind envTex, repainted per time-of-day so IBL reflections
+   *  track the sky instead of staying frozen at the day gradient. */
+  private envCtx: CanvasRenderingContext2D | null = null;
+  /** current structure accent colour, re-applied after every time-of-day
+   *  change so the two tints compose instead of one clobbering the other. */
+  private currentTint = new THREE.Color(0xf2c14e);
+  private timeOfDay = 14;
   private contact: THREE.Mesh | null = null;
   private contactOpacity = uniform(0.46);
   private occlusionTimer = 0;
@@ -268,6 +277,7 @@ export class ViewerEngine {
     //    that form reads through shadow rather than washing out. ──
     const hemi = new THREE.HemisphereLight(0xf7f9fa, 0xaab6bd, 0.18);
     scene.add(hemi);
+    this.hemiLight = hemi;
 
     const key = new THREE.DirectionalLight(0xf7f9fa, 3.1);
     key.position.set(3.0, 4.4, 2.6);
@@ -294,6 +304,7 @@ export class ViewerEngine {
     const fill = new THREE.DirectionalLight(0xd6e2f2, 0.22);
     fill.position.set(-3.6, 2.1, -1.7);
     scene.add(fill);
+    this.fillLight = fill;
 
     // cool back rim  -  separates the silhouette from the white/blue backdrop
     const rim = new THREE.DirectionalLight(0xc9d6de, 0.72);
@@ -452,7 +463,9 @@ export class ViewerEngine {
 
   /** A hand-painted equirectangular gallery dome: cool white/grey sky, a soft
    *  key-side glow, and a pale floor that bounces back into the model.
-   *  Cheap to build (64×32 canvas) and gives node materials real IBL. */
+   *  Cheap to build (64×32 canvas) and gives node materials real IBL.
+   *  The canvas/ctx are kept on the instance so paintEnvironment() can
+   *  repaint the same texture per time-of-day instead of rebuilding it. */
   private buildEnvironment(): THREE.Texture | null {
     try {
       const c = document.createElement("canvas");
@@ -460,22 +473,11 @@ export class ViewerEngine {
       c.height = 32;
       const ctx = c.getContext("2d");
       if (!ctx) return null;
-      const sky = ctx.createLinearGradient(0, 0, 0, 32);
-      sky.addColorStop(0.0, "#ffffff"); // zenith
-      sky.addColorStop(0.42, "#f2f5f6");
-      sky.addColorStop(0.52, "#e2e9ec"); // horizon
-      sky.addColorStop(1.0, "#c3ccd1"); // floor bounce
-      ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, 64, 32);
-      // soft sun patch on the key side
-      const sun = ctx.createRadialGradient(46, 5, 0, 46, 5, 22);
-      sun.addColorStop(0, "rgba(255,255,255,0.95)");
-      sun.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = sun;
-      ctx.fillRect(0, 0, 64, 32);
+      this.envCtx = ctx;
       const tex = new THREE.CanvasTexture(c);
       tex.mapping = THREE.EquirectangularReflectionMapping;
       tex.colorSpace = THREE.SRGBColorSpace;
+      this.paintEnvironment(ctx, 14 / 24);
       tex.needsUpdate = true;
       return tex;
     } catch {
@@ -483,21 +485,182 @@ export class ViewerEngine {
     }
   }
 
+  /** Repaints the gallery-dome canvas for a given point in the 24h cycle
+   *  (t = hour/24). Sun patch swings from left (sunrise) to right (sunset)
+   *  and fades out at night, when a few faint stars appear near the zenith. */
+  private paintEnvironment(ctx: CanvasRenderingContext2D, t: number) {
+    const w = 64, h = 32;
+    // day = cos curve peaking at noon (t=0.5), 0 at the horizon (t≈0.25/0.75), negative at night
+    const sunHeight = Math.cos((t - 0.5) * Math.PI * 2);
+    const isNight = sunHeight < -0.05;
+    const dusk = Math.max(0, 1 - Math.abs(sunHeight) / 0.25); // near-horizon warmth
+
+    const sky = ctx.createLinearGradient(0, 0, 0, h);
+    if (isNight) {
+      sky.addColorStop(0.0, "#0c1220");
+      sky.addColorStop(0.42, "#141d30");
+      sky.addColorStop(0.52, "#1c273c");
+      sky.addColorStop(1.0, "#232c3a");
+    } else if (dusk > 0.35) {
+      // sunrise/sunset: warm amber horizon fading to cool zenith
+      sky.addColorStop(0.0, "#c9d6ec");
+      sky.addColorStop(0.42, "#e8c9a8");
+      sky.addColorStop(0.52, "#f2a86b");
+      sky.addColorStop(1.0, "#c78a5c");
+    } else {
+      sky.addColorStop(0.0, "#ffffff");
+      sky.addColorStop(0.42, "#f2f5f6");
+      sky.addColorStop(0.52, "#e2e9ec");
+      sky.addColorStop(1.0, "#c3ccd1");
+    }
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, w, h);
+
+    if (isNight) {
+      // faint stars, deterministic so the dome doesn't shimmer between paints
+      let seed = 7;
+      const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      for (let i = 0; i < 40; i++) {
+        const x = rand() * w, y = rand() * h * 0.55;
+        ctx.fillRect(x, y, 0.6, 0.6);
+      }
+    } else {
+      // sun/moon patch: x swings from left (sunrise) to right (sunset) with t
+      const sunX = w * (0.08 + 0.84 * t);
+      const sunY = h * (0.5 - 0.42 * Math.max(0, sunHeight));
+      const sun = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, dusk > 0.35 ? 26 : 22);
+      sun.addColorStop(0, dusk > 0.35 ? "rgba(255,200,140,0.95)" : "rgba(255,255,255,0.95)");
+      sun.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = sun;
+      ctx.fillRect(0, 0, w, h);
+    }
+  }
+
   /** Warm the rig toward an structure's accent colour  -  Byzantine gold reads
-   *  differently from Inca stone, and the light should say so. */
+   *  differently from Inca stone, and the light should say so. Delegates to
+   *  setTimeOfDay so the accent tint and the current hour compose into one
+   *  result instead of one clobbering the other on every structure swap. */
   setTint(hex: string, dur = 1.1) {
-    const tint = new THREE.Color(hex);
-    const targets: [THREE.Color | undefined, THREE.Color][] = [
-      [this.rimLight?.color, new THREE.Color(0xc9d6de).lerp(tint, 0.45)],
-      [this.keyLight?.color, new THREE.Color(0xf7f9fa).lerp(tint, 0.16)],
-      [this.bounceLight?.color, new THREE.Color(0xe4eaee).lerp(tint, 0.35)],
-      [this.rimColor.value as THREE.Color, new THREE.Color(0xdce4ea).lerp(tint, 0.4)],
-    ];
-    targets.forEach(([src, to]) => {
-      if (!src) return;
-      if (this.reducedMotion || dur <= 0.01) src.copy(to);
-      else gsap.to(src, { r: to.r, g: to.g, b: to.b, duration: dur, ease: "power2.inOut" });
-    });
+    this.currentTint = new THREE.Color(hex);
+    this.setTimeOfDay(this.timeOfDay, dur);
+  }
+
+  /** Preloads the hour a swap should land on, without animating or touching
+   *  the rig  -  call before transition() so the handover's own setTint call
+   *  (which re-derives lighting from this.timeOfDay) picks up the incoming
+   *  structure's remembered hour instead of the outgoing one's. */
+  primeTimeOfDay(hours: number) {
+    this.timeOfDay = hours;
+  }
+
+  getTimeOfDay(): number {
+    return this.timeOfDay;
+  }
+
+  /** Drives the whole rig (sun position, light colour/intensity, sky dome)
+   *  from a 24h clock. hours may be fractional. The structure's accent tint
+   *  (see setTint) is folded in on top so both stay in sync. */
+  setTimeOfDay(hours: number, dur = 1.1) {
+    this.timeOfDay = hours;
+    const t = ((hours % 24) + 24) % 24 / 24;
+    const tint = this.currentTint;
+
+    // sun arcs from horizon (sunrise, azimuth left) through zenith (noon)
+    // back to the horizon (sunset, azimuth right), dipping below at night.
+    const angle = (t - 0.25) * Math.PI * 2; // 0 at sunrise (t=0.25 -> 06:00)
+    const sunHeight = Math.sin(angle); // -1..1, negative = below horizon
+    const sunX = Math.cos(angle) * 3.6;
+    const sunZ = 2.4 * Math.sign(Math.cos(angle * 0.5) || 1);
+    const elevation = Math.max(sunHeight, -0.08); // never dive fully under the model
+    if (this.keyLight) {
+      const to = new THREE.Vector3(sunX, 1.2 + elevation * 4.2, sunZ);
+      if (this.reducedMotion || dur <= 0.01) this.keyLight.position.copy(to);
+      else gsap.to(this.keyLight.position, { x: to.x, y: to.y, z: to.z, duration: dur, ease: "power2.inOut", onUpdate: () => this.markShadowDirty(2) });
+    }
+
+    // dayFactor: 1 at noon, 0 at/below the horizon  -  drives the day<->night
+    // blend. duskFactor: peaks at the horizon in either direction (sunrise
+    // and sunset) and fades out both toward noon and toward deep night, so
+    // the warm horizon colour shows up as a band around sunrise/sunset
+    // rather than a hard cut the moment the sun dips under the horizon.
+    const dayFactor = Math.max(0, sunHeight);
+    const duskFactor = Math.max(0, 1 - Math.abs(sunHeight) / 0.35);
+    // base (untinted) colours/intensities for the three light roles + hemi,
+    // blended day -> dusk -> night before the structure's accent is mixed in
+    const dayKey = new THREE.Color(0xf7f9fa), duskKey = new THREE.Color(0xffb570), nightKey = new THREE.Color(0x6a7cc9);
+    const dayRim = new THREE.Color(0xc9d6de), duskRim = new THREE.Color(0xff9a5a), nightRim = new THREE.Color(0x3a4a7a);
+    const dayBounce = new THREE.Color(0xe4eaee), duskBounce = new THREE.Color(0xffcf9e), nightBounce = new THREE.Color(0x2c3550);
+    const dayHemiSky = new THREE.Color(0xf7f9fa), duskHemiSky = new THREE.Color(0xffdcb0), nightHemiSky = new THREE.Color(0x18213a);
+    const dayHemiGround = new THREE.Color(0xaab6bd), nightHemiGround = new THREE.Color(0x0c0f1c);
+
+    const keyBase = nightKey.clone().lerp(dayKey, dayFactor).lerp(duskKey, duskFactor);
+    const rimBase = nightRim.clone().lerp(dayRim, dayFactor).lerp(duskRim, duskFactor);
+    const bounceBase = nightBounce.clone().lerp(dayBounce, dayFactor).lerp(duskBounce, duskFactor);
+    const hemiSky = nightHemiSky.clone().lerp(dayHemiSky, dayFactor).lerp(duskHemiSky, duskFactor * 0.6);
+    const hemiGround = nightHemiGround.clone().lerp(dayHemiGround, dayFactor);
+
+    const keyIntensity = 0.35 + (3.1 - 1.1 * duskFactor - 0.35) * dayFactor;
+    const rimIntensity = 0.28 + (0.72 + 0.5 * duskFactor - 0.28) * Math.max(dayFactor, duskFactor * 0.6);
+    const bounceIntensity = 0.06 + (0.16 + 0.1 * duskFactor - 0.06) * dayFactor;
+    const hemiIntensity = 0.1 + (0.18 + 0.08 * duskFactor - 0.1) * dayFactor;
+    // the gallery-dome IBL is a strong ambient fill (0.4 by default); at
+    // night it must drop hard too, or the warm day env keeps washing out
+    // the darkened directional lights and nothing visibly changes.
+    const envIntensity = 0.08 + (0.4 - 0.05 * duskFactor - 0.08) * dayFactor;
+
+    const keyTo = keyBase.clone().lerp(tint, 0.16);
+    const rimTo = rimBase.clone().lerp(tint, 0.45);
+    const bounceTo = bounceBase.clone().lerp(tint, 0.35);
+    const rimGlowTo = new THREE.Color(0xdce4ea).lerp(rimBase, Math.max(1 - dayFactor, duskFactor * 0.6)).lerp(tint, 0.4);
+
+    const apply = () => {
+      if (this.keyLight) { this.keyLight.color.copy(keyTo); this.keyLight.intensity = keyIntensity; }
+      if (this.rimLight) { this.rimLight.color.copy(rimTo); this.rimLight.intensity = rimIntensity; }
+      if (this.bounceLight) { this.bounceLight.color.copy(bounceTo); this.bounceLight.intensity = bounceIntensity; }
+      if (this.hemiLight) { this.hemiLight.color.copy(hemiSky); this.hemiLight.groundColor.copy(hemiGround); this.hemiLight.intensity = hemiIntensity; }
+      if (this.fillLight) this.fillLight.intensity = 0.08 + 0.14 * dayFactor;
+      this.scene.environmentIntensity = envIntensity;
+      (this.rimColor.value as THREE.Color).copy(rimGlowTo);
+    };
+
+    if (this.reducedMotion || dur <= 0.01) {
+      apply();
+    } else {
+      const proxy = { p: 0 };
+      const from = {
+        key: this.keyLight?.color.clone(), rim: this.rimLight?.color.clone(), bounce: this.bounceLight?.color.clone(),
+        hemiSky: this.hemiLight?.color.clone(), hemiGround: this.hemiLight?.groundColor.clone(),
+        keyI: this.keyLight?.intensity ?? keyIntensity, rimI: this.rimLight?.intensity ?? rimIntensity,
+        bounceI: this.bounceLight?.intensity ?? bounceIntensity, hemiI: this.hemiLight?.intensity ?? hemiIntensity,
+        fillI: this.fillLight?.intensity ?? 0.22, rimGlow: (this.rimColor.value as THREE.Color).clone(),
+        envI: this.scene.environmentIntensity,
+      };
+      gsap.to(proxy, {
+        p: 1, duration: dur, ease: "power2.inOut",
+        onUpdate: () => {
+          const s = proxy.p;
+          if (this.keyLight && from.key) { this.keyLight.color.copy(from.key).lerp(keyTo, s); this.keyLight.intensity = from.keyI + (keyIntensity - from.keyI) * s; }
+          if (this.rimLight && from.rim) { this.rimLight.color.copy(from.rim).lerp(rimTo, s); this.rimLight.intensity = from.rimI + (rimIntensity - from.rimI) * s; }
+          if (this.bounceLight && from.bounce) { this.bounceLight.color.copy(from.bounce).lerp(bounceTo, s); this.bounceLight.intensity = from.bounceI + (bounceIntensity - from.bounceI) * s; }
+          if (this.hemiLight && from.hemiSky && from.hemiGround) {
+            this.hemiLight.color.copy(from.hemiSky).lerp(hemiSky, s);
+            this.hemiLight.groundColor.copy(from.hemiGround).lerp(hemiGround, s);
+            this.hemiLight.intensity = from.hemiI + (hemiIntensity - from.hemiI) * s;
+          }
+          if (this.fillLight) this.fillLight.intensity = from.fillI + ((0.08 + 0.14 * dayFactor) - from.fillI) * s;
+          this.scene.environmentIntensity = from.envI + (envIntensity - from.envI) * s;
+          (this.rimColor.value as THREE.Color).copy(from.rimGlow).lerp(rimGlowTo, s);
+          this.markShadowDirty(2);
+        },
+      });
+    }
+
+    // repaint the sky dome to match (cheap: 64x32 canvas)
+    if (this.envCtx && this.envTex) {
+      this.paintEnvironment(this.envCtx, t);
+      this.envTex.needsUpdate = true;
+    }
   }
 
   /**

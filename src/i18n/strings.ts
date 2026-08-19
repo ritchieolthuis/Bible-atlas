@@ -72,6 +72,8 @@ export interface UiStrings {
     stageAria: (dwelling: string) => string;
     clickToExplore: string;
     markersAria: string;
+    timeOfDay: string;
+    timeOfDayAria: string;
   };
   modals: {
     lessonKicker: (name: string) => string;
@@ -223,6 +225,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       stageAria: (dwelling) => `Interactive 3D viewer. Use arrow keys to rotate the ${dwelling} model, plus and minus to zoom.`,
       clickToExplore: "Click to explore",
       markersAria: "Architectural markers",
+      timeOfDay: "Time of day",
+      timeOfDayAria: "Time of day, changes the model's lighting",
     },
     modals: {
       lessonKicker: (name) => `Scripture · ${name}`,
@@ -397,6 +401,8 @@ export const STRINGS: Record<Locale, UiStrings> = {
       stageAria: (dwelling) => `Interactieve 3D-viewer. Gebruik de pijltjestoetsen om ${dwelling} te draaien, plus en min om te zoomen.`,
       clickToExplore: "Klik om te verkennen",
       markersAria: "Architectonische markeringen",
+      timeOfDay: "Tijdstip",
+      timeOfDayAria: "Tijdstip, verandert de belichting van het model",
     },
     modals: {
       lessonKicker: (name) => `Schrift · ${name}`,
