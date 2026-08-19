@@ -304,9 +304,18 @@
 /* on a phone the rail is icon-only: eight labelled buttons stacked, with
    "Zoom out" wrapping to two lines, ate most of the stage's height */
 @media (max-width: 639px) {
-  .tool-btn { padding: 9px 4px; gap: 0; }
-  .tool-btn svg { width: 19px; height: 19px; }
+  .tool-btn { padding: 6px 4px; gap: 0; }
+  .tool-btn svg { width: 18px; height: 18px; }
   .tool-btn span { display: none; }
+}
+/* Very short viewports (small phones, or a phone with the address bar
+   still showing) can't fit all nine icon-only buttons inside a square
+   stage even at the tightened padding above  -  without this the rail
+   overflows the card's top/bottom edge (see viewer-stage sizing in
+   App.tsx, which is capped at 80vh and reads as a near-square plate). */
+@media (max-width: 639px) and (max-height: 700px) {
+  .tool-btn { padding: 4px 4px; }
+  .tool-btn svg { width: 16px; height: 16px; }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
   .tool-btn { padding: 6px 2px; gap: 2px; }

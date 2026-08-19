@@ -397,10 +397,15 @@ export const Viewer = memo(function Viewer({
         <DevHotspotEditor engine={engineReady ? engineRef.current : null} structure={shownStructure} containerRef={containerRef} />
       )}
 
-      {/* ── tool rail ── */}
-      <div className="absolute left-2 top-1/2 z-30 -translate-y-1/2 md:left-3" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
+      {/* ── tool rail ──
+          max-h caps the rail at the stage's own height minus a small margin,
+          so on a narrow phone (a near-square stage, nine icon-only buttons)
+          it scrolls internally instead of overflowing past the card's top/
+          bottom edge  -  see the .tool-btn mobile rules in index.css for the
+          matching padding/icon-size tightening. */}
+      <div className="absolute left-2 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2 md:left-3" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
         {/* px keeps the active pill clear of the rail's own edges */}
-        <div className="atlas-card flex w-[46px] flex-col items-center gap-0.5 !rounded-2xl px-1.5 py-2 sm:w-[58px] md:w-[68px] md:px-2 md:py-2.5">
+        <div className="atlas-card flex h-full max-h-full w-[46px] flex-col items-center gap-0.5 overflow-y-auto !rounded-2xl px-1.5 py-1.5 sm:w-[58px] sm:py-2 md:w-[68px] md:px-2 md:py-2.5">
           <button className={`tool-btn ${tool === "rotate" ? "is-on" : ""}`} onClick={() => setTool("rotate")} aria-pressed={tool === "rotate"}>
             <RotateIcon />
             <span>{t.rotate}</span>
@@ -469,17 +474,21 @@ export const Viewer = memo(function Viewer({
         </p>
       </div>
 
-      {/* ── Model Variant Toggle (Top Center) ── */}
+      {/* ── Model Variant Toggle (Top Center) ──
+          max-w caps the row at the stage width minus the tool rail and its
+          own margins, so three-plus variants (e.g. noahs_ark's "Na de
+          Vloed") wrap their pill instead of pushing the row past the
+          card's right edge on a narrow phone. */}
       {structure.modelVariants && structure.modelVariants.length > 1 && (
-        <div className="absolute top-4 left-1/2 z-30 -translate-x-1/2">
-          <div className="flex items-center gap-1 rounded-full border border-line-strong bg-white/95 p-1 shadow-card backdrop-blur-md">
+        <div className="absolute top-3 left-1/2 z-30 max-w-[calc(100%-72px)] -translate-x-1/2 sm:top-4">
+          <div className="flex flex-wrap items-center justify-center gap-1 rounded-2xl border border-line-strong bg-white/95 p-1 shadow-card backdrop-blur-md sm:rounded-full">
             {structure.modelVariants.map((v) => {
               const isActive = activeVariantId === v.id;
               return (
                 <button
                   key={v.id}
                   onClick={() => presentStructure(structure, { variantId: v.id })}
-                  className={`relative rounded-full px-4 py-1.5 text-[0.84rem] font-medium transition-colors ${
+                  className={`relative whitespace-nowrap rounded-full px-2.5 py-1 text-[0.72rem] font-medium transition-colors sm:px-4 sm:py-1.5 sm:text-[0.84rem] ${
                     isActive ? "text-white" : "text-ink-soft hover:text-ink"
                   }`}
                   aria-pressed={isActive}
