@@ -110,6 +110,11 @@
 }
 .atlas-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; -webkit-overflow-scrolling: touch; }
 
+/* still scrolls (touch drag, wheel, keyboard) - the bar itself is just not
+   painted, matching a native-app list rather than a desktop-web one */
+.library-scroll::-webkit-scrollbar { display: none; }
+.library-scroll { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+
 /* ── Viewer stage: the parchment the dwelling stands on ─────────────
    Painted here rather than in the scene so it keeps the exact palette of
    the surrounding UI  -  a rendered backdrop would get tone-mapped grey. */
@@ -337,11 +342,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
   text-align: left;
-  padding: 9px 12px 9px 9px;
-  border-radius: 14px;
+  padding: 12px 14px 12px 12px;
+  border-radius: 16px;
   border: 1px solid transparent;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
   /* iOS Safari can otherwise treat a tap inside this scrolling list as an
@@ -357,7 +362,7 @@
   box-shadow: 0 2px 6px rgb(29 43 51 / 0.06), 0 10px 24px -10px rgb(29 43 51 / 0.14);
 }
 .structure-card .thumb-frame {
-  width: 76px; height: 76px;
+  width: 80px; height: 80px;
 }
 .structure-card .thumb {
   width: 100%; height: 100%;

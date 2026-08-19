@@ -185,7 +185,7 @@ export default function App() {
       {/* main stage  -  sized so the exploration cards below stay in view, and
           the side panels scroll within it rather than stretching the page */}
       <div className="flex gap-4 px-3 pb-3 pt-3 sm:min-h-[520px] sm:px-4 xl:h-[calc(100vh-188px-var(--banner-h,0px))] xl:min-h-[600px] xl:px-5">
-        <aside className="hidden w-[clamp(268px,20vw,380px)] flex-none xl:flex">
+        <aside className="hidden w-[clamp(300px,22vw,380px)] flex-none xl:flex">
           <StructureLibrary structures={EMPIRES} activeId={viewerStructure.id} favorites={favorites} onSelect={selectEmpire} onToggleFav={toggleFav} onViewAll={() => setSearchOpen(true)} onPrefetch={prefetch} />
         </aside>
 

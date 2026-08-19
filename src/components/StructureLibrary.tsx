@@ -44,7 +44,7 @@ export const StructureLibrary = memo(function StructureLibrary({ structures, act
         <BookmarkIcon className="h-[18px] w-[18px] text-white/60" aria-hidden />
       </div>
 
-      <div ref={listRef} className="atlas-scroll -mx-2 min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 pb-2" role="listbox" aria-label="Structures">
+      <div ref={listRef} className="library-scroll -mx-2 min-h-0 flex-1 space-y-2 overflow-y-auto px-2 pb-2" role="listbox" aria-label="Structures">
         {structures.map((e, i) => {
           const active = e.id === activeId;
           const fav = favorites.has(e.id);
@@ -81,20 +81,12 @@ export const StructureLibrary = memo(function StructureLibrary({ structures, act
               }}
               className={`structure-card !border-transparent hover:!bg-white/8 ${active ? "!bg-white/10 !border-white/15" : ""}`}
             >
-              <span className="relative flex-none">
-                <span className="thumb-frame block overflow-hidden rounded-[10px] border border-white/15 bg-white/6">
-                  <img className="thumb" src={structureImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />
-                </span>
-                <span
-                  className="font-display absolute -left-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full border border-white/20 bg-terracotta-deep text-[0.68rem] font-bold text-white shadow-sm"
-                  aria-hidden
-                >
-                  {i + 1}
-                </span>
+              <span className="thumb-frame block flex-none overflow-hidden rounded-[14px] border border-white/15 bg-white/6">
+                <img className="thumb" src={structureImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />
               </span>
               <span className="min-w-0 flex-1 leading-tight">
-                <span className="font-display block text-[0.98rem] font-bold leading-[1.1] text-white">{e.name}</span>
-                <span className="mt-0.5 block truncate text-[0.78rem] text-white/55">{e.dwelling}</span>
+                <span className="font-display block truncate text-[1rem] font-bold leading-[1.2] text-white">{e.name}</span>
+                <span className="mt-1 block truncate text-[0.82rem] text-white/55">{e.dwelling}</span>
               </span>
               <span
                 role="button"
