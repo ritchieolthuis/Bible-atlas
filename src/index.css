@@ -328,13 +328,25 @@
    at 100% *before* scaling, and everything inside (e.g. the tool rail's
    max-h) measures against that pre-scale box and overflows once shrunk. */
 @media (max-width: 479px) {
-  .viewer-overlay { transform: scale(0.62); width: calc(100% / 0.62); height: calc(100% / 0.62); left: 50%; margin-left: calc(-50% / 0.62); top: auto; bottom: 0; margin-bottom: 0; }
+  .viewer-overlay { transform: scale(0.48); width: calc(100% / 0.48); height: calc(100% / 0.48); left: 50%; margin-left: calc(-50% / 0.48); top: auto; bottom: 0; margin-bottom: 0; }
 }
 @media (min-width: 480px) and (max-width: 639px) {
-  .viewer-overlay { transform: scale(0.74); width: calc(100% / 0.74); height: calc(100% / 0.74); left: 50%; margin-left: calc(-50% / 0.74); top: auto; bottom: 0; margin-bottom: 0; }
+  .viewer-overlay { transform: scale(0.64); width: calc(100% / 0.64); height: calc(100% / 0.64); left: 50%; margin-left: calc(-50% / 0.64); top: auto; bottom: 0; margin-bottom: 0; }
 }
 @media (min-width: 640px) and (max-width: 767px) {
+  .viewer-overlay { transform: scale(0.78); width: calc(100% / 0.78); height: calc(100% / 0.78); left: 50%; margin-left: calc(-50% / 0.78); top: auto; bottom: 0; margin-bottom: 0; }
+}
+/* From md: up the stage is normally tall enough (it's sized off viewport
+   width, min(width, 80vh)) for the overlay at full size  -  but a short
+   viewport (a tablet in landscape, a browser window that isn't maximized)
+   caps the stage well under that, and the unscaled 547px-tall tool rail
+   then runs into the auto-rotate pill under it. Scale the overlay down
+   whenever the viewport itself is short, regardless of width. */
+@media (min-width: 768px) and (max-height: 860px) {
   .viewer-overlay { transform: scale(0.86); width: calc(100% / 0.86); height: calc(100% / 0.86); left: 50%; margin-left: calc(-50% / 0.86); top: auto; bottom: 0; margin-bottom: 0; }
+}
+@media (min-width: 768px) and (max-height: 700px) {
+  .viewer-overlay { transform: scale(0.7); width: calc(100% / 0.7); height: calc(100% / 0.7); left: 50%; margin-left: calc(-50% / 0.7); top: auto; bottom: 0; margin-bottom: 0; }
 }
 
 /* ── Structure library cards ───────────────────────────────────────── */
