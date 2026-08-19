@@ -53,7 +53,7 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
         <img
           src={withBase("/img/brand/3d-bible-logo.webp")}
           alt={t.brand.name}
-          className="h-10 w-auto flex-none sm:h-11"
+          className="h-10 w-auto flex-none -translate-y-1 sm:h-11"
         />
       </div>
 
