@@ -11,6 +11,7 @@ export const new_jerusalem: Structure = {
     { text: "geen tempel is daarin", target: { kind: "section", section: "interior" } },
   ],
   modelPath: "/models/new_jerusalem.glb",
+  tint: "#ffffff",
   modelVariants: [
     { id: "default", label: "Standaard", path: "/models/new_jerusalem.glb" },
     { id: "throne", label: "De Troon en het Lam", path: "/models/new_jerusalem_throne.glb",

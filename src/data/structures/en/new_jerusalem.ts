@@ -11,6 +11,7 @@ export const new_jerusalem: Structure = {
     { text: "no temple is therein", target: { kind: "section", section: "interior" } },
   ],
   modelPath: "/models/new_jerusalem.glb",
+  tint: "#ffffff",
   modelVariants: [
     { id: "default", label: "Default", path: "/models/new_jerusalem.glb" },
     { id: "throne", label: "The Throne and the Lamb", path: "/models/new_jerusalem_throne.glb",
