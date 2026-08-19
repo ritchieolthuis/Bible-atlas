@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { useLocale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
+import { withBase } from "@/lib/utils";
 import {
   TempleIcon,
   CompassIcon,
@@ -50,7 +51,11 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
       <div className="flex min-w-0 flex-none items-center gap-2.5">
         <TempleIcon className="h-8 w-8 flex-none text-terracotta" aria-hidden />
         <div className="min-w-0 leading-none">
-          <div className="font-display truncate text-[1.25rem] font-bold tracking-[0.01em] text-ink sm:text-[1.45rem]">{t.brand.name}</div>
+          <img
+            src={withBase("/img/brand/3d-bible-logo.webp")}
+            alt={t.brand.name}
+            className="h-6 w-auto sm:h-7"
+          />
           <div className="font-serif mt-1 hidden text-[0.82rem] italic text-terracotta sm:block">{t.brand.tagline}</div>
         </div>
       </div>
