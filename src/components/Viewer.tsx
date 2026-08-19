@@ -397,15 +397,25 @@ export const Viewer = memo(function Viewer({
         <DevHotspotEditor engine={engineReady ? engineRef.current : null} structure={shownStructure} containerRef={containerRef} />
       )}
 
+      {/* ── overlay UI scale wrapper ──
+          Everything below (tool rail, disclaimer, variant pills, auto
+          rotate, tip card, hotspot detail card) renders at fixed desktop
+          size and this wrapper scales the whole group down on narrow
+          viewports  -  same proportions and labels as desktop, just smaller,
+          instead of a separately laid-out "mobile" design. See the
+          .viewer-overlay rules in index.css for the scale steps. The
+          canvas and HotspotLayer sit outside this wrapper: pins are
+          projected from the container's real pixel size, not this CSS
+          transform, so they stay put regardless of overlay scale. */}
+      <div className="viewer-overlay pointer-events-none absolute inset-0 z-20">
       {/* ── tool rail ──
           max-h caps the rail at the stage's own height minus a small margin,
           so on a narrow phone (a near-square stage, nine icon-only buttons)
           it scrolls internally instead of overflowing past the card's top/
-          bottom edge  -  see the .tool-btn mobile rules in index.css for the
-          matching padding/icon-size tightening. */}
-      <div className="absolute left-2 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2 md:left-3" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
+          bottom edge. */}
+      <div className="pointer-events-auto absolute left-3 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
         {/* px keeps the active pill clear of the rail's own edges */}
-        <div className="atlas-card flex h-full max-h-full w-[46px] flex-col items-center gap-0 overflow-y-auto !rounded-2xl px-1.5 py-1 sm:w-[58px] sm:gap-0.5 sm:py-2 md:w-[68px] md:px-2 md:py-2.5">
+        <div className="atlas-card flex h-full max-h-full w-[68px] flex-col items-center gap-0.5 overflow-y-auto !rounded-2xl px-2 py-2.5">
           <button className={`tool-btn ${tool === "rotate" ? "is-on" : ""}`} onClick={() => setTool("rotate")} aria-pressed={tool === "rotate"}>
             <RotateIcon />
             <span>{t.rotate}</span>
@@ -434,7 +444,7 @@ export const Viewer = memo(function Viewer({
               <span>{t.layers}</span>
             </button>
             {layersOpen && (
-              <div className="atlas-card absolute left-[52px] top-0 z-40 w-[168px] !rounded-xl p-1.5 sm:left-[70px]" role="menu">
+              <div className="atlas-card absolute left-[70px] top-0 z-40 w-[168px] !rounded-xl p-1.5" role="menu">
                 {LAYER_ITEMS.map((it) => (
                   <button
                     key={it.key}
@@ -468,7 +478,7 @@ export const Viewer = memo(function Viewer({
       </div>
 
       {/* ── 3D-model accuracy disclaimer  -  top-right corner of the stage ── */}
-      <div className="atlas-card absolute top-3 right-3 z-20 hidden w-[220px] !rounded-2xl border border-line-strong bg-[#eef2f4]/95 p-3 shadow-card backdrop-blur-sm md:top-4 md:right-4 md:block">
+      <div className="atlas-card pointer-events-auto absolute top-4 right-4 z-20 w-[220px] !rounded-2xl border border-line-strong bg-[#eef2f4]/95 p-3 shadow-card backdrop-blur-sm">
         <p className="font-serif text-[0.78rem] leading-snug text-ink-soft">
           {t.disclaimer}
         </p>
@@ -478,17 +488,17 @@ export const Viewer = memo(function Viewer({
           max-w caps the row at the stage width minus the tool rail and its
           own margins, so three-plus variants (e.g. noahs_ark's "Na de
           Vloed") wrap their pill instead of pushing the row past the
-          card's right edge on a narrow phone. */}
+          card's right edge. */}
       {structure.modelVariants && structure.modelVariants.length > 1 && (
-        <div className="absolute top-3 left-1/2 z-30 max-w-[calc(100%-72px)] -translate-x-1/2 sm:top-4">
-          <div className="flex flex-wrap items-center justify-center gap-1 rounded-2xl border border-line-strong bg-white/95 p-1 shadow-card backdrop-blur-md sm:rounded-full">
+        <div className="pointer-events-auto absolute top-4 left-1/2 z-30 max-w-[calc(100%-72px)] -translate-x-1/2">
+          <div className="flex flex-wrap items-center justify-center gap-1 rounded-full border border-line-strong bg-white/95 p-1 shadow-card backdrop-blur-md">
             {structure.modelVariants.map((v) => {
               const isActive = activeVariantId === v.id;
               return (
                 <button
                   key={v.id}
                   onClick={() => presentStructure(structure, { variantId: v.id })}
-                  className={`relative whitespace-nowrap rounded-full px-2.5 py-1 text-[0.72rem] font-medium transition-colors sm:px-4 sm:py-1.5 sm:text-[0.84rem] ${
+                  className={`relative whitespace-nowrap rounded-full px-4 py-1.5 text-[0.84rem] font-medium transition-colors ${
                     isActive ? "text-white" : "text-ink-soft hover:text-ink"
                   }`}
                   aria-pressed={isActive}
@@ -506,30 +516,29 @@ export const Viewer = memo(function Viewer({
 
       {/* ── Auto rotate floating pill button ──
           Sits bottom-left under the tool rail at every width, matching
-          desktop; on phones it's shrunk (tighter padding, smaller switch,
-          shorter label) so it clears the rail's own width instead of
-          overlapping it. */}
+          desktop  -  the whole overlay wrapper scales down on phones instead
+          of this element getting its own compact layout. */}
       {/* Hidden on small screens when hotspot card is active to prevent overlap */}
-      <div className={`absolute bottom-4 left-2 z-30 md:left-3 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
+      <div className={`pointer-events-auto absolute bottom-4 left-3 z-30 transition-opacity duration-200 ${activeHs ? "opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto" : ""}`}>
         <button
           type="button"
           onClick={onToggleAnimate}
-          className="atlas-card group flex items-center gap-1.5 !rounded-full border border-line-strong bg-white/95 px-2 py-1 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98] sm:gap-2.5 sm:px-3.5 sm:py-1.5"
+          className="atlas-card group flex items-center gap-2.5 !rounded-full border border-line-strong bg-white/95 px-3.5 py-1.5 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
           aria-label={t.autoRotate}
           aria-pressed={animating}
         >
-          <RotateCcwIcon className="h-3.5 w-3.5 text-ink transition-transform duration-500 group-hover:-rotate-45 sm:h-4 sm:w-4" />
-          <span className="font-serif text-[0.68rem] font-medium text-ink select-none sm:text-[0.88rem]">
+          <RotateCcwIcon className="h-4 w-4 text-ink transition-transform duration-500 group-hover:-rotate-45" />
+          <span className="font-serif text-[0.88rem] font-medium text-ink select-none">
             {t.autoRotate}
           </span>
           <div
-            className={`relative h-4 w-7 rounded-full transition-colors duration-200 sm:h-5 sm:w-9 ${
+            className={`relative h-5 w-9 rounded-full transition-colors duration-200 ${
               animating ? "bg-[#5B9BD5]" : "bg-[#c5ced3]"
             }`}
           >
             <div
-              className={`absolute top-[2px] h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200 sm:top-[2.5px] sm:h-3.5 sm:w-3.5 ${
-                animating ? "translate-x-[14px] sm:translate-x-[18px]" : "translate-x-[2px] sm:translate-x-[2.5px]"
+              className={`absolute top-[2.5px] h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                animating ? "translate-x-[18px]" : "translate-x-[2.5px]"
               }`}
             />
           </div>
@@ -539,45 +548,45 @@ export const Viewer = memo(function Viewer({
       {/* ── active hotspot detail card ── */}
       {activeHs && (
         <div
-          className="atlas-card absolute bottom-0 left-0 right-0 z-30 w-full !rounded-t-2xl !rounded-b-none p-4 sm:bottom-4 sm:left-1/2 sm:right-auto sm:w-[min(430px,calc(100%-140px))] sm:-translate-x-1/2 sm:!rounded-2xl"
+          className="atlas-card pointer-events-auto absolute bottom-4 left-1/2 z-30 w-[min(430px,calc(100%-140px))] -translate-x-1/2 !rounded-2xl p-4"
           role="dialog"
           aria-label={activeHs.title}
         >
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="kicker !text-[0.62rem] !text-terracotta">{catLabel[activeHs.category]}</div>
-              <h3 className="font-display mt-0.5 text-[1.15rem] font-bold leading-tight text-ink sm:text-[1.25rem]">{activeHs.title}</h3>
+              <h3 className="font-display mt-0.5 text-[1.25rem] font-bold leading-tight text-ink">{activeHs.title}</h3>
             </div>
             <button className="rounded-md p-1 text-ink-muted transition-colors hover:bg-paper-deep hover:text-ink" onClick={() => setActiveId(null)} aria-label={t.closeDetail}>
               <CloseIcon className="h-4.5 w-4.5 h-[18px] w-[18px]" />
             </button>
           </div>
-          <p className="font-serif mt-2 text-[0.95rem] leading-snug text-ink-muted sm:text-[0.98rem]">{activeHs.short}</p>
-          <p className="mt-2 text-[0.84rem] leading-relaxed text-ink-soft sm:text-[0.86rem]">{activeHs.detail}</p>
+          <p className="font-serif mt-2 text-[0.98rem] leading-snug text-ink-muted">{activeHs.short}</p>
+          <p className="mt-2 text-[0.86rem] leading-relaxed text-ink-soft">{activeHs.detail}</p>
         </div>
       )}
 
       {/* ── tip card ──
-          Visible at every width now (previously md:-only, which hid it on
-          phones); shrunk on small screens so it sits clear in the
-          bottom-right corner opposite the auto-rotate pill, matching the
-          desktop layout instead of disappearing there. */}
+          Visible at every width now, same fixed desktop size  -  the overlay
+          wrapper scale handles fitting it on narrow screens instead of a
+          separate compact layout. */}
       {tipVisible && !activeHs && (
-        <div className="absolute bottom-4 right-2 z-30 w-[150px] rounded-xl border border-line-strong bg-[#eef2f4] p-2 shadow-card sm:w-[180px] sm:p-2.5 md:right-4 md:w-[210px] md:rounded-2xl md:p-3.5">
+        <div className="pointer-events-auto absolute bottom-4 right-4 z-30 w-[210px] rounded-2xl border border-line-strong bg-[#eef2f4] p-3.5 shadow-card">
           <div className="flex items-center justify-between">
-            <span className="font-display flex items-center gap-1 text-[0.68rem] font-semibold text-ink sm:gap-1.5 sm:text-[0.78rem] md:text-[0.85rem]">
-              <BulbIcon className="h-3 w-3 text-ink-muted sm:h-3.5 sm:w-3.5 md:h-4 md:w-4" />
+            <span className="font-display flex items-center gap-1.5 text-[0.85rem] font-semibold text-ink">
+              <BulbIcon className="h-4 w-4 text-ink-muted" />
               {t.tip}
             </span>
             <button className="rounded p-0.5 text-ink-muted transition-colors hover:text-ink" onClick={() => setTipVisible(false)} aria-label={t.tipDismiss}>
-              <CloseIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+              <CloseIcon className="h-3.5 w-3.5" />
             </button>
           </div>
-          <p className="font-serif mt-1 text-[0.68rem] leading-snug text-ink-soft sm:mt-1.5 sm:text-[0.76rem] md:text-[0.85rem]">
+          <p className="font-serif mt-1.5 text-[0.85rem] leading-snug text-ink-soft">
             {t.tipText}
           </p>
         </div>
       )}
+      </div>
 
       {/* ── loading experience ── */}
       {loading && (
