@@ -10,10 +10,10 @@ export const new_jerusalem: Structure = {
     { text: "twelve gates of pearl", target: { kind: "section", section: "artifacts" } },
     { text: "no temple is therein", target: { kind: "section", section: "interior" } },
   ],
-  modelPath: "/models/new_jerusalem.glb",
+  modelPath: "/models/new_jerusalem_v2.glb",
   tint: "#ffffff",
   modelVariants: [
-    { id: "default", label: "Default", path: "/models/new_jerusalem.glb" },
+    { id: "default", label: "Default", path: "/models/new_jerusalem_v2.glb" },
     { id: "throne", label: "The Throne and the Lamb", path: "/models/new_jerusalem_throne.glb",
       // A separate, close-up export of just the throne and the Lamb; the
       // wider city's other fittings (river, gates, wall, foundations, tree)

@@ -10,10 +10,10 @@ export const new_jerusalem: Structure = {
     { text: "twaalf poorten van paarlen", target: { kind: "section", section: "artifacts" } },
     { text: "geen tempel is daarin", target: { kind: "section", section: "interior" } },
   ],
-  modelPath: "/models/new_jerusalem.glb",
+  modelPath: "/models/new_jerusalem_v2.glb",
   tint: "#ffffff",
   modelVariants: [
-    { id: "default", label: "Standaard", path: "/models/new_jerusalem.glb" },
+    { id: "default", label: "Standaard", path: "/models/new_jerusalem_v2.glb" },
     { id: "throne", label: "De Troon en het Lam", path: "/models/new_jerusalem_throne.glb",
       // A separate, close-up export of just the throne and the Lamb; the
       // wider city's other fittings (river, gates, wall, foundations, tree)
