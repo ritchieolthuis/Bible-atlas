@@ -28,9 +28,8 @@ export const solomon_temple: Structure = {
       camera: { azimuth: 90, elevation: 30, dist: 1.2, targetY: 0.32 },
       anchors: {
         boaz_pillar: null, porch: null,
-        side_chambers: null, molten_lavers: null,
+        side_chambers: null, molten_lavers: null, brasen_sea: null,
         oracle: [0.28, 0.75, 0.49],
-        brasen_sea: [0.8808, 0.2488, 0.7963],
         jachin_pillar: [0.89, 0.81, 0.26],
         candlesticks: [0.42, 0.18, 0.50],
       },

@@ -48,16 +48,13 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
       </button>
 
       {/* Logo */}
-      <div className="flex min-w-0 flex-none items-center gap-2.5">
+      <div className="flex min-w-0 flex-none items-center gap-3">
         <TempleIcon className="h-8 w-8 flex-none text-terracotta" aria-hidden />
-        <div className="min-w-0 leading-none">
-          <img
-            src={withBase("/img/brand/3d-bible-logo.webp")}
-            alt={t.brand.name}
-            className="h-6 w-auto sm:h-7"
-          />
-          <div className="font-serif mt-1 hidden text-[0.82rem] italic text-terracotta sm:block">{t.brand.tagline}</div>
-        </div>
+        <img
+          src={withBase("/img/brand/3d-bible-logo.webp")}
+          alt={t.brand.name}
+          className="h-8 w-auto flex-none sm:h-9"
+        />
       </div>
 
       {/* Nav */}
