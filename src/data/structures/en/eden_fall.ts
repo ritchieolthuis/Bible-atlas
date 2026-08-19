@@ -45,8 +45,8 @@ export const eden_fall: Structure = {
       short: "More subtil than any beast of the field",
       detail: "Now the serpent was more subtil than any beast of the field which the LORD God had made. And he said unto the woman, Yea, hath God said, Ye shall not eat of every tree of the garden? (Genesis 3:1).",
       category: "artifact-zone",
-      /* moved onto the model's own red serpent figure, previously overlapping tree_of_life */
-      anchor: [0.237, 0.149, 0.715],
+      /* on the green serpent coiled around the trunk, below the canopy */
+      anchor: [0.510, 0.545, 0.500],
       snap: "none",
     },
     {
@@ -55,7 +55,7 @@ export const eden_fall: Structure = {
       short: "The man whom He had formed",
       detail: "And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul (Genesis 2:7). And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it.",
       category: "artifact-zone",
-      anchor: [0.870,0.46,0.662],
+      anchor: [0.765,0.58,0.662],
       snap: "none",
     },
     {
@@ -64,7 +64,7 @@ export const eden_fall: Structure = {
       short: "The mother of all living",
       detail: "And the rib, which the LORD God had taken from man, made he a woman, and brought her unto the man. And Adam said, This is now bone of my bones, and flesh of my flesh: she shall be called Woman, because she was taken out of Man (Genesis 2:22-23). And Adam called his wife's name Eve, because she was the mother of all living (Genesis 3:20).",
       category: "artifact-zone",
-      anchor: [0.225,0.44,0.694],
+      anchor: [0.290,0.58,0.694],
       snap: "none",
     },
   ],

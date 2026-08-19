@@ -45,8 +45,8 @@ export const eden_fall: Structure = {
       short: "Listiger dan al het gedierte des velds",
       detail: "De slang nu was listiger dan al het gedierte des velds, hetwelk de Heere God gemaakt had; en zij zeide tot de vrouw: Is het ook dat God gezegd heeft: Gijlieden zult niet eten van allen boom dezes hofs? (Genesis 3:1).",
       category: "artifact-zone",
-      /* moved onto the model's own red serpent figure, previously overlapping tree_of_life */
-      anchor: [0.237, 0.149, 0.715],
+      /* on the green serpent coiled around the trunk, below the canopy */
+      anchor: [0.510, 0.545, 0.500],
       snap: "none",
     },
     {
@@ -55,7 +55,7 @@ export const eden_fall: Structure = {
       short: "Den mens dien Hij geformeerd had",
       detail: "En de Heere God formeerde den mens uit het stof der aarde, en blies in zijn neusgaten den adem des levens; alzo werd de mens tot een levende ziel (Genesis 2:7). Hij nam hem en zette hem in den hof van Eden, om dien te bouwen en te bewaren.",
       category: "artifact-zone",
-      anchor: [0.870,0.46,0.662],
+      anchor: [0.765,0.58,0.662],
       snap: "none",
     },
     {
@@ -64,7 +64,7 @@ export const eden_fall: Structure = {
       short: "Moeder van al wat leeft",
       detail: "En de Heere God bouwde de ribbe die Hij van Adam genomen had, tot een vrouw, en bracht haar tot Adam; en Adam zeide: Dit is nu been van mijn benen, en vlees van mijn vlees, men zal haar Manninne heten, omdat zij uit den man genomen is (Genesis 2:22-23). Later noemde Adam haar naam Eva, omdat zij een moeder aller levenden is (Genesis 3:20).",
       category: "artifact-zone",
-      anchor: [0.225,0.44,0.694],
+      anchor: [0.290,0.58,0.694],
       snap: "none",
     },
   ],
