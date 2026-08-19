@@ -20,7 +20,8 @@ export const Banner = memo(function Banner({ onDismiss }: Props) {
     >
       <p className="text-[0.78rem] leading-snug text-ink-soft sm:text-[0.82rem]">
         {t.lead}{" "}
-        <span className="font-medium text-ink">{t.bibleName}</span>.
+        <span className="font-medium text-ink">{t.bibleName}</span>.{" "}
+        {t.note}
         <span className="ml-1.5 font-medium text-terracotta">{t.verse}</span>
       </p>
 

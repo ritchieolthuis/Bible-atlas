@@ -8,6 +8,7 @@ export interface UiStrings {
   banner: {
     lead: string;
     bibleName: string;
+    note: string;
     verse: string;
     dismiss: string;
   };
@@ -156,9 +157,10 @@ export const STRINGS: Record<Locale, UiStrings> = {
       tagline: "Explore the Structures of Scripture",
     },
     banner: {
-      lead: "Every structure in The 3D Bible is accurately reconstructed from the descriptions in the",
+      lead: "Every structure in The 3D Bible is accurately modeled after the",
       bibleName: "King James Bible",
-      verse: "All Scripture is given by inspiration of God, 2 Timothy 3:16 (KJV)",
+      note: "This visualization may differ in rendering details; Scripture remains the authoritative guide at all times.",
+      verse: "\"Thy word is truth.\"  -  John 17:17 (KJV)",
       dismiss: "Dismiss credits",
     },
     nav: {
@@ -329,9 +331,10 @@ export const STRINGS: Record<Locale, UiStrings> = {
       tagline: "Ontdek de Bouwwerken van de Schrift",
     },
     banner: {
-      lead: "Elk bouwwerk in The 3D Bible is nauwkeurig gereconstrueerd naar de beschrijvingen uit de",
+      lead: "Elk bouwwerk in The 3D Bible is nauwkeurig gemodelleerd naar de",
       bibleName: "Statenvertaling",
-      verse: "Al de Schrift is van God ingegeven  -  2 Timotheüs 3:16 (SV)",
+      note: "Deze visualisatie kan door rendering in details afwijken; de Bijbelse geschriften blijven te allen tijde de leidraad.",
+      verse: "\"Uw woord is de waarheid.\"  -  Johannes 17:17",
       dismiss: "Melding sluiten",
     },
     nav: {
