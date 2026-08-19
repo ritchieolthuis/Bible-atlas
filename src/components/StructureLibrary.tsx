@@ -85,7 +85,7 @@ export const StructureLibrary = memo(function StructureLibrary({ structures, act
                 <img className="thumb" src={structureImages(e).thumbnail} alt={t.illustrationAlt(e.dwelling)} loading="lazy" draggable={false} />
               </span>
               <span className="min-w-0 flex-1 leading-tight">
-                <span className="font-display block truncate text-[1rem] font-bold leading-[1.2] text-white">{e.name}</span>
+                <span className="font-display block text-[1rem] font-bold leading-[1.2] text-white">{e.name}</span>
                 <span className="mt-1 block truncate text-[0.82rem] text-white/55">{e.dwelling}</span>
               </span>
               <span
