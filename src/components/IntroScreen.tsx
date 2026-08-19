@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { TempleIcon } from "./icons";
 import type { Locale } from "@/i18n/locale";
+import { withBase } from "@/lib/utils";
 
 interface Props {
   onDone: () => void;
@@ -107,6 +108,12 @@ export const IntroScreen = memo(function IntroScreen({ onDone, locale }: Props) 
 
         <h2 className="font-display mt-1.5 text-[1.4rem] font-bold leading-tight text-ink text-balance">{title}</h2>
         <p className="font-serif mt-1.5 text-[0.88rem] italic text-ink-soft">{subtitle}</p>
+
+        <img
+          src={withBase("/img/brand/3d-bible-logo.webp")}
+          alt="The 3D Bible / De Samenkomst"
+          className="mx-auto mt-4 h-8 w-auto opacity-90"
+        />
       </div>
 
       <style>{`
