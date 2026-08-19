@@ -11,7 +11,7 @@ for (const p of pairs) {
 }
 
 for (const loc of ['nl', 'en']) {
-  const file = `src/data/empires/${loc}/${building}.ts`;
+  const file = `src/data/structures/${loc}/${building}.ts`;
   if (!fs.existsSync(file)) { console.log('skip (missing) ' + file); continue; }
   let src = fs.readFileSync(file, 'utf8');
   let n = 0;

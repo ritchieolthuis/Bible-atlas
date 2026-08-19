@@ -125,6 +125,7 @@ export const HotspotLayer = memo(function HotspotLayer({
 
   /* pins arrive as the dwelling settles */
   useEffect(() => {
+    if ((window as any).__hsDebug) console.log("[fade-effect]", structure.id, "visible=", visible, "pinRefs=", pinRefs.current.size);
     if (!visible) return;
     const rm =
       window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.body.classList.contains("rm");

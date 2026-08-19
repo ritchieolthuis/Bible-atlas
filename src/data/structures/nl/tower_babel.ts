@@ -54,8 +54,8 @@ export const tower_babel: Structure = {
       short: "Een stad en een toren",
       detail: "Toen kwam de Heere neder, om te bezien de stad en den toren, die de kinderen der mensen bouwden (Genesis 11:5).",
       category: "court",
-      anchor: [0.2, 0.1, 0.8],
-      snap: "court",
+      anchor: [0.30,0.04,0.62],
+      snap: "none",
     },
   ],
   interior: {

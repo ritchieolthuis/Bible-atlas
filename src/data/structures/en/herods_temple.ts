@@ -19,7 +19,7 @@ export const herods_temple: Structure = {
       id: "inside", label: "Interior", path: "/models/herods_temple_inside.glb",
       // exterior-only features do not exist on the interior cutaway model
       anchors: {
-        sanctuary: [0.5, 0.5, 0.5], pinnacle: null, treasury: null,
+        sanctuary: [0.5, 0.85, 0.17], pinnacle: null, treasury: null,
         outer_court: null, solomons_porch: null,
         beautiful_gate: null, antonia: null,
       },
@@ -50,7 +50,7 @@ export const herods_temple: Structure = {
       short: "The highest parapet of the sanctuary",
       detail: "And he brought him to Jerusalem, and set him on a pinnacle of the temple, and said unto him, If thou be the Son of God, cast thyself down from hence (Luke 4:9).",
       category: "roof",
-      anchor: [0.5, 1, 0.42],
+      anchor: [0.53,0.95,0.34],
       snap: "roof",
     },
     {
@@ -95,7 +95,7 @@ export const herods_temple: Structure = {
       short: "Where Paul was bound with chains",
       detail: "And as they went about to kill him, tidings came unto the chief captain of the band, that all Jerusalem was in an uproar... and commanded him to be bound with two chains (Acts 21:31,33).",
       category: "structure",
-      anchor: [0.07, 0.7, 0.13],
+      anchor: [0.08,0.45,0.095],
       snap: "roof",
     },
   ],

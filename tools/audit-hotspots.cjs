@@ -95,7 +95,7 @@ async function field(glb) {
 }
 
 (async () => {
-  const dir = 'src/data/empires/nl';
+  const dir = 'src/data/structures/nl';
   let problems = 0, checked = 0;
 
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.ts') && f !== 'index.ts')) {

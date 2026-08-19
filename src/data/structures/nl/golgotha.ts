@@ -46,7 +46,7 @@ export const golgotha: Structure = {
       short: "JEZUS DE NAZARENER, DE KONING DER JODEN",
       detail: "En Pilatus schreef ook een opschrift, en zette dat op het kruis; en er was geschreven: JEZUS DE NAZARENER, DE KONING DER JODEN. Dit opschrift dan lazen velen van de Joden; want de plaats, waar Jezus gekruisigd werd, was nabij de stad; en het was geschreven in het Hebreeuws, in het Grieks, en in het Latijn (Johannes 19:19-20).",
       category: "roof",
-      anchor: [0.5, 0.86, 0.5],
+      anchor: [0.495,0.95,0.205],
       snap: "none",
     },
     {

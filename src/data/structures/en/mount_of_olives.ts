@@ -28,7 +28,7 @@ export const mount_of_olives: Structure = {
       short: "My soul is exceeding sorrowful, even unto death",
       detail: "Then cometh Jesus with them unto a place called Gethsemane, and saith unto the disciples, Sit ye here, while I go and pray yonder. And he saith unto them, My soul is exceeding sorrowful, even unto death: tarry ye here, and watch with me. And he went a little further, and fell on his face, and prayed, saying, O my Father, if it be possible, let this cup pass from me: nevertheless not as I will, but as thou wilt (Matthew 26:36-39).",
       category: "structure",
-      anchor: [0.28, 0.12, 0.62],
+      anchor: [0.08,0.2,0.72],
       snap: "none",
     },
     {
@@ -55,7 +55,7 @@ export const mount_of_olives: Structure = {
       short: "He was carried up into heaven",
       detail: "And he led them out as far as to Bethany, and he lifted up his hands, and blessed them. And it came to pass, while he blessed them, he was parted from them, and carried up into heaven (Luke 24:50-51). When they therefore were come together, they asked of him, saying, Lord, wilt thou at this time restore again the kingdom to Israel? ... And when he had spoken these things, while they beheld, he was taken up; and a cloud received him out of their sight (Acts 1:6, 9).",
       category: "roof",
-      anchor: [0.6, 0.92, 0.45],
+      anchor: [0.49,0.9,0.40],
       snap: "roof",
     },
     {

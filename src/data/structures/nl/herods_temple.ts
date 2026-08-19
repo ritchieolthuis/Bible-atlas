@@ -19,7 +19,7 @@ export const herods_temple: Structure = {
       id: "inside", label: "Binnenkant", path: "/models/herods_temple_inside.glb",
       // exterior-only features do not exist on the interior cutaway model
       anchors: {
-        sanctuary: [0.5, 0.5, 0.5], pinnacle: null, treasury: null,
+        sanctuary: [0.5, 0.85, 0.17], pinnacle: null, treasury: null,
         outer_court: null, solomons_porch: null,
         beautiful_gate: null, antonia: null,
       },
@@ -50,7 +50,7 @@ export const herods_temple: Structure = {
       short: "De hoogste trans van het heiligdom",
       detail: "En hij leidde Hem naar Jeruzalem, en stelde Hem op de tinne des tempels, en zeide tot Hem: Indien Gij de Zoon Gods zijt, werp Uzelven van hier nederwaarts (Lukas 4:9).",
       category: "roof",
-      anchor: [0.5, 1, 0.42],
+      anchor: [0.53,0.95,0.34],
       snap: "roof",
     },
     {
@@ -95,7 +95,7 @@ export const herods_temple: Structure = {
       short: "Waar Paulus werd gebonden",
       detail: "En als zij hem zochten te doden, kwam de tijding opwaarts tot den overste der bende, dat geheel Jeruzalem in roer was... en gebood, dat hij met twee ketenen zou gebonden worden (Handelingen 21:31,33).",
       category: "structure",
-      anchor: [0.07, 0.7, 0.13],
+      anchor: [0.08,0.45,0.095],
       snap: "roof",
     },
   ],

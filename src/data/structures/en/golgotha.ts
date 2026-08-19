@@ -46,7 +46,7 @@ export const golgotha: Structure = {
       short: "JESUS OF NAZARETH THE KING OF THE JEWS",
       detail: "And Pilate wrote a title, and put it on the cross. And the writing was, JESUS OF NAZARETH THE KING OF THE JEWS. This title then read many of the Jews: for the place where Jesus was crucified was nigh to the city: and it was written in Hebrew, and Greek, and Latin (John 19:19-20).",
       category: "roof",
-      anchor: [0.5, 0.86, 0.5],
+      anchor: [0.495,0.95,0.205],
       snap: "none",
     },
     {

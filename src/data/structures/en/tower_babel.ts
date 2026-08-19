@@ -54,8 +54,8 @@ export const tower_babel: Structure = {
       short: "A city and a tower",
       detail: "And the LORD came down to see the city and the tower, which the children of men builded (Genesis 11:5).",
       category: "court",
-      anchor: [0.2, 0.1, 0.8],
-      snap: "court",
+      anchor: [0.30,0.04,0.62],
+      snap: "none",
     },
   ],
   interior: {

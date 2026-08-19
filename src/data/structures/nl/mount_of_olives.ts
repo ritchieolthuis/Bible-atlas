@@ -28,7 +28,7 @@ export const mount_of_olives: Structure = {
       short: "Mijn ziel is geheel bedroefd tot den dood toe",
       detail: "Toen kwam Jezus met hen in een plaats, genaamd Gethsémané, en zeide tot de discipelen: Zit hier neder, totdat Ik heenga, en aldaar zal gebeden hebben. En Hij zeide tot hen: Mijn ziel is geheel bedroefd tot den dood toe; blijft hier, en waakt met Mij. En een weinig voortgegaan zijnde, viel Hij op Zijn aangezicht, biddende en zeggende: Mijn Vader, indien het mogelijk is, laat dezen drinkbeker van Mij voorbijgaan; doch niet, gelijk Ik wil, maar gelijk Gij wilt (Mattheüs 26:36-39).",
       category: "structure",
-      anchor: [0.28, 0.12, 0.62],
+      anchor: [0.08,0.2,0.72],
       snap: "none",
     },
     {
@@ -55,7 +55,7 @@ export const mount_of_olives: Structure = {
       short: "Werd Hij opgenomen in den hemel",
       detail: "En Hij leidde hen buiten tot aan Bethanië, en Zijn handen opheffende, zegende Hij hen. En het geschiedde, als Hij hen zegende, dat Hij van hen scheidde, en werd opgenomen in den hemel (Lukas 24:50-51). Zij dan, samengekomen zijnde, vraagden Hem, zeggende: Heere, zult Gij in dezen tijd aan Israël het Koninkrijk wederoprichten? ... En als Hij dit gezegd had, werd Hij opgenomen, daar zij het zagen, en een wolk nam Hem weg van hun ogen (Handelingen 1:6, 9).",
       category: "roof",
-      anchor: [0.6, 0.92, 0.45],
+      anchor: [0.49,0.9,0.40],
       snap: "roof",
     },
     {
