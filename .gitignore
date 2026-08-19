@@ -17,6 +17,9 @@ upload-naar-server
 dist-ssr
 *.local
 
+.env
+.env.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
