@@ -53,12 +53,12 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
         <img
           src={withBase("/img/brand/3d-bible-logo.webp")}
           alt={t.brand.name}
-          className="h-8 w-auto flex-none sm:h-9"
+          className="h-9 w-auto flex-none sm:h-10"
         />
       </div>
 
       {/* Nav */}
-      <nav className="ml-6 hidden items-center gap-1 xl:flex" aria-label="Primary">
+      <nav className="ml-10 hidden items-center gap-1 xl:flex" aria-label="Primary">
         {NAV.map((n) => (
           <button
             key={n.id}
