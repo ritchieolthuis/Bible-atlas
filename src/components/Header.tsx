@@ -47,13 +47,14 @@ export const Header = memo(function Header({ onSearchOpen, onMenuOpen, onNav, ac
         <MenuIcon className="h-5 w-5" />
       </button>
 
-      {/* Logo */}
+      {/* Logo: on a narrow phone the header only has room for the icon (the
+          library drawer carries the full wordmark instead, see App.tsx) */}
       <div className="flex min-w-0 flex-none items-center gap-5">
         <TempleIcon className="h-9 w-9 flex-none text-terracotta sm:h-10 sm:w-10" aria-hidden />
         <img
           src={withBase("/img/brand/3d-bible-logo.webp")}
           alt={t.brand.name}
-          className="h-8 w-auto flex-none -translate-y-0.5 sm:h-9"
+          className="hidden h-8 w-auto flex-none -translate-y-0.5 sm:block sm:h-9"
         />
       </div>
 

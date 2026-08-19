@@ -66,8 +66,8 @@ export const IntroScreen = memo(function IntroScreen({ onDone, locale }: Props) 
 
             <g className="intro-compass" transform="translate(258,150)">
               <circle r="16" fill="none" stroke="#a97c3f" strokeWidth="0.7" opacity="0.5" />
-              <path d="M0 -16 L2.5 -2.5 L0 16 L-2.5 -2.5 Z" fill="#1d2b33" opacity="0.28" />
-              <path d="M-16 0 L-2.5 2.5 L16 0 L-2.5 -2.5 Z" fill="#1d2b33" opacity="0.14" />
+              <path d="M0 -16 L2.5 -2.5 L0 16 L-2.5 -2.5 Z" fill="#3C5E70" opacity="0.28" />
+              <path d="M-16 0 L-2.5 2.5 L16 0 L-2.5 -2.5 Z" fill="#3C5E70" opacity="0.14" />
               <circle cx="-7" cy="7" r="2.2" fill="#ebc83f" />
               <circle cx="7" cy="7" r="2.2" fill="#93be2f" />
               <circle cx="0" cy="0" r="2.6" fill="#46a7e6" />
@@ -96,7 +96,7 @@ export const IntroScreen = memo(function IntroScreen({ onDone, locale }: Props) 
             <path className="intro-line" style={{ "--len": 200, "--d": "1.4s" } as React.CSSProperties} d="M104 78 L104 70 L196 70 L196 78" />
 
             <path className="intro-line" style={{ "--len": 190, "--d": "1.65s" } as React.CSSProperties} d="M96 70 L150 34 L204 70" />
-            <path className="intro-fill" style={{ "--d": "2.1s" } as React.CSSProperties} d="M96 70 L150 34 L204 70 L196 70 L150 42 L104 70 Z" opacity="0.08" fill="#1d2b33" />
+            <path className="intro-fill" style={{ "--d": "2.1s" } as React.CSSProperties} d="M96 70 L150 34 L204 70 L196 70 L150 42 L104 70 Z" opacity="0.08" fill="#3C5E70" />
 
             <path className="intro-line" style={{ "--len": 20, "--d": "1.95s" } as React.CSSProperties} d="M150 34 L150 24" />
             <circle className="intro-fill" style={{ "--d": "2.2s" } as React.CSSProperties} cx="150" cy="20" r="3" opacity="0.5" fill="#3C5E70" />
@@ -123,14 +123,14 @@ export const IntroScreen = memo(function IntroScreen({ onDone, locale }: Props) 
           to { opacity: 1; transform: translateY(0) scale(1); }
         }
         .intro-line {
-          fill: none; stroke: #1d2b33; stroke-width: 1.3;
+          fill: none; stroke: #3C5E70; stroke-width: 1.3;
           stroke-linecap: round; stroke-linejoin: round;
           stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
           animation: intro-draw 1.8s cubic-bezier(0.65,0,0.35,1) forwards;
           animation-delay: var(--d, 0s);
         }
         .intro-fill { opacity: 0; animation: intro-fade 0.8s ease forwards; animation-delay: var(--d, 0s); }
-        .intro-wash { fill: #1d2b33; opacity: 0; animation: intro-wash 1.2s ease forwards; animation-delay: var(--d, 0s); }
+        .intro-wash { fill: #3C5E70; opacity: 0; animation: intro-wash 1.2s ease forwards; animation-delay: var(--d, 0s); }
         @keyframes intro-draw { to { stroke-dashoffset: 0; } }
         @keyframes intro-fade { to { opacity: 1; } }
         @keyframes intro-wash { to { opacity: 0.06; } }

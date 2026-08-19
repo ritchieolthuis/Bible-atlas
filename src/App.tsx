@@ -13,6 +13,7 @@ import { Footer } from "@/components/Footer";
 import { LessonModal, QuizModal, ArtifactsModal, TimelineModal, GospelModal, SectionModal, SearchOverlay } from "@/components/modals";
 import { CloseIcon } from "@/components/icons";
 import { IntroScreen } from "@/components/IntroScreen";
+import { withBase } from "@/lib/utils";
 
 type ModalId = string | null;
 
@@ -281,7 +282,7 @@ export default function App() {
             aria-label={t.menu.label}
           >
             <div className="flex flex-none items-center justify-between border-b border-line-warm px-4 py-3">
-              <span className="font-display text-[1.15rem] font-bold text-ink">{t.menu.title}</span>
+              <img src={withBase("/img/brand/3d-bible-logo.webp")} alt={t.brand.name} className="h-7 w-auto" />
               <button
                 onClick={() => setMenuOpen(false)}
                 className="rounded-lg border border-line-warm p-1.5 text-ink-muted transition-colors hover:text-ink"
