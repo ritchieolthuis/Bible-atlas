@@ -415,7 +415,7 @@ export const Viewer = memo(function Viewer({
           bottom edge. */}
       <div className="pointer-events-auto absolute left-3 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
         {/* px keeps the active pill clear of the rail's own edges */}
-        <div className="atlas-card flex h-full max-h-full w-[68px] flex-col items-center gap-0.5 overflow-y-auto !rounded-2xl px-2 py-2.5">
+        <div className="atlas-card flex h-full max-h-full w-[84px] flex-col items-center gap-1 overflow-y-auto !rounded-2xl px-2.5 py-3">
           <button className={`tool-btn ${tool === "rotate" ? "is-on" : ""}`} onClick={() => setTool("rotate")} aria-pressed={tool === "rotate"}>
             <RotateIcon />
             <span>{t.rotate}</span>
@@ -444,7 +444,7 @@ export const Viewer = memo(function Viewer({
               <span>{t.layers}</span>
             </button>
             {layersOpen && (
-              <div className="atlas-card absolute left-[70px] top-0 z-40 w-[168px] !rounded-xl p-1.5" role="menu">
+              <div className="atlas-card absolute left-[88px] top-0 z-40 w-[168px] !rounded-xl p-1.5" role="menu">
                 {LAYER_ITEMS.map((it) => (
                   <button
                     key={it.key}

@@ -288,16 +288,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 8px 4px;
+  gap: 6px;
+  padding: 11px 4px;
   width: 100%;
-  border-radius: 12px;
+  border-radius: 14px;
   color: var(--slate-icon);
   transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
 }
-.tool-btn svg { width: 19px; height: 19px; }
+.tool-btn svg { width: 24px; height: 24px; }
 .tool-btn span {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--ink-soft);
