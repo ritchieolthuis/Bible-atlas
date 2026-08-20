@@ -440,7 +440,7 @@ export class ViewerEngine {
   /** Small transient readout for the anchor picker, so the coordinates can be
    *  read without opening devtools. */
   private showAnchorPick(text: string) {
-    const id = "atlas-anchor-pick";
+    const id = "bible-anchor-pick";
     let el = document.getElementById(id);
     if (!el) {
       el = document.createElement("div");
@@ -1857,7 +1857,7 @@ export class ViewerEngine {
     this.disposed = true;
     window.removeEventListener("resize", this.resize);
     window.clearTimeout(this.anchorPickTimer);
-    document.getElementById("atlas-anchor-pick")?.remove();
+    document.getElementById("bible-anchor-pick")?.remove();
     this.resizeObs?.disconnect();
     this.flushRetired();
     if (this.current) this.disposeModel(this.current);

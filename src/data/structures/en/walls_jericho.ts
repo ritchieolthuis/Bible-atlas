@@ -56,7 +56,7 @@ export const walls_jericho: Structure = {
       short: "Compassing the city",
       detail: "And ye shall compass the city, all ye men of war, and go round about the city once. Thus shalt thou do six days (Joshua 6:3).",
       category: "court",
-      anchor: [0.5, -0.18, 0.5],
+      anchor: [0.5,0.0,0.5],
       snap: "none",
     },
   ],

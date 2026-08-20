@@ -35,7 +35,7 @@ export function ModalShell({ title, kicker, onClose, children, wide }: ShellProp
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={`modal-panel atlas-scroll relative max-h-[88vh] w-full overflow-y-auto ${wide ? "max-w-[860px]" : "max-w-[620px]"} p-6`}
+        className={`modal-panel bible-scroll relative max-h-[88vh] w-full overflow-y-auto ${wide ? "max-w-[860px]" : "max-w-[620px]"} p-6`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between gap-4 border-b border-line-warm pb-4">

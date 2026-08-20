@@ -25,7 +25,7 @@ and its geography.
 
 ## What it is
 
-Eleven biblical structures, each modelled in 3D and annotated with the architectural features
+Twelve biblical structures, each modelled in 3D and annotated with the architectural features
 described in Scripture. The viewer is the centre of the app: a turntable stage lit like a museum
 vitrine, where a structure can be orbited, zoomed, sectioned and read. Content is authored twice,
 once per locale — Dutch quotes the Statenvertaling, English quotes the King James Version — and a
@@ -56,6 +56,7 @@ exile, the life of Christ, and finally the future city of Revelation:
 | `eden_fall` — The Garden of Eden | The Creation Week (default landing structure) |
 | `noahs_ark` — Noah's Ark          | Before the Flood               |
 | `tower_babel` — Tower of Babel    | After the Flood                |
+| `parting_sea` — The Parting of the Red Sea | The Exodus            |
 | `tabernacle` — The Tabernacle of Moses | Exodus                    |
 | `walls_jericho` — Walls of Jericho | Conquest of Canaan            |
 | `solomon_temple` — Solomon's Temple | Reign of Solomon             |
@@ -63,9 +64,9 @@ exile, the life of Christ, and finally the future city of Revelation:
 | `herods_temple` — The Second Temple | Time of Christ (1st century) |
 | `mount_of_olives` — The Mount of Olives | Life of Christ            |
 | `golgotha` — Golgotha             | The Crucifixion                |
-| `new_jerusalem` — New Jerusalem   | Eternity                       |
+| `new_jerusalem` — The New Jerusalem | Revelation                   |
 
-Adding a twelfth means adding a data file and its assets. The viewer and the UI are entirely
+Adding a thirteenth means adding a data file and its assets. The viewer and the UI are entirely
 data-driven and need no code changes — see [Adding a structure](#adding-a-structure) below.
 
 ---
@@ -241,7 +242,13 @@ why the large `.glb` files are tracked via LFS). Live at the repo's Pages URL, b
 **Manual upload to desamenkomst.nl** — the site is also meant to live as a page inside "de
 samenkomst." [`.github/workflows/build-upload.yml`](.github/workflows/build-upload.yml) builds the
 same site with relative asset paths (`VITE_BASE: ./`, so it works from any subfolder on any host) and
-attaches it as a downloadable `3D-Bible` artifact on every push — or build it locally:
+attaches it as a downloadable `3D-Bible` artifact on every push. Get it from the GitHub repo's
+**Actions** tab → the latest **"Build upload-ready site"** run → the `3D-Bible` artifact at the
+bottom of the run page, and upload its unzipped *contents* (not the zip, and not the folder itself —
+upload what's inside it) to the target folder on the host, or every asset path ends up nested one
+level too deep and 404s.
+
+To build the same thing locally instead of waiting on Actions:
 
 ```bash
 rm -rf upload-naar-server
@@ -249,10 +256,8 @@ VITE_BASE=./ npm run build
 mv dist upload-naar-server
 ```
 
-`upload-naar-server/` is gitignored — it's a local staging folder, not something to commit. It ships
-its own [`LEES_DIT_VOOR_UPLOAD.txt`](upload-naar-server/LEES_DIT_VOOR_UPLOAD.txt) with the exact
-upload instructions (upload the folder's *contents*, not the folder itself, or every asset path ends
-up nested one level too deep and 404s).
+`upload-naar-server/` is gitignored — it's a local staging folder, not something to commit. Upload
+its *contents*, same rule as above.
 
 `og:image` and `og:url` in [`index.html`](index.html) should be absolute URLs once the site has a
 final domain — most crawlers resolve a relative path against the page, but not all do.

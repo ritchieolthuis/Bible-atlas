@@ -48,7 +48,7 @@ export const eden_fall: Structure = {
       detail: "Now the serpent was more subtil than any beast of the field which the LORD God had made. And he said unto the woman, Yea, hath God said, Ye shall not eat of every tree of the garden? (Genesis 3:1).",
       category: "artifact-zone",
       /* on the green serpent coiled around the trunk, below the canopy */
-      anchor: [0.510, 0.545, 0.500],
+      anchor: [0.51,0.15,0.5],
       snap: "none",
     },
     {
@@ -57,7 +57,7 @@ export const eden_fall: Structure = {
       short: "The man whom He had formed",
       detail: "And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul (Genesis 2:7). And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it.",
       category: "artifact-zone",
-      anchor: [0.765,0.58,0.662],
+      anchor: [0.765,0.64,0.662],
       snap: "none",
     },
     {

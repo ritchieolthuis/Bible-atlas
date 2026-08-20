@@ -56,7 +56,7 @@ export const walls_jericho: Structure = {
       short: "De stad omringende",
       detail: "Gij dan allen, die krijgslieden zijt, zult rondom de stad gaan, de stad omringende eenmaal; alzo zult gij zes dagen doen (Jozua 6:3).",
       category: "court",
-      anchor: [0.5, -0.18, 0.5],
+      anchor: [0.5,0.0,0.5],
       snap: "none",
     },
   ],

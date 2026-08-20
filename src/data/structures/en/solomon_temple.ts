@@ -27,10 +27,9 @@ export const solomon_temple: Structure = {
       // reoriented export; 90 faces into the open cutaway instead.
       camera: { azimuth: 90, elevation: 30, dist: 1.2, targetY: 0.32 },
       anchors: {
-        boaz_pillar: null, porch: null,
+        boaz_pillar: null, jachin_pillar: null, porch: null,
         side_chambers: null, molten_lavers: null, brasen_sea: null,
         oracle: [0.28, 0.75, 0.49],
-        jachin_pillar: [0.89, 0.81, 0.26],
         candlesticks: [0.42, 0.18, 0.50],
       },
     },
@@ -53,7 +52,7 @@ export const solomon_temple: Structure = {
       short: "The left bronze pillar: 'In it is strength'",
       detail: "And he set up the pillars in the porch of the temple... and called the name thereof Boaz (1 Kings 7:21). Eighteen cubits high, with chapiters of lily work.",
       category: "facade",
-      anchor: [0.340,0.50,0.025],
+      anchor: [0.34,0.22,0.44],
       snap: "none",
     },
     {
@@ -62,7 +61,7 @@ export const solomon_temple: Structure = {
       short: "The right bronze pillar: 'He will establish'",
       detail: "And he set up the right pillar, and called the name thereof Jachin (1 Kings 7:21). A monumental bronze masterwork cast by Hiram of Tyre.",
       category: "facade",
-      anchor: [0.663,0.50,0.025],
+      anchor: [0.663,0.19,0.44],
       snap: "none",
     },
     {
@@ -71,7 +70,7 @@ export const solomon_temple: Structure = {
       short: "The monumental entrance with scarlet veil",
       detail: "The porch before the temple of the house, twenty cubits was the length thereof, and ten cubits was the breadth thereof before the house (1 Kings 6:3).",
       category: "entrance",
-      anchor: [0.5,0.5,0.3],
+      anchor: [0.5,0.20,0.44],
       snap: "none",
     },
     {
@@ -107,7 +106,7 @@ export const solomon_temple: Structure = {
       short: "Three stories built against the temple walls",
       detail: "And against the wall of the house he built chambers round about... and he made chambers round about (1 Kings 6:5).",
       category: "structure",
-      anchor: [0.207,0.84,0.321],
+      anchor: [0.207,0.75,0.32],
       snap: "none",
     },
     {
@@ -117,7 +116,7 @@ export const solomon_temple: Structure = {
       detail: "And the house, that is, the temple before it, was forty cubits long. And the cedar of the house within was carved with knops and open flowers: all was cedar; there was no stone seen (1 Kings 6:17-18).",
       category: "interior",
       /* only shown on the cutaway; the exterior model hides it */
-      anchor: [0.563, 0.23, 0.659],
+      anchor: [0.563,0.06,0.659],
       snap: "none",
     },
     {

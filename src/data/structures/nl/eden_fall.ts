@@ -48,7 +48,7 @@ export const eden_fall: Structure = {
       detail: "De slang nu was listiger dan al het gedierte des velds, hetwelk de Heere God gemaakt had; en zij zeide tot de vrouw: Is het ook dat God gezegd heeft: Gijlieden zult niet eten van allen boom dezes hofs? (Genesis 3:1).",
       category: "artifact-zone",
       /* on the green serpent coiled around the trunk, below the canopy */
-      anchor: [0.510, 0.545, 0.500],
+      anchor: [0.51,0.15,0.5],
       snap: "none",
     },
     {
@@ -57,7 +57,7 @@ export const eden_fall: Structure = {
       short: "Den mens dien Hij geformeerd had",
       detail: "En de Heere God formeerde den mens uit het stof der aarde, en blies in zijn neusgaten den adem des levens; alzo werd de mens tot een levende ziel (Genesis 2:7). Hij nam hem en zette hem in den hof van Eden, om dien te bouwen en te bewaren.",
       category: "artifact-zone",
-      anchor: [0.765,0.58,0.662],
+      anchor: [0.765,0.64,0.662],
       snap: "none",
     },
     {

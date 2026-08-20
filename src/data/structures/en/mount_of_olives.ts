@@ -39,7 +39,7 @@ export const mount_of_olives: Structure = {
       short: "The road from which He entered Jerusalem",
       detail: "And it came to pass, when he was come nigh to Bethphage and Bethany, at the mount called the mount of Olives, he sent two of his disciples, saying, Go ye into the village over against you; in the which at your entering ye shall find a colt tied, whereon yet never man sat: loose him, and bring him hither (Luke 19:29-30).",
       category: "entrance",
-      anchor: [0.78, 0.14, 0.35],
+      anchor: [0.78,0.36,0.35],
       snap: "none",
     },
     {
@@ -48,7 +48,7 @@ export const mount_of_olives: Structure = {
       short: "As he sat upon the mount of Olives",
       detail: "And as he sat upon the mount of Olives, the disciples came unto him privately, saying, Tell us, when shall these things be? and what shall be the sign of thy coming, and of the end of the world? (Matthew 24:3).",
       category: "court",
-      anchor: [0.5, 0.4, 0.5],
+      anchor: [0.5,0.67,0.5],
       snap: "none",
     },
     {

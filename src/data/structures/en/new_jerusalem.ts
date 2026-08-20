@@ -16,10 +16,8 @@ export const new_jerusalem: Structure = {
     { id: "default", label: "Default", path: "/models/new_jerusalem_v2.glb" },
     { id: "throne", label: "The Throne and the Lamb", path: "/models/new_jerusalem_throne.glb",
       // A separate, close-up export of just the throne and the Lamb; the
-      // wider city's other fittings (river, gates, wall, foundations, tree)
-      // do not exist as distinct geometry here.
-      anchors: { river: null, tree_of_life: null, gates: null, wall: null, foundations: null,
-        throne: [0.5, 0.55, 0.5] },
+      // wider city's river and gates do not exist as distinct geometry here.
+      anchors: { river: null, gates: null, throne: [0.5, 0.55, 0.5] },
     },
   ],
   camera: { azimuth: -45, elevation: 30, dist: 1.2, targetY: 0.4 },

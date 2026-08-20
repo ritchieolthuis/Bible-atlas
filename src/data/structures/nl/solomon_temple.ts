@@ -27,10 +27,9 @@ export const solomon_temple: Structure = {
       // reoriented export; 90 faces into the open cutaway instead.
       camera: { azimuth: 90, elevation: 30, dist: 1.2, targetY: 0.32 },
       anchors: {
-        boaz_pillar: null, porch: null,
+        boaz_pillar: null, jachin_pillar: null, porch: null,
         side_chambers: null, molten_lavers: null, brasen_sea: null,
         oracle: [0.28, 0.75, 0.49],
-        jachin_pillar: [0.89, 0.81, 0.26],
         candlesticks: [0.42, 0.18, 0.50],
       },
     },
@@ -53,7 +52,7 @@ export const solomon_temple: Structure = {
       short: "De linker koperen pilaar: 'In Hem is kracht'",
       detail: "Daarna richtte hij de pilaren op in het voorhuis des tempels... en den linker pilaar noemde hij Boaz (1 Koningen 7:21). Achtien ellen hoog, met een kapiteel van lelies.",
       category: "facade",
-      anchor: [0.340,0.50,0.025],
+      anchor: [0.34,0.22,0.44],
       snap: "none",
     },
     {
@@ -62,7 +61,7 @@ export const solomon_temple: Structure = {
       short: "De rechter koperen pilaar: 'Hij zal bevestigen'",
       detail: "En den rechter pilaar opgericht hebbende, zo noemde hij zijn naam Jachin (1 Koningen 7:21). Een monumentaal bronzen meesterwerk van Hiram uit Tyrus.",
       category: "facade",
-      anchor: [0.663,0.50,0.025],
+      anchor: [0.663,0.19,0.44],
       snap: "none",
     },
     {
@@ -71,7 +70,7 @@ export const solomon_temple: Structure = {
       short: "De monumentale ingang met de rode voorhang",
       detail: "Het voorhuis nu, voor aan den tempel van het huis, twintig ellen was zijn lengte, voor de breedte van het huis; tien ellen was zijn breedte, voor het huis (1 Koningen 6:3).",
       category: "entrance",
-      anchor: [0.5,0.5,0.3],
+      anchor: [0.5,0.20,0.44],
       snap: "none",
     },
     {
@@ -107,7 +106,7 @@ export const solomon_temple: Structure = {
       short: "Drie verdiepingen rondom het huis gebouwd",
       detail: "En hij bouwde aan den wand van het huis gaanderijen rondom... en hij maakte zijdekamers rondom (1 Koningen 6:5).",
       category: "structure",
-      anchor: [0.207,0.84,0.321],
+      anchor: [0.207,0.75,0.32],
       snap: "none",
     },
     {
@@ -117,7 +116,7 @@ export const solomon_temple: Structure = {
       detail: "En het huis, te weten den tempel, die vooraan was, was van veertig ellen. En het ceders des huizes van binnen was gesneden met knoppen en open bloemen; het was alles ceder, geen steen werd gezien (1 Koningen 6:17-18).",
       category: "interior",
       /* only shown on the cutaway; the exterior model hides it */
-      anchor: [0.563, 0.23, 0.659],
+      anchor: [0.563,0.06,0.659],
       snap: "none",
     },
     {

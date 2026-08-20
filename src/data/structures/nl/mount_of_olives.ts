@@ -39,7 +39,7 @@ export const mount_of_olives: Structure = {
       short: "De weg vanwaar Hij Jeruzalem introk",
       detail: "En het geschiedde, als Hij nabij Bethfagé en Bethanië gekomen was, aan den berg, genaamd den Olijfberg, dat Hij twee van Zijn discipelen uitzond, zeggende: Gaat henen in dat vlek, dat tegenover u is; in hetwelk inkomende, zult gij een veulen gebonden vinden, waarop geen mens ooit heeft gezeten; ontbindt hetzelve, en brengt het (Lukas 19:29-30).",
       category: "entrance",
-      anchor: [0.78, 0.14, 0.35],
+      anchor: [0.78,0.36,0.35],
       snap: "none",
     },
     {
@@ -48,7 +48,7 @@ export const mount_of_olives: Structure = {
       short: "Als Hij op den Olijfberg gezeten was",
       detail: "En als Hij op den Olijfberg gezeten was, gingen de discipelen tot Hem alleen, zeggende: Zeg ons, wanneer zullen deze dingen zijn, en welk zal het teken zijn van Uw toekomst, en van de voleinding der wereld? (Mattheüs 24:3).",
       category: "court",
-      anchor: [0.5, 0.4, 0.5],
+      anchor: [0.5,0.67,0.5],
       snap: "none",
     },
     {

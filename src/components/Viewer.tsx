@@ -63,7 +63,7 @@ export const Viewer = memo(function Viewer({
   const { locale } = useLocale();
   const t = useStrings(locale).viewer;
   const catLabel = useStrings(locale).hotspotCategory;
-  const EMPIRES = structuresFor(locale);
+  const STRUCTURES = structuresFor(locale);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<ViewerEngine | null>(null);
@@ -253,9 +253,9 @@ export const Viewer = memo(function Viewer({
       if (!engine) return;
 
       const targetVariantId = opts.variantId || next.modelVariants?.[0]?.id || null;
-      const isSameEmpire = currentStructureRef.current?.id === next.id;
+      const isSameStructure = currentStructureRef.current?.id === next.id;
       // If we are already showing this structure AND this variant, do nothing
-      if (isSameEmpire && activeVariantId === targetVariantId && !opts.initial) return;
+      if (isSameStructure && activeVariantId === targetVariantId && !opts.initial) return;
 
       // Close the race where two near-simultaneous calls for the same target
       // (e.g. React StrictMode double-invoking the reactive effect below)
@@ -324,11 +324,11 @@ export const Viewer = memo(function Viewer({
       // on touch/low-memory devices, where the initial model alone can
       // already sit close to the practical GPU memory ceiling (iOS Safari)
       if (!IS_LOW_MEMORY_DEVICE) {
-        const idx = EMPIRES.findIndex((e) => e.id === next.id);
+        const idx = STRUCTURES.findIndex((e) => e.id === next.id);
         window.setTimeout(() => {
           if (token !== requestRef.current) return;
-          engine.preload(EMPIRES[(idx + 1) % EMPIRES.length]);
-          engine.preload(EMPIRES[(idx - 1 + EMPIRES.length) % EMPIRES.length]);
+          engine.preload(STRUCTURES[(idx + 1) % STRUCTURES.length]);
+          engine.preload(STRUCTURES[(idx - 1 + STRUCTURES.length) % STRUCTURES.length]);
         }, 1200);
       }
       } finally {
@@ -391,7 +391,7 @@ export const Viewer = memo(function Viewer({
   ];
 
   return (
-    <div className="atlas-card relative h-full w-full overflow-hidden" data-panel="viewer">
+    <div className="bible-card relative h-full w-full overflow-hidden" data-panel="viewer">
       <div
         ref={containerRef}
         className={`viewer-stage absolute inset-0 ${isFullscreen && !document.fullscreenElement ? "viewer-stage-fallback-fullscreen" : ""}`}
@@ -452,7 +452,7 @@ export const Viewer = memo(function Viewer({
           bottom edge. */}
       <div className="pointer-events-auto absolute left-3 top-1/2 z-30 max-h-[calc(100%-16px)] -translate-y-1/2" role="toolbar" aria-label={t.toolsAria} aria-orientation="vertical">
         {/* px keeps the active pill clear of the rail's own edges */}
-        <div className="atlas-card flex h-full max-h-full w-[84px] flex-col items-center gap-1 overflow-y-auto !rounded-2xl px-2.5 py-3">
+        <div className="bible-card flex h-full max-h-full w-[84px] flex-col items-center gap-1 overflow-y-auto !rounded-2xl px-2.5 py-3">
           <button className={`tool-btn ${tool === "rotate" ? "is-on" : ""}`} onClick={() => setTool("rotate")} aria-pressed={tool === "rotate"}>
             <RotateIcon />
             <span>{t.rotate}</span>
@@ -481,7 +481,7 @@ export const Viewer = memo(function Viewer({
               <span>{t.layers}</span>
             </button>
             {layersOpen && (
-              <div className="atlas-card absolute left-[88px] top-0 z-40 w-[168px] !rounded-xl p-1.5" role="menu">
+              <div className="bible-card absolute left-[88px] top-0 z-40 w-[168px] !rounded-xl p-1.5" role="menu">
                 {LAYER_ITEMS.map((it) => (
                   <button
                     key={it.key}
@@ -515,7 +515,7 @@ export const Viewer = memo(function Viewer({
       </div>
 
       {/* ── 3D-model accuracy disclaimer  -  top-right corner of the stage ── */}
-      <div className="atlas-card pointer-events-auto absolute top-4 right-4 z-20 w-[220px] !rounded-2xl border border-line-strong bg-[#eef2f4]/95 p-3 shadow-card backdrop-blur-sm">
+      <div className="bible-card pointer-events-auto absolute top-4 right-4 z-20 w-[220px] !rounded-2xl border border-line-strong bg-[#eef2f4]/95 p-3 shadow-card backdrop-blur-sm">
         <p className="font-serif text-[0.78rem] leading-snug text-ink-soft">
           {t.disclaimer}
         </p>
@@ -560,7 +560,7 @@ export const Viewer = memo(function Viewer({
         <button
           type="button"
           onClick={onToggleAnimate}
-          className="atlas-card group flex items-center gap-2.5 !rounded-full border border-line-strong bg-white/95 px-3.5 py-1.5 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
+          className="bible-card group flex items-center gap-2.5 !rounded-full border border-line-strong bg-white/95 px-3.5 py-1.5 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
           aria-label={t.autoRotate}
           aria-pressed={animating}
         >
@@ -585,7 +585,7 @@ export const Viewer = memo(function Viewer({
           <button
             type="button"
             onClick={() => setTimeOfDayOpen((v) => !v)}
-            className="atlas-card group flex h-[38px] w-[38px] items-center justify-center !rounded-full border border-line-strong bg-white/95 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
+            className="bible-card group flex h-[38px] w-[38px] items-center justify-center !rounded-full border border-line-strong bg-white/95 shadow-card backdrop-blur-md transition-all hover:bg-white hover:shadow-md active:scale-[0.98]"
             aria-label={t.timeOfDayAria}
             aria-expanded={timeOfDayOpen}
             aria-haspopup="true"
@@ -597,7 +597,7 @@ export const Viewer = memo(function Viewer({
             )}
           </button>
           {timeOfDayOpen && (
-            <div className="atlas-card absolute bottom-[46px] left-0 z-40 w-[240px] !rounded-2xl border border-line-strong bg-white/95 p-4 shadow-card backdrop-blur-md">
+            <div className="bible-card absolute bottom-[46px] left-0 z-40 w-[240px] !rounded-2xl border border-line-strong bg-white/95 p-4 shadow-card backdrop-blur-md">
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-serif text-[0.82rem] font-medium text-ink-soft">{t.timeOfDay}</span>
                 <span className="font-display text-[0.95rem] font-bold text-ink tabular-nums">
@@ -627,7 +627,7 @@ export const Viewer = memo(function Viewer({
       {/* ── active hotspot detail card ── */}
       {activeHs && (
         <div
-          className="atlas-card pointer-events-auto absolute bottom-4 left-1/2 z-30 w-[min(430px,calc(100%-140px))] -translate-x-1/2 !rounded-2xl p-4"
+          className="bible-card pointer-events-auto absolute bottom-4 left-1/2 z-30 w-[min(430px,calc(100%-140px))] -translate-x-1/2 !rounded-2xl p-4"
           role="dialog"
           aria-label={activeHs.title}
         >

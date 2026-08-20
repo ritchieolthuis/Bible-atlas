@@ -300,7 +300,7 @@ export const SearchOverlay = memo(function SearchOverlay({
             <CloseIcon className="h-4 w-4" />
           </button>
         </div>
-        <div className="atlas-scroll max-h-[46vh] overflow-y-auto p-2" role="listbox">
+        <div className="bible-scroll max-h-[46vh] overflow-y-auto p-2" role="listbox">
           {results.length === 0 && <p className="font-serif px-3 py-6 text-center italic text-ink-muted">{t.noResults}</p>}
           {results.map((r, i) => (
             <button

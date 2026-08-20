@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { structuresFor, structureById, DEFAULT_EMPIRE_ID } from "@/data";
+import { structuresFor, structureById, DEFAULT_STRUCTURE_ID } from "@/data";
 import type { Structure, DescriptionLinkTarget } from "@/types/structure";
 import { useLocale, type Locale } from "@/i18n/locale";
 import { useStrings } from "@/i18n/strings";
@@ -19,12 +19,12 @@ type ModalId = string | null;
 
 const mq = (q: string) => (typeof window !== "undefined" ? window.matchMedia(q).matches : false);
 
-const INTRO_SESSION_KEY = "atlas-intro-shown";
+const INTRO_SESSION_KEY = "bible-intro-shown";
 
 export default function App() {
   const { locale, setLocale } = useLocale();
   const t = useStrings(locale);
-  const EMPIRES = structuresFor(locale);
+  const STRUCTURES = structuresFor(locale);
 
   /* one intro per browser tab session, not on every internal navigation */
   const [showIntro, setShowIntro] = useState(() => {
@@ -53,19 +53,19 @@ export default function App() {
     { id: "gospel", label: t.nav.gospel },
   ];
 
-  const [viewerStructure, setViewerEmpire] = useState<Structure>(() => structureById(locale, DEFAULT_EMPIRE_ID));
-  const [panelStructure, setPanelEmpire] = useState<Structure>(() => structureById(locale, DEFAULT_EMPIRE_ID));
+  const [viewerStructure, setViewerStructure] = useState<Structure>(() => structureById(locale, DEFAULT_STRUCTURE_ID));
+  const [panelStructure, setPanelStructure] = useState<Structure>(() => structureById(locale, DEFAULT_STRUCTURE_ID));
   const [modal, setModal] = useState<ModalId>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [animating, setAnimating] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [creditsOpen, setCreditsOpen] = useState(() => localStorage.getItem("atlas-credits") !== "dismissed");
+  const [creditsOpen, setCreditsOpen] = useState(() => localStorage.getItem("bible-credits") !== "dismissed");
   const [focusHotspot, setFocusHotspot] = useState<string | null>(null);
   const [activeNav, setActiveNav] = useState("explore");
   const [reducedMotion, setReducedMotion] = useState(() => mq("(prefers-reduced-motion: reduce)"));
   const [favorites, setFavorites] = useState<Set<string>>(() => {
     try {
-      return new Set(JSON.parse(localStorage.getItem("atlas-favs") ?? "[]"));
+      return new Set(JSON.parse(localStorage.getItem("bible-favs") ?? "[]"));
     } catch {
       return new Set();
     }
@@ -74,8 +74,8 @@ export default function App() {
   /* Re-resolve the same dwelling's text in the new locale whenever the
      language switches, without dropping which structure is displayed. */
   useEffect(() => {
-    setViewerEmpire((prev) => structureById(locale, prev.id));
-    setPanelEmpire((prev) => structureById(locale, prev.id));
+    setViewerStructure((prev) => structureById(locale, prev.id));
+    setPanelStructure((prev) => structureById(locale, prev.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
@@ -118,21 +118,21 @@ export default function App() {
     document.title = `${panelStructure.dwelling}  -  ${t.docTitleSuffix}`;
   }, [panelStructure, t.docTitleSuffix]);
 
-  const selectEmpire = useCallback(
+  const selectStructure = useCallback(
     (id: string) => {
       const e = structureById(locale, id);
       if (e.id === viewerStructure.id) return;
       setAnimating(false);
-      setViewerEmpire(e);
+      setViewerStructure(e);
     },
     [viewerStructure.id, locale],
   );
 
-  const onSwap = useCallback((e: Structure) => setPanelEmpire(e), []);
+  const onSwap = useCallback((e: Structure) => setPanelStructure(e), []);
 
   const dismissCredits = useCallback(() => {
     setCreditsOpen(false);
-    localStorage.setItem("atlas-credits", "dismissed");
+    localStorage.setItem("bible-credits", "dismissed");
   }, []);
 
   /* hovering a library row starts its download, so the click that follows
@@ -145,7 +145,7 @@ export default function App() {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
-      localStorage.setItem("atlas-favs", JSON.stringify([...next]));
+      localStorage.setItem("bible-favs", JSON.stringify([...next]));
       return next;
     });
   }, []);
@@ -167,18 +167,18 @@ export default function App() {
   const navigateTo = useCallback(
     (target: { structureId?: string; section?: string; hotspotId?: string }) => {
       setSearchOpen(false);
-      const targetEmpireId = target.structureId ?? viewerStructure.id;
-      const switching = targetEmpireId !== viewerStructure.id;
+      const targetStructureId = target.structureId ?? viewerStructure.id;
+      const switching = targetStructureId !== viewerStructure.id;
       if (switching) {
-        selectEmpire(targetEmpireId);
-        setPanelEmpire(structureById(locale, targetEmpireId));
+        selectStructure(targetStructureId);
+        setPanelStructure(structureById(locale, targetStructureId));
       }
 
       const delay = switching ? 1600 : 50;
       if (target.hotspotId) window.setTimeout(() => setFocusHotspot(target.hotspotId!), delay);
       if (target.section) window.setTimeout(() => setModal(target.section!), switching ? 1600 : 0);
     },
-    [selectEmpire, viewerStructure.id, locale],
+    [selectStructure, viewerStructure.id, locale],
   );
 
   const onSearchPick = useCallback(
@@ -208,7 +208,7 @@ export default function App() {
           the side panels scroll within it rather than stretching the page */}
       <div className="flex gap-4 px-3 pb-3 pt-3 sm:min-h-[520px] sm:px-4 xl:h-[calc(100vh-188px-var(--banner-h,0px))] xl:min-h-[600px] xl:px-5">
         <aside className="hidden w-[clamp(300px,22vw,380px)] flex-none xl:flex">
-          <StructureLibrary structures={EMPIRES} activeId={viewerStructure.id} favorites={favorites} onSelect={selectEmpire} onToggleFav={toggleFav} onViewAll={() => setSearchOpen(true)} onPrefetch={prefetch} />
+          <StructureLibrary structures={STRUCTURES} activeId={viewerStructure.id} favorites={favorites} onSelect={selectStructure} onToggleFav={toggleFav} onViewAll={() => setSearchOpen(true)} onPrefetch={prefetch} />
         </aside>
 
         {/* the stage reads as a near-square plate rather than a wide band. The
@@ -322,10 +322,10 @@ export default function App() {
 
             <div className="min-h-0 flex-1 px-3 py-3">
               <StructureLibrary
-                structures={EMPIRES}
+                structures={STRUCTURES}
                 activeId={viewerStructure.id}
                 favorites={favorites}
-                onSelect={(id) => { setMenuOpen(false); selectEmpire(id); }}
+                onSelect={(id) => { setMenuOpen(false); selectStructure(id); }}
                 onToggleFav={toggleFav}
                 onViewAll={() => { setMenuOpen(false); setSearchOpen(true); }}
                 onPrefetch={prefetch}

@@ -36,7 +36,7 @@ export const BottomCards = memo(function BottomCards({ structure, onOpen }: Prop
        every width instead of being letterboxed into a short, wide box. */
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" data-panel="bottom">
       {cards.map(({ key, data, compass }) => (
-        <article key={key} className="bottom-card atlas-card flex min-w-0 flex-col p-3">
+        <article key={key} className="bottom-card bible-card flex min-w-0 flex-col p-3">
           <div className="flex-none">
             <span className="kicker !text-[0.66rem]">{data.kicker}</span>
             <h3 className="font-display mt-0.5 truncate text-[1.02rem] font-bold leading-tight text-ink">{data.title}</h3>

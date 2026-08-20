@@ -42,10 +42,10 @@ export const InfoPanel = memo(function InfoPanel({ structure, flow = false, anim
   const t = useStrings(locale).info;
   return (
     <div
-      className={`atlas-card flex w-full flex-col overflow-hidden ${flow ? "" : "h-full"}`}
+      className={`bible-card flex w-full flex-col overflow-hidden ${flow ? "" : "h-full"}`}
       data-panel="info"
     >
-      <div className={flow ? "px-5 pb-5 pt-5" : "atlas-scroll min-h-0 flex-1 overflow-y-auto px-5 pb-5 pt-5"}>
+      <div className={flow ? "px-5 pb-5 pt-5" : "bible-scroll min-h-0 flex-1 overflow-y-auto px-5 pb-5 pt-5"}>
         {/* header */}
         <div className="flex items-center justify-between">
           <span className="kicker flex items-center gap-2">

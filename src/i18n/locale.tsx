@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export type Locale = "en" | "nl";
 
-const STORAGE_KEY = "atlas-locale";
+const STORAGE_KEY = "bible-locale";
 
 function detectInitialLocale(): Locale {
   try {

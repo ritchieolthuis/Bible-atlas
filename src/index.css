@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ══════════════════════════════════════════════════════════════════
-   Structure Atlas  -  design tokens
+   The 3D Bible  -  design tokens
    Palette ported 1:1 from desamenkomst.nl: white/ivory surfaces, the
    site's exact dark slate-blue (#3C5E70), and its logo dots (yellow,
    blue, green) as accents.
@@ -101,14 +101,14 @@
 }
 
 /* ── Scrollbars ─────────────────────────────────────────────────── */
-.atlas-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
-.atlas-scroll::-webkit-scrollbar-track { background: transparent; }
-.atlas-scroll::-webkit-scrollbar-thumb {
+.bible-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.bible-scroll::-webkit-scrollbar-track { background: transparent; }
+.bible-scroll::-webkit-scrollbar-thumb {
   background: #c3ccd1;
   border-radius: 8px;
   border: 2px solid var(--paper);
 }
-.atlas-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; -webkit-overflow-scrolling: touch; }
+.bible-scroll { scrollbar-width: thin; scrollbar-color: #c3ccd1 transparent; -webkit-overflow-scrolling: touch; }
 
 /* still scrolls (touch drag, wheel, keyboard) - the bar itself is just not
    painted, matching a native-app list rather than a desktop-web one */
@@ -428,7 +428,7 @@
 .btn-outline:hover { border-color: var(--terracotta-soft); color: var(--terracotta-deep); background: #eef2f4; transform: translateY(-1px); }
 
 /* ── Cards ──────────────────────────────────────────────────────── */
-.atlas-card {
+.bible-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;

@@ -19,7 +19,7 @@ export const noahs_ark: Structure = {
       // "stories" does apply: this export is itself a lengthwise
       // cross-section showing all three decks stacked, so it gets its own
       // anchor instead of being hidden.
-      anchors: { pitch: null, window: null, door: null, stories: [0.535, 0.5, 0.474] },
+      anchors: { pitch: null, window: null, door: null, stories: [0.5, 0.6, 0.474] },
     },
     { id: "rainbow", label: "After the Flood", path: "/models/noahs_ark_rainbow.glb",
       // A separate scene (the ark at rest under the rainbow, Gen. 9:13) with
@@ -74,7 +74,7 @@ export const noahs_ark: Structure = {
       short: "Lower, second, and third stories",
       detail: "With lower, second, and third stories shalt thou make it (Genesis 6:16).",
       category: "structure",
-      anchor: [0.5, 0.5, 0.9],
+      anchor: [0.5,0.5,0.9],
       snap: "wall",
     },
   ],
