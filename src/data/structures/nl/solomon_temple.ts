@@ -30,7 +30,7 @@ export const solomon_temple: Structure = {
         boaz_pillar: null, jachin_pillar: null, porch: null,
         side_chambers: null, molten_lavers: null, brasen_sea: null,
         oracle: [0.28, 0.75, 0.49],
-        candlesticks: [0.42, 0.18, 0.50],
+        candlesticks: [0.60, 0.62, 0.62],
       },
     },
   ],

@@ -12,6 +12,21 @@ export const mount_of_olives: Structure = {
     { text: "ascended into heaven", target: { kind: "section", section: "dailyLife" } },
   ],
   modelPath: "/models/mount_of_olives.glb",
+  modelVariants: [
+    { id: "default", label: "Standard", path: "/models/mount_of_olives.glb" },
+    { id: "gethsemane_closeup", label: "Gethsemane", path: "/models/mount_of_olives_gethsemane.glb",
+      // A tight close-up sculpt of Jesus alone, praying at the rock  -  none
+      // of the other locations (Bethphage, the slope, the summit, the temple
+      // view) exist in this file, so those hotspots are hidden here.
+      anchors: {
+        bethphage_bethany: null, discourse_slope: null, ascension_summit: null, temple_view: null,
+        // Estimated position near the rock/hands  -  unverified, check with
+        // the dev picker (?dev=1) before treating this as final.
+        gethsemane: [0.5, 0.55, 0.4],
+      },
+      camera: { azimuth: 10, elevation: 12, dist: 1.15, targetY: 0.42 },
+    },
+  ],
   tint: "#6b7a4a",
   camera: { azimuth: -25, elevation: 28, dist: 1.4, targetY: 0.32 },
   facts: [

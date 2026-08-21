@@ -12,6 +12,21 @@ export const mount_of_olives: Structure = {
     { text: "ten hemel voer", target: { kind: "section", section: "dailyLife" } },
   ],
   modelPath: "/models/mount_of_olives.glb",
+  modelVariants: [
+    { id: "default", label: "Standaard", path: "/models/mount_of_olives.glb" },
+    { id: "gethsemane_closeup", label: "Gethsémané", path: "/models/mount_of_olives_gethsemane.glb",
+      // A tight close-up sculpt of Jezus alleen, biddend bij de rots  -  geen
+      // van de andere plekken (Bethfagé, de helling, de top, het tempel-
+      // uitzicht) bestaat in dit bestand, dus die hotspots worden verborgen.
+      anchors: {
+        bethphage_bethany: null, discourse_slope: null, ascension_summit: null, temple_view: null,
+        // Geschatte plek bij de rots/handen  -  ongeverifieerd, controleren
+        // met de dev-picker (?dev=1) voor deze coördinaat definitief is.
+        gethsemane: [0.5, 0.55, 0.4],
+      },
+      camera: { azimuth: 10, elevation: 12, dist: 1.15, targetY: 0.42 },
+    },
+  ],
   tint: "#6b7a4a",
   camera: { azimuth: -25, elevation: 28, dist: 1.4, targetY: 0.32 },
   facts: [

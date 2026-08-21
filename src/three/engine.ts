@@ -21,6 +21,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from "three-mesh-bvh";
+import { GenerateMeshBVHWorker } from "three-mesh-bvh/worker";
 import gsap from "gsap";
 import type { Structure, Vec3 } from "@/types/structure";
 import { withBase } from "@/lib/utils";
@@ -101,13 +102,20 @@ export interface AnchorProjection {
 export interface LoadedModel {
   group: THREE.Group;
   meshes: THREE.Mesh[];
-  /** What hotspot/hover/occlusion raycasts are actually cast against. Equal
-   *  to `meshes` for every model except the ones in RAYCAST_PROXY_STRUCTURES
-   *  (see buildRaycastProxy), where a coarse invisible stand-in mesh is used
-   *  instead so picking stays cheap without needing a BVH over the visible
-   *  geometry. Kept separate from `meshes` so wireframe/xray/rendering  -
-   *  which do need the real visible mesh list  -  are unaffected. */
+  /** What hotspot/hover/occlusion raycasts are actually cast against. For
+   *  RAYCAST_PROXY_STRUCTURES this STARTS as a coarse invisible stand-in box
+   *  (see buildRaycastProxy)  -  cheap and immediately available, no BVH wait
+   *  on first paint  -  and is swapped in-place to `meshes` once a real BVH
+   *  has been built for every mesh in the background (see
+   *  upgradeRaycastMeshes). Every other structure just gets `meshes` here
+   *  from the start. Kept separate from `meshes` so wireframe/xray/rendering
+   *  -  which do need the real visible mesh list regardless of proxy state  -
+   *  are unaffected. */
   raycastMeshes: THREE.Mesh[];
+  /** The invisible stand-in box for RAYCAST_PROXY_STRUCTURES, if any. Tracked
+   *  independently of `raycastMeshes` (which is swapped away from it once the
+   *  real BVH lands) purely so disposeModel can always find and free it. */
+  proxyMesh: THREE.Mesh | null;
   size: THREE.Vector3;
   structureId: string;
   /** the exact `${structureId}:${targetPath}` key this model is cached under  -
@@ -116,9 +124,15 @@ export interface LoadedModel {
   cacheKey: string;
 }
 
-/** Structures whose visible geometry is too dense to build a BVH over
- *  without blocking the main thread  -  see buildRaycastProxy. Their
- *  hotspots are raycast against a coarse invisible proxy box instead. */
+/** Structures whose visible geometry is too dense to build a BVH over on the
+ *  main thread without stalling first paint  -  see buildRaycastProxy. Their
+ *  hotspots raycast against a coarse invisible proxy box until a real BVH for
+ *  the visible geometry finishes building in a background worker (see
+ *  upgradeRaycastMeshes), at which point raycasts switch to the real mesh.
+ *  Until that upgrade lands, the box proxy has no interior, so any interior
+ *  cutaway view (Solomon's Temple's inside variant, etc.) is only pickable on
+ *  the box's outer shell  -  clicks inside read as a point on that shell, not
+ *  on whatever is actually visible at that pixel. */
 const RAYCAST_PROXY_STRUCTURES = new Set([
   "eden_fall",
   "solomon_temple",
@@ -168,6 +182,12 @@ export class ViewerEngine {
   private cache = new Map<string, Promise<LoadedModel>>();
   private frameCbs = new Set<FrameCallback>();
   private raycaster = new THREE.Raycaster();
+  /** Builds real per-mesh BVHs off the main thread for RAYCAST_PROXY_STRUCTURES
+   *  (see upgradeRaycastMeshes). One instance is reused for the engine's whole
+   *  lifetime per the class's own doc comment (avoids re-paying worker
+   *  instantiation on every structure swap); only ever runs one `generate()`
+   *  at a time, so calls are queued instead of racing. */
+  private bvhWorker: GenerateMeshBVHWorker | null = null;
   private glowShell: THREE.Mesh | null = null;
   private glowPulse = uniform(0.6);
   private rimColor = uniform(new THREE.Color(0xdce4ea));
@@ -954,10 +974,10 @@ export class ViewerEngine {
         m.castShadow = true;
         m.receiveShadow = true;
         const geo = m.geometry as THREE.BufferGeometry;
-        // Skipped for proxy structures: their raycasts never touch this
-        // geometry (see buildRaycastProxy below), and building a BVH over it
-        // anyway is exactly the multi-second-to-unbounded main-thread stall
-        // the proxy exists to avoid  -  see RAYCAST_PROXY_STRUCTURES.
+        // Proxy structures build their real BVH off the main thread instead
+        // (see upgradeRaycastMeshes)  -  computeBoundsTree is synchronous and
+        // would reintroduce exactly the load-time stall the proxy exists to
+        // avoid  -  see RAYCAST_PROXY_STRUCTURES.
         if (!usesProxy && !(geo as any).boundsTree) {
           // indirect keeps the index buffer as authored instead of reordering
           // it, and fatter leaves mean far less tree to build  -  this runs on
@@ -971,9 +991,73 @@ export class ViewerEngine {
     });
 
     const nsize = size.clone().multiplyScalar(s);
-    const raycastMeshes = usesProxy ? [this.buildRaycastProxy(group, nsize)] : meshes;
-    const model = { group, meshes, raycastMeshes, size: nsize, structureId: structure.id, cacheKey };
+    const proxyMesh = usesProxy ? this.buildRaycastProxy(group, nsize) : null;
+    const raycastMeshes = usesProxy ? [proxyMesh!] : meshes;
+    const model: LoadedModel = { group, meshes, raycastMeshes, proxyMesh, size: nsize, structureId: structure.id, cacheKey };
+    if (usesProxy) this.upgradeRaycastMeshes(model);
     return [model, Promise.all(rimReady).then(() => {})];
+  }
+
+  /** Builds a real BVH for every mesh of a RAYCAST_PROXY_STRUCTURES model in a
+   *  background worker (three-mesh-bvh's GenerateMeshBVHWorker), off the main
+   *  thread, then swaps `model.raycastMeshes` from the coarse box proxy (see
+   *  buildRaycastProxy) to the real mesh list in place. Fire-and-forget: the
+   *  box proxy keeps serving hover/click/occlusion queries until this
+   *  resolves, so nothing needs to wait on it. If the model gets swapped out
+   *  or disposed before this finishes, `model.raycastMeshes` may already be
+   *  stale by the time we'd write to it - guarded by checking `this.current`
+   *  and the model's own meshes are still live (not much of a cost either way
+   *  since a disposed geometry just gets an unused boundsTree attached).
+   *
+   *  Builds against a detached CLONE of each mesh's position/index arrays,
+   *  never the live geometry directly. GenerateMeshBVHWorker.generate()
+   *  transfers (not copies) the ArrayBuffers it's given to the worker
+   *  thread, which detaches them on the main thread the instant the call is
+   *  made - a mesh mid-render loses its vertex data and renders as nothing
+   *  the moment its buffer gets transferred, well before the BVH result (or
+   *  the replacement array the worker sends back) is ready. Building on a
+   *  clone means only the clone's arrays get detached; the visible mesh's
+   *  geometry is never touched until the finished boundsTree is attached to
+   *  it directly. Safe to reattach as-is (skipping the worker helper's own
+   *  array-replacement step, which only applies to the clone) because
+   *  `indirect: true` keeps the BVH's own triangle-index mapping separate
+   *  from geometry.index instead of reordering it in place - the clone and
+   *  the original still describe identical triangles in identical order. */
+  private async upgradeRaycastMeshes(model: LoadedModel) {
+    this.bvhWorker ??= new GenerateMeshBVHWorker();
+    try {
+      for (const mesh of model.meshes) {
+        const geo = mesh.geometry as THREE.BufferGeometry;
+        if ((geo as any).boundsTree) continue;
+        const posAttr = geo.getAttribute("position") as THREE.BufferAttribute;
+        const indexAttr = geo.index;
+        if (
+          (posAttr as any).isInterleavedBufferAttribute ||
+          (indexAttr && (indexAttr as any).isInterleavedBufferAttribute)
+        ) {
+          // GenerateMeshBVHWorker can't handle interleaved buffers at all
+          // (throws synchronously) - stay on the box proxy for this mesh
+          // rather than build a stale/never-upgrading picker for it.
+          continue;
+        }
+        const clone = new THREE.BufferGeometry();
+        clone.setAttribute(
+          "position",
+          new THREE.BufferAttribute(posAttr.array.slice(), posAttr.itemSize, posAttr.normalized)
+        );
+        if (indexAttr) {
+          clone.setIndex(new THREE.BufferAttribute(indexAttr.array.slice(), 1, false));
+        }
+        const bvh = await this.bvhWorker.generate(clone, { indirect: true, maxLeafTris: 24 });
+        (geo as any).boundsTree = bvh;
+        clone.dispose();
+      }
+      model.raycastMeshes = model.meshes;
+    } catch {
+      /* real BVH failed to build (worker error, etc)  -  picking stays on the
+       * coarse box proxy, which is a functional (if imprecise for interiors)
+       * fallback rather than a hard failure. */
+    }
   }
 
   /** A coarse, invisible stand-in for hotspot/hover/occlusion raycasts, used
@@ -1295,13 +1379,14 @@ export class ViewerEngine {
         mm.dispose?.();
       });
     });
-    // raycastMeshes is `meshes` itself except for RAYCAST_PROXY_STRUCTURES,
-    // where it's one extra invisible proxy box not covered by the loop above
-    if (m.raycastMeshes !== m.meshes) {
-      m.raycastMeshes.forEach((mesh) => {
-        mesh.geometry.dispose();
-        (mesh.material as THREE.Material).dispose();
-      });
+    // proxyMesh is RAYCAST_PROXY_STRUCTURES' extra invisible box, not covered
+    // by the loop above  -  tracked separately from raycastMeshes because the
+    // latter gets swapped to `meshes` once upgradeRaycastMeshes's background
+    // BVH build lands, at which point the box is no longer referenced there
+    // but still needs freeing.
+    if (m.proxyMesh) {
+      m.proxyMesh.geometry.dispose();
+      (m.proxyMesh.material as THREE.Material).dispose();
     }
   }
 
@@ -1589,10 +1674,11 @@ export class ViewerEngine {
     // the model's own centre - a figure on open ground, a courtyard fitting -
     // is *inside* that block's volume, so a ray from the camera to it always
     // exits through the block's own near face first and reads as blocked,
-    // regardless of viewing angle. These structures' hotspots are all
-    // snap:"none" (placed exactly), so skipping occlusion for them just
-    // means their pins stay visible, which is the correct behaviour here.
-    if (this.current.raycastMeshes !== this.current.meshes) return;
+    // regardless of viewing angle. Skip occlusion while still on the box (its
+    // pins just stay visible, which is correct); once upgradeRaycastMeshes
+    // swaps raycastMeshes to the real mesh list in the background, occlusion
+    // against the real geometry is meaningful again and resumes on its own.
+    if (this.current.proxyMesh && this.current.raycastMeshes !== this.current.meshes) return;
     const camPos = this.camera.position;
     this.raycaster.firstHitOnly = true;
     this._pendingOcclusion?.forEach(({ id, world }) => {
