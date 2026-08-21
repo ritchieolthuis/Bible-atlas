@@ -113,8 +113,21 @@ export default function App() {
   }, []);
 
   /* Only the dwelling animates on a swap. The panels rewrite their copy in
-     place  -  fading or sliding them reads as the page shifting under you. */
+     place  -  fading or sliding them reads as the page shifting under you.
+     Skipped until the user has actually swapped to a dwelling at least once
+     (see onSwap below, which flips this ref): panelStructure starts out on
+     DEFAULT_STRUCTURE_ID before any real navigation happens, and browser
+     tabs / "add to home screen" pick up whatever title is current at that
+     moment  -  without this guard they'd get e.g. "De Hof van Eden" as the
+     app's name instead of the generic site title index.html already sets.
+     Tracked via a ref rather than skipping the effect's first *run* because
+     StrictMode's dev-mode double-invoke means "first run" and "first real
+     swap" aren't the same thing - a ref flipped only by an actual onSwap
+     call is unambiguous regardless of how many times the effect itself
+     re-fires. */
+  const hasSwapped = useRef(false);
   useEffect(() => {
+    if (!hasSwapped.current) return;
     document.title = `${panelStructure.dwelling}  -  ${t.docTitleSuffix}`;
   }, [panelStructure, t.docTitleSuffix]);
 
@@ -128,7 +141,10 @@ export default function App() {
     [viewerStructure.id, locale],
   );
 
-  const onSwap = useCallback((e: Structure) => setPanelStructure(e), []);
+  const onSwap = useCallback((e: Structure) => {
+    hasSwapped.current = true;
+    setPanelStructure(e);
+  }, []);
 
   const dismissCredits = useCallback(() => {
     setCreditsOpen(false);
