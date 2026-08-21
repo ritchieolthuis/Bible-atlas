@@ -15,7 +15,7 @@ const MOBILE_DIR = join(MODELS_DIR, "mobile");
 // Keep in sync with LOW_MEMORY_MODEL_BYTE_LIMIT in src/three/engine.ts
 const LOW_MEMORY_MODEL_BYTE_LIMIT = 90 * 1024 * 1024;
 
-const glbFiles = readdirSync(MODELS_DIR).filter((f) => f.endsWith(".glb"));
+const glbFiles = readdirSync(MODELS_DIR).filter((f) => f.endsWith(".model"));
 
 const missing = [];
 for (const name of glbFiles) {

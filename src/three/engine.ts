@@ -24,7 +24,7 @@ import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from "three-
 import { GenerateMeshBVHWorker } from "three-mesh-bvh/worker";
 import gsap from "gsap";
 import type { Structure, Vec3 } from "@/types/structure";
-import { withBase } from "@/lib/utils";
+import { withBase, toFetchPath } from "@/lib/utils";
 
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 (THREE.BufferGeometry.prototype as any).computeBoundsTree = computeBoundsTree;
@@ -769,7 +769,7 @@ export class ViewerEngine {
         const mobilePath = toMobilePath(targetPath);
         if (mobilePath) {
           try {
-            const head = await fetch(mobilePath, { method: "HEAD" });
+            const head = await fetch(toFetchPath(mobilePath), { method: "HEAD" });
             // A bare `head.ok` check isn't enough: some dev servers (Vite's
             // SPA fallback) and misconfigured static hosts answer a missing
             // file with 200 + index.html instead of a real 404, which then
@@ -783,7 +783,7 @@ export class ViewerEngine {
           }
         }
         try {
-          const head = await fetch(targetPath, { method: "HEAD" });
+          const head = await fetch(toFetchPath(targetPath), { method: "HEAD" });
           const type = head.headers.get("content-type") || "";
           if (!head.ok || type.includes("text/html")) {
             throw new Error(`model not found at ${targetPath}`);
@@ -843,7 +843,7 @@ export class ViewerEngine {
       if (isObj) {
         const objLoader = new OBJLoader();
         objLoader.load(
-          targetPath,
+          toFetchPath(targetPath),
           (object) => {
             applyExternalTextures(object).then(() => {
               const [model, rimReady] = this.normalize(object, structure, cacheKey);
@@ -857,7 +857,7 @@ export class ViewerEngine {
       } else {
         // Load GLB (default)
         this.loader.load(
-          targetPath,
+          toFetchPath(targetPath),
           (gltf) => {
             const applied = needsExternalTextures
               ? applyExternalTextures(gltf.scene)
